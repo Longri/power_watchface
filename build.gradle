@@ -1,0 +1,35 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:1.2.3'
+    }
+}
+
+allprojects {
+
+    ext {
+        appName = 'longri watch face'
+        allVersionCode = 85
+        allVersionName = '0.7.85'
+        allApplicationId = "de.longri.watchface"
+    }
+
+    repositories {
+        mavenCentral()
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+

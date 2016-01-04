@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Copyright (C) 2015-2016 longri.de
+
+  Licensed under the : GNU General Public License (GPL);
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+       http://www.gnu.org/licenses/gpl.html
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+ -->
+<resources>
+
+
+    <string name="celsius">Celsius</string>
+    <string name="fahrenheit">Fahrenheit</string>
+    <string name="IntervalLabel">Weather information update interval</string>
+    <string name="preview">Preview</string>
+    <string name="color">Color</string>
+    <string name="clock_settings">Clock Settings</string>
+
+    <string name="time_mode">24 Hour Time Mode</string>
+    <string name="weather">Weather</string>
+    <string name="unit">Unit</string>
+    <string name="refresh_button">Refresh</string>
+    <string name="open_weather_key">OpenWeatherMap API key</string>
+    <string name="enter_api_key">Enter own API Key from OpenWeatherMap.com</string>
+    <string name="ForecastIntervalLabel">Weather forecast update interval</string>
+    <string name="info">Info</string>
+
+    <string-array name="interval_array">
+        <item>1 hour</item>
+        <item>2 hours</item>
+        <item>4 hours</item>
+        <item>8 hours</item>
+        <item>12 hours</item>
+        <item>24 hours</item>
+    </string-array>
+
+    <string-array name="forecast_array">
+        <item>3 hours</item>
+        <item>6 hours</item>
+        <item>9 hours</item>
+        <item>12 hours</item>
+    </string-array>
+    <string name="copy_to_clipboard">Copy to clipboard</string>
+    <string name="powered_by">Longri</string>
+    <string name="donation">Donation for develop</string>
+    <string name="debug">Debug</string>
+    <string name="show_digital">Schow second time as digital</string>
+    <string name="timzone_secondTime">Timezone for second time</string>
+    <string name="select_icon">Select Icon</string>
+    <string name="layout">Layout</string>
+
+</resources>

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Copyright (C) 2015-2016 longri.de
+
+  Licensed under the : GNU General Public License (GPL);
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+       http://www.gnu.org/licenses/gpl.html
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+ -->
+
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          package="de.longri.watchface">
+
+    <uses-sdk android:minSdkVersion="21"
+              android:targetSdkVersion="21"/>
+
+    <uses-feature android:name="android.hardware.type.watch"/>
+
+    <!-- Required to act as a custom watch face. -->
+    <uses-permission android:name="com.google.android.permission.PROVIDE_BACKGROUND"/>
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+
+    <!-- Calendar permission used by CalendarWatchFaceService -->
+    <uses-permission android:name="android.permission.READ_CALENDAR"/>
+
+    <application
+            android:allowBackup="true"
+            android:icon="@drawable/ic_launcher"
+            android:label="@string/app_name">
+
+        <service
+                android:name=".PowerWatchFaceService"
+                android:label="@string/app_name"
+                android:permission="android.permission.BIND_WALLPAPER">
+            <meta-data
+                    android:name="android.service.wallpaper"
+                    android:resource="@xml/watch_face"/>
+            <meta-data
+                    android:name="com.google.android.wearable.watchface.preview"
+                    android:resource="@drawable/preview_analog"/>
+            <meta-data
+                    android:name="com.google.android.wearable.watchface.preview_circular"
+                    android:resource="@drawable/preview_analog_circular"/>
+            <meta-data
+                    android:name="com.google.android.wearable.watchface.companionConfigurationAction"
+                    android:value="com.example.android.wearable.watchface.CONFIG_ANALOG"/>
+            <intent-filter>
+                <action android:name="android.service.wallpaper.WallpaperService"/>
+                <category android:name="com.google.android.wearable.watchface.category.WATCH_FACE"/>
+            </intent-filter>
+        </service>
+
+
+        <meta-data
+                android:name="com.google.android.gms.version"
+                android:value="@integer/google_play_services_version"/>
+
+    </application>
+
+</manifest>

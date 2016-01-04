@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Copyright (C) 2015-2016 longri.de
+
+  Licensed under the : GNU General Public License (GPL);
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+       http://www.gnu.org/licenses/gpl.html
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+ -->
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:orientation="vertical"
+            android:padding="4dip"
+            tools:context=".AboutActivity$VersionViewCreator">
+
+    <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="165dp"
+                android:layout_marginTop="10dip"
+                android:orientation="vertical" android:weightSum="1">
+
+            <ImageView
+                    android:layout_width="119dp"
+                    android:layout_height="119dp"
+                    android:layout_gravity="center"
+                    android:layout_margin="10dip"
+                    android:gravity="center"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/ic_launcher"/>
+
+            <TextView
+                    android:layout_width="86dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:layout_marginBottom="5dip"
+                    android:layout_marginLeft="10dip"
+                    android:layout_marginRight="10dip"
+                    android:text="@string/powered_by"
+                    android:textSize="14sp"/>
+        </LinearLayout>
+
+        <RelativeLayout android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+            />
+        </RelativeLayout>
+
+        <TextView
+                android:id="@+id/about_version_string"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:layout_marginBottom="5dip"
+                android:layout_marginLeft="10dip"
+                android:layout_marginRight="10dip"
+                android:textIsSelectable="true"
+                android:textSize="14sp"
+                android:textStyle="bold"/>
+
+
+        <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dip"
+                android:baselineAligned="false"
+                android:gravity="center_horizontal"
+                android:orientation="horizontal">
+
+            <Button
+                    android:id="@+id/donate"
+                    android:layout_height="wrap_content"
+                    android:layout_width="280dip"
+                    android:lines="2"
+                    android:singleLine="false"
+                    android:text="@string/donation"/>
+        </LinearLayout>
+        <Switch android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:text="@string/debug" android:id="@+id/debugSwitch"
+                android:layout_marginTop="@dimen/main_margin" android:layout_marginBottom="@dimen/main_margin"
+                android:checked="true"/>
+        <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" android:id="@+id/debugLayout">
+            <CheckBox
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Log WEATHER"
+                    android:id="@+id/debugWEATHER"
+            />
+            <CheckBox android:layout_width="wrap_content" android:layout_height="wrap_content"
+                      android:text="Log COMMUNICATION" android:id="@+id/debugCOMMUNICATION"
+            />
+            <CheckBox android:layout_width="wrap_content" android:layout_height="wrap_content"
+                      android:text="Log POWER" android:id="@+id/debugPOWER"/>
+            <CheckBox android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Log DRAW"
+                      android:id="@+id/debugDRAW"/>
+            <CheckBox android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Log TouchInput"
+                      android:id="@+id/debugTouchInput"/>
+            <CheckBox android:layout_width="wrap_content" android:layout_height="wrap_content"
+                      android:text="Log HTTP" android:id="@+id/debugHTTP"/>
+            <CheckBox android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Intevall / 10"
+                      android:id="@+id/debugIntervallDividor"/>
+            <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" android:gravity="center_horizontal">
+                <Button android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Refresh Logs"
+                        android:id="@+id/btnRefresh"/>
+                <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Clear Logs"
+                        android:id="@+id/btnClear" android:layout_gravity="right"/>
+            </LinearLayout>
+            <HorizontalScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/horizontalScrollView">
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/LogView" android:ellipsize="none" android:nestedScrollingEnabled="true"/>
+            </HorizontalScrollView>
+        </LinearLayout>
+    </LinearLayout>
+
+</ScrollView>
