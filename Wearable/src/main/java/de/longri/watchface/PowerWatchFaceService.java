@@ -63,6 +63,14 @@ import java.util.concurrent.TimeUnit;
  */
 public class PowerWatchFaceService extends CanvasWatchFaceService {
     private static final boolean DEBUG_WEATHER = false;
+    static String debugString;
+    static String mVersionString = "-1";
+    static String lastWeatherUpdateTime = "?";
+    static String lastWeatherRequestTime = "?";
+
+    static void initialDebugString() {
+        debugString = mVersionString + "\n    " + lastWeatherUpdateTime + "\n    " + lastWeatherRequestTime;
+    }
 
     private enum FullDraw {
         Top(0), Right(1), Bottom(2), Left(3), None(-1);
@@ -112,12 +120,10 @@ public class PowerWatchFaceService extends CanvasWatchFaceService {
         private final Interval weatherCheckInterval = new Interval(5 * 60 * 1000);//Weather check interval with try timer of 5min
         private final Interval phonePowerUpdateInterval = new Interval(1000);
 
-        private String lastWeatherUpdateTime = "?";
 
         private boolean mMute;
 
         private boolean mLowBitAmbient;
-        private String mVersionString = "-1";
 
         private final Matrix mMinuteHandMatrix = new Matrix();
         private final Matrix mHourHandMatrix = new Matrix();
@@ -142,7 +148,7 @@ public class PowerWatchFaceService extends CanvasWatchFaceService {
         private RectF touchBottom;
         private RectF touchLeft;
         private boolean invalid = true;
-        private Rect bounds = new Rect();
+
         private BackgroundType lastBackgroundType = BackgroundType.NONE;
 
         /**
@@ -422,8 +428,19 @@ public class PowerWatchFaceService extends CanvasWatchFaceService {
                 }
 
                 if (weatherUpdateInterval.isElapsed()) {
-                    requireWeatherInfo(getWeatherRequestType(), weatherDrawable.weatherIsNull());
+
+                    boolean force = weatherDrawable.weatherIsNull();
+                    WeatherInfoType requestType = getWeatherRequestType();
+
+                    requireWeatherInfo(requestType, force);
                     if (Log.isLoggable(LogType.WEATHER)) {
+
+                        RES.mTime.setToNow();
+                        int h = RES.mTime.hour;
+                        int m = RES.mTime.minute;
+
+                        lastWeatherRequestTime = Integer.toString(h) + ":" + Integer.toString(m) + (force ? "force " : " ") + requestType.toString();
+                        debugString = null;
                         Log.d(Consts.TAG_WEAR, "weatherUpdateInterval elapsed");
                     }
                 }
@@ -453,7 +470,7 @@ public class PowerWatchFaceService extends CanvasWatchFaceService {
             if (!isInAmbientMode() && Log.isLoggable()) {
                 if (debugPaint == null) initialDebug();
                 if (debugString == null) initialDebugString();
-                drawString(canvas, debugPaint, debugString, 40, 250);
+                Utils.drawString(canvas, debugPaint, debugString, 40, 250);
             }
 
 
@@ -466,11 +483,7 @@ public class PowerWatchFaceService extends CanvasWatchFaceService {
         }
 
         Paint debugPaint;
-        String debugString;
 
-        void initialDebugString() {
-            debugString = mVersionString + "\n    " + lastWeatherUpdateTime;
-        }
 
         void initialDebug() {
             debugPaint = new Paint();
@@ -687,16 +700,6 @@ public class PowerWatchFaceService extends CanvasWatchFaceService {
             }
         }
 
-        private void drawString(Canvas canvas, final Paint paint, final String str, int x, int y) {
-            final String[] lines = str.split("\n");
-
-            int yOff = 0;
-            for (int i = 0; i < lines.length; ++i) {
-                canvas.drawText(lines[i], x, y + yOff, paint);
-                paint.getTextBounds(lines[i], 0, lines[i].length(), bounds);
-                yOff += bounds.height();
-            }
-        }
 
         @Override
         public void invalidate() {

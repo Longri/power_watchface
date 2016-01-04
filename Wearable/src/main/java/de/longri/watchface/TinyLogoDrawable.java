@@ -17,7 +17,9 @@ package de.longri.watchface;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Matrix;
+import android.graphics.Paint;
 
 
 /**
@@ -26,13 +28,15 @@ import android.graphics.Matrix;
 public class TinyLogoDrawable extends TinyDrawable {
 
 
+    private Paint debugPaint;
+
     public TinyLogoDrawable(Context context) {
         super(context);
     }
 
     @Override
     public boolean hasFullDraw() {
-        return false;
+        return true;
     }
 
     @Override
@@ -48,7 +52,18 @@ public class TinyLogoDrawable extends TinyDrawable {
 
     @Override
     public boolean drawFull(Canvas canvas, Matrix matrix) {
+        canvas.drawRGB(0, 0, 0);
+        if (PowerWatchFaceService.debugString == null) PowerWatchFaceService.initialDebugString();
+        if (debugPaint == null) initialDebug();
+        Utils.drawString(canvas, debugPaint, PowerWatchFaceService.debugString, 50, 70);
         return false;
+    }
+
+    void initialDebug() {
+        debugPaint = new Paint();
+        debugPaint.setColor(Color.WHITE);
+        debugPaint.setTextSize(30);
+        debugPaint.setAntiAlias(true);
     }
 
     @Override
