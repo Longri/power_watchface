@@ -11,8 +11,8 @@ allprojects {
 
     ext {
         appName = 'longri watch face'
-        allVersionCode = 90
-        allVersionName = '0.8.90'
+        allVersionCode = 100
+        allVersionName = '0.8.100'
         allApplicationId = "de.longri.watchface"
     }
 
