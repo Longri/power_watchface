@@ -859,7 +859,7 @@ public class PowerWatchFaceService extends CanvasWatchFaceService {
 
 
             //add Listener
-            Wearable.MessageApi.addListener(mClient, CONFIG_LISTENER);
+            Wearable.MessageApi.addListener(mClient, MESSAGE_LISTENER);
 
             //send massage to receive answer on listener
             Wearable.MessageApi.sendMessage(mGoogleApiClient, "", Consts.PATH_CONFIG, null)
@@ -1089,6 +1089,13 @@ public class PowerWatchFaceService extends CanvasWatchFaceService {
                 if (Log.isLoggable(LogType.COMMUNICATION, LogType.WEATHER)) {
                     Log.d(Consts.TAG_WEAR, "SendWeatherRequireMessage: " + TypeString);
                 }
+
+
+
+                //add Listener
+                Wearable.MessageApi.addListener(mClient, MESSAGE_LISTENER);
+
+                //send massage to receive answer on listener
                 Wearable.MessageApi.sendMessage(mGoogleApiClient, "", TypeString, null)
                         .setResultCallback(new ResultCallback<MessageApi.SendMessageResult>() {
                             @Override
@@ -1107,7 +1114,7 @@ public class PowerWatchFaceService extends CanvasWatchFaceService {
             }
         }
 
-        private final MessageApi.MessageListener CONFIG_LISTENER = new MessageApi.MessageListener() {
+        private final MessageApi.MessageListener MESSAGE_LISTENER = new MessageApi.MessageListener() {
             @Override
             public void onMessageReceived(MessageEvent messageEvent) {
 
@@ -1147,6 +1154,10 @@ public class PowerWatchFaceService extends CanvasWatchFaceService {
                         }
 
                         try {
+                            //add Listener
+                            Wearable.MessageApi.addListener(mClient, MESSAGE_LISTENER);
+
+                            //send massage to receive answer on listener
                             Wearable.MessageApi.sendMessage(mGoogleApiClient, "", Consts.KEY_LOGS, de.longri.watchface.loging.Log.getLogsForSend())
                                     .setResultCallback(new ResultCallback<MessageApi.SendMessageResult>() {
                                         @Override
