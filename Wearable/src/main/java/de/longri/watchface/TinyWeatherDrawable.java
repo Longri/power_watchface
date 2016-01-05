@@ -33,32 +33,37 @@ import java.util.Locale;
  */
 public class TinyWeatherDrawable extends TinyDrawable {
 
-    private static final String WEATHER_NA = "weather_na_25_44";
-    private static final String WEATHER_00 = "weather_00_3_4_17_35";
-    private static final String WEATHER_WEATHER_1_2_12_40 = "weather_1_2_12_40";
-    private static final String WEATHER_05 = "weather_5";
-    private static final String WEATHER_06 = "weather_6";
-    private static final String WEATHER_07 = "weather_7";
-    private static final String WEATHER_08_10 = "weather_8_10";
-    private static final String WEATHER_09_11 = "weather_9_11";
-    private static final String WEATHER_19_22 = "weather_19_22";
-    private static final String WEATHER_26 = "weather_26";
-    private static final String WEATHER_27 = "weather_27";
-    private static final String WEATHER_28 = "weather_28";
-    private static final String WEATHER_29 = "weather_29";
-    private static final String WEATHER_30 = "weather_30";
-    private static final String WEATHER_31 = "weather_31";
-    private static final String WEATHER_32 = "weather_32";
-    private static final String WEATHER_33 = "weather_33";
-    private static final String WEATHER_34 = "weather_34";
-    private static final String WEATHER_36 = "weather_36";
-    private static final String WEATHER_37 = "weather_37";
-    private static final String WEATHER_41 = "weather_41";
-    private static final String WEATHER_42 = "weather_42";
-    private static final String WEATHER_43 = "weather_43";
-    private static final String WEATHER_45 = "weather_45";
-    private static final String WEATHER_46 = "weather_46";
-    private static final String WEATHER_47 = "weather_47";
+    protected final Matrix WEATHER_ICON_MATRIX = new Matrix();
+
+    private static final String WEATHER_NA = "w25";
+    private static final String WEATHER_00 = "w00";
+    private static final String WEATHER_WEATHER_1_2_12_40 = "w01";
+    private static final String WEATHER_05 = "w05";
+    private static final String WEATHER_06 = "w06";
+    private static final String WEATHER_07 = "w07";
+    private static final String WEATHER_08_10 = "w08";
+    private static final String WEATHER_09_11 = "w09";
+    private static final String WEATHER_16 = "w16";
+    private static final String WEATHER_19_22 = "w22";
+    private static final String WEATHER_20 = "w20";
+    private static final String WEATHER_26 = "w26";
+    private static final String WEATHER_27 = "w27";
+    private static final String WEATHER_28 = "w28";
+    private static final String WEATHER_29 = "w29";
+    private static final String WEATHER_30 = "w30";
+    private static final String WEATHER_31 = "w31";
+    private static final String WEATHER_32 = "w32";
+    private static final String WEATHER_33 = "w33";
+    private static final String WEATHER_34 = "w34";
+    private static final String WEATHER_36 = "w36";
+    private static final String WEATHER_37 = "w37";
+    private static final String WEATHER_39 = "w39";
+    private static final String WEATHER_41 = "w41";
+    private static final String WEATHER_42 = "w42";
+    private static final String WEATHER_43 = "w43";
+    private static final String WEATHER_45 = "w45";
+    private static final String WEATHER_46 = "w46";
+    private static final String WEATHER_47 = "w47";
     private final Paint mTxtPaint;
     private final Paint mDatePaint;
 
@@ -74,17 +79,16 @@ public class TinyWeatherDrawable extends TinyDrawable {
         super(context);
         mTxtPaint = new Paint();
         mTxtPaint.setColor(Color.WHITE);
-        mTxtPaint.setTextSize(28);
+        mTxtPaint.setTextSize(30);
         mTxtPaint.setAntiAlias(true);
-
         mDatePaint = new Paint();
         mDatePaint.setColor(Color.WHITE);
-        mDatePaint.setTextSize(14);
+        mDatePaint.setTextSize(21);
         mDatePaint.setAntiAlias(true);
 
-
+        WEATHER_ICON_MATRIX.setScale(0.5f, 0.5f);
+        WEATHER_ICON_MATRIX.postTranslate(20, 5);
     }
-
 
     Bitmap bufferBitmap;
 
@@ -132,7 +136,7 @@ public class TinyWeatherDrawable extends TinyDrawable {
                 }
             }
             if (mWeatherIconBitmap[0] != null) {
-                bufferCanvas.drawBitmap(mWeatherIconBitmap[0], EMPTY_MATRIX, RES.mAntiAliasPaint);
+                bufferCanvas.drawBitmap(mWeatherIconBitmap[0], WEATHER_ICON_MATRIX, RES.mAntiAliasPaint);
             } else {
                 if (Log.isLoggable(LogType.WEATHER)) {
                     Log.d(Consts.TAG_WEAR, "Weather icon are null, ID=" + Integer.toString(mWeatherInfo != null ? mWeatherInfo.getActualIconID() : -1));
@@ -156,15 +160,17 @@ public class TinyWeatherDrawable extends TinyDrawable {
 
         if (nowMatrix == null) {
             nowMatrix = new Matrix();
-            nowMatrix.setTranslate(2, 60);
-            nowMatrix.postScale(1.5f, 1.5f);
+            nowMatrix.setTranslate(20, 80);
+
 
             forecast1Matrix = new Matrix();
-            forecast1Matrix.setTranslate(140, 50);
+            forecast1Matrix.setTranslate(230, 70);
+            forecast1Matrix.postScale(0.7f, 0.7f);
 
 
             forecast2Matrix = new Matrix();
-            forecast2Matrix.setTranslate(140, 180);
+            forecast2Matrix.setTranslate(230, 240);
+            forecast2Matrix.postScale(0.7f, 0.7f);
         }
 
         if (mWeatherInfo != null) {
@@ -211,13 +217,13 @@ public class TinyWeatherDrawable extends TinyDrawable {
             SimpleDateFormat dateFormatter = new SimpleDateFormat("HH:mm", Locale.ENGLISH);
             Date date = info.getDate();
             String dateString = dateFormatter.format(date);
-            canvas.drawText(dateString, 90, 40, mDatePaint);
+            canvas.drawText(dateString, 130, 60, mDatePaint);
         }
 
         String degreeString = info.getTemp();
         float dateCircleWidth = res.getTinyBackground().getWidth();
         float degree = dateCircleWidth / 2 - mTxtPaint.measureText(degreeString) / 2;
-        canvas.drawText(degreeString, degree, 90, mTxtPaint);
+        canvas.drawText(degreeString, degree, 150, mTxtPaint);
         canvas.setMatrix(null);
     }
 
@@ -268,69 +274,30 @@ public class TinyWeatherDrawable extends TinyDrawable {
     private String getNameOfWeatherIcon(int id) {
 
         switch (id) {
-            case 0:
-            case 3:
-            case 4:
-            case 17:
-            case 35:
-                return WEATHER_00;
-            case 25:
-            case 44:
-                return WEATHER_NA;
-            case 1:
-            case 2:
-            case 12:
-            case 40:
-                return WEATHER_WEATHER_1_2_12_40;
-            case 5:
-                return WEATHER_05;
-            case 6:
-                return WEATHER_06;
-            case 7:
-                return WEATHER_07;
-            case 8:
-            case 10:
-                return WEATHER_08_10;
             case 9:
+                return WEATHER_09_11;
             case 11:
                 return WEATHER_09_11;
-            case 19:
-            case 22:
-                return WEATHER_19_22;
+            case 16:
+                return WEATHER_16;
+            case 20:
+                return WEATHER_20;
             case 26:
                 return WEATHER_26;
             case 27:
                 return WEATHER_27;
             case 28:
                 return WEATHER_28;
-            case 29:
-                return WEATHER_29;
-            case 30:
-                return WEATHER_30;
             case 31:
                 return WEATHER_31;
             case 32:
                 return WEATHER_32;
-            case 33:
-                return WEATHER_33;
-            case 34:
-                return WEATHER_34;
-            case 36:
-                return WEATHER_36;
-            case 37:
-                return WEATHER_37;
-            case 41:
-                return WEATHER_41;
-            case 42:
-                return WEATHER_42;
+            case 39:
+                return WEATHER_39;
             case 43:
                 return WEATHER_43;
             case 45:
                 return WEATHER_45;
-            case 46:
-                return WEATHER_46;
-            case 47:
-                return WEATHER_47;
         }
         return WEATHER_NA;
     }

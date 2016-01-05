@@ -35,7 +35,6 @@ public abstract class TinyDrawable {
     protected static RES res;
     protected final Matrix EMPTY_MATRIX = new Matrix();
 
-
     public static void setAmbientMode(boolean value) {
         for (TinyDrawable tiny : instanceList) {
 

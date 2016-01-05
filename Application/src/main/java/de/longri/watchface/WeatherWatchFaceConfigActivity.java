@@ -27,9 +27,9 @@ import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.wearable.DataMap;
 import com.google.android.gms.wearable.MessageApi;
 import com.google.android.gms.wearable.Wearable;
-import de.longri.watchface.loging.Log;
 import de.longri.serializable.BitStore;
 import de.longri.serializable.NotImplementedException;
+import de.longri.watchface.loging.Log;
 import roboguice.activity.RoboActivity;
 import roboguice.inject.ContentView;
 import roboguice.inject.InjectView;
@@ -196,6 +196,7 @@ public class WeatherWatchFaceConfigActivity extends RoboActivity {
                 Intent intent = new Intent(WeatherWatchFaceConfigActivity.this, WeatherService.class);
                 intent.setAction(WeatherWatchFaceConfigActivity.class.getSimpleName());
                 intent.putExtra("PeerId", mPeerId);
+                intent.putExtra("Force", 1);
                 startService(intent);
                 Toast.makeText(WeatherWatchFaceConfigActivity.this, "Refresh Succeeded!", Toast.LENGTH_SHORT).show();
             }

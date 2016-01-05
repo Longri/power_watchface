@@ -30,12 +30,12 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.wearable.*;
-import de.longri.watchface.loging.Log;
-import de.longri.watchface.loging.LogItem;
-import de.longri.watchface.loging.LogType;
 import de.longri.serializable.BitStore;
 import de.longri.serializable.NotImplementedException;
 import de.longri.serializable.SerializableArrayList;
+import de.longri.watchface.loging.Log;
+import de.longri.watchface.loging.LogItem;
+import de.longri.watchface.loging.LogType;
 import de.longri.weather.Info;
 import de.longri.weather.openweather.OpenWeatherApi;
 import roboguice.RoboGuice;
@@ -96,7 +96,12 @@ public class WeatherService extends WearableListenerService implements GoogleApi
             }
             if (WeatherWatchFaceConfigActivity.class.getSimpleName().equals(intent.getAction())) {
                 mPeerId = intent.getStringExtra("PeerId");
-                startWeatherTask(WeatherInfoType.FORECAST);
+                if (intent.getIntExtra("Force", 0) == 1) {
+                    startWeatherTask(WeatherInfoType.FORCE);
+                } else {
+                    startWeatherTask(WeatherInfoType.FORECAST);
+                }
+
             }
         } else {
             if (Log.isLoggable(LogType.COMMUNICATION)) {
@@ -246,35 +251,37 @@ public class WeatherService extends WearableListenerService implements GoogleApi
                 boolean fromPref = false;
 
                 //load last weather info from preferences
-                Config.chkPreferences(context);
-                byte[] infoBytes = Base64.decode(Config.mAndroidSetting.getString(Consts.KEY_CONFIG_LAST_WEATHER_INFO, ""), Base64.DEFAULT);
-                if (infoBytes.length > 0) {
-                    BitStore reader = new BitStore(infoBytes);
-                    try {
-                        info.deserialize(reader);
-                        if (info.size() > 0 && info.size() != 1) {
-                            Info actWeatherInfo = info.get(0);
+                if (type != WeatherInfoType.FORCE) {
+                    Config.chkPreferences(context);
+                    byte[] infoBytes = Base64.decode(Config.mAndroidSetting.getString(Consts.KEY_CONFIG_LAST_WEATHER_INFO, ""), Base64.DEFAULT);
+                    if (infoBytes.length > 0) {
+                        BitStore reader = new BitStore(infoBytes);
+                        try {
+                            info.deserialize(reader);
+                            if (info.size() > 0 && info.size() != 1) {
+                                Info actWeatherInfo = info.get(0);
 
-                            //check if weather older then 30 min
-                            Date now = new Date(new Date().getTime() - 1800000);
-                            if (actWeatherInfo.getDate().after(now)) {
-                                fromPref = true;
-                                if (Log.isLoggable(LogType.WEATHER)) {
-                                    Log.d(Consts.TAG_PHONE, "read weather from preferences");
-                                    Log.d(Consts.TAG_PHONE, "now - 30 min:" + now);
-                                    Log.d(Consts.TAG_PHONE, "WetherInfoDate:" + actWeatherInfo.getDate());
-                                }
-                            } else {
-                                if (Log.isLoggable(LogType.WEATHER)) {
-                                    Log.e(Consts.TAG_PHONE, "read weather from HTTP");
-                                    Log.e(Consts.TAG_PHONE, "now - 30 min:" + now);
-                                    Log.e(Consts.TAG_PHONE, "WetherInfoDate:" + actWeatherInfo.getDate());
+                                //check if weather older then 30 min
+                                Date now = new Date(new Date().getTime() - 1800000);
+                                if (actWeatherInfo.getDate().after(now)) {
+                                    fromPref = true;
+                                    if (Log.isLoggable(LogType.WEATHER)) {
+                                        Log.d(Consts.TAG_PHONE, "read weather from preferences");
+                                        Log.d(Consts.TAG_PHONE, "now - 30 min:" + now);
+                                        Log.d(Consts.TAG_PHONE, "WetherInfoDate:" + actWeatherInfo.getDate());
+                                    }
+                                } else {
+                                    if (Log.isLoggable(LogType.WEATHER)) {
+                                        Log.e(Consts.TAG_PHONE, "read weather from HTTP");
+                                        Log.e(Consts.TAG_PHONE, "now - 30 min:" + now);
+                                        Log.e(Consts.TAG_PHONE, "WetherInfoDate:" + actWeatherInfo.getDate());
+                                    }
                                 }
                             }
-                        }
-                    } catch (Exception e) {
-                        if (Log.isLoggable(LogType.WEATHER)) {
-                            Log.e(Consts.TAG_PHONE, "Read weather info from preferences");
+                        } catch (Exception e) {
+                            if (Log.isLoggable(LogType.WEATHER)) {
+                                Log.e(Consts.TAG_PHONE, "Read weather info from preferences");
+                            }
                         }
                     }
                 }
@@ -290,7 +297,7 @@ public class WeatherService extends WearableListenerService implements GoogleApi
                     OpenWeatherApi api = new OpenWeatherApi(key);
                     if (type == WeatherInfoType.NOW)
                         info = api.getCurrentWeatherInfo(mLocation.getLatitude(), mLocation.getLongitude());
-                    if (type == WeatherInfoType.FORECAST)
+                    else
                         info = api.getForecastWeatherInfo(3, mLocation.getLatitude(), mLocation.getLongitude());
                 }
                 BitStore writer = new BitStore();

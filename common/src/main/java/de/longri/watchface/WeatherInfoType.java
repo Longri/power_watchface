@@ -19,5 +19,5 @@ package de.longri.watchface;
  * Created by Longri on 20.11.2015.
  */
 public enum WeatherInfoType {
-    NOW, FORECAST
+    NOW, FORECAST, FORCE
 }
