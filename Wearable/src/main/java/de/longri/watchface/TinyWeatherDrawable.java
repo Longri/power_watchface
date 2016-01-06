@@ -343,7 +343,7 @@ public class TinyWeatherDrawable extends TinyDrawable {
                     RES.mTime.month > mWeatherForecast1.getDate().getMonth() ||
                     RES.mTime.year > mWeatherForecast1.getDate().getYear()) {
                 if (loggable)
-                    Log.d(Consts.TAG_WEAR, "return FORCAST (Day Changed)");
+                    Log.d(Consts.TAG_WEAR, "return FORECAST (Day Changed)");
                 return WeatherInfoType.FORECAST;
             }
 
