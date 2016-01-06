@@ -609,19 +609,22 @@ public class PowerWatchFaceService extends CanvasWatchFaceService {
                     logoDrawable = new TinyLogoDrawable(PowerWatchFaceService.this);
                 }
 
-                boolean fromBuffer = false;
                 int pos = mConfig.getPositionOf(View.Logo);
-                if (fullDraw == FullDraw.None) {
-                    fromBuffer = logoDrawable.draw(bufferCanvas, RES.getMatrixForPos(pos));
-                } else if (fullDraw.getNumVal() == pos) {
-                    fromBuffer = logoDrawable.drawFull(bufferCanvas, RES.getMatrixForPos(pos));
-                }
+                //check to have this a drawing index
+                if (pos >= 0 && pos <= 3) {
+                    boolean fromBuffer = false;
 
-                logoDrawable.resetMustRedraw();
-                anyDrawChanges = true;
-                if (Log.isLoggable(LogType.DRAW)) {
-                    Log.d(Consts.TAG_WEAR, "Draw new Logo" + (fromBuffer ? " from Buffer" : ""));
+                    if (fullDraw == FullDraw.None) {
+                        fromBuffer = logoDrawable.draw(bufferCanvas, RES.getMatrixForPos(pos));
+                    } else if (fullDraw.getNumVal() == pos) {
+                        fromBuffer = logoDrawable.drawFull(bufferCanvas, RES.getMatrixForPos(pos));
+                    }
+                    anyDrawChanges = true;
+                    if (Log.isLoggable(LogType.DRAW)) {
+                        Log.d(Consts.TAG_WEAR, "Draw new Logo" + (fromBuffer ? " from Buffer" : ""));
+                    }
                 }
+                logoDrawable.resetMustRedraw();
             }
 
 
@@ -630,21 +633,23 @@ public class PowerWatchFaceService extends CanvasWatchFaceService {
                     weatherDrawable = new TinyWeatherDrawable(PowerWatchFaceService.this);
                     weatherDrawable.setInvalidateListener(this);
                 }
-
-                boolean fromBuffer = false;
                 int pos = mConfig.getPositionOf(View.Weather);
-                if (fullDraw == FullDraw.None) {
-                    fromBuffer = weatherDrawable.draw(bufferCanvas, RES.getMatrixForPos(pos));
-                    weatherDrawable.resetMustRedraw();
-                } else if (fullDraw.getNumVal() == pos) {
-                    bufferCanvas.drawRGB(0, 0, 0);
-                    fromBuffer = weatherDrawable.drawFull(bufferCanvas, RES.getMatrixForPos(pos));
-                }
+                //check to have this a drawing index
+                if (pos >= 0 && pos <= 3) {
+                    boolean fromBuffer = false;
+                    if (fullDraw == FullDraw.None) {
+                        fromBuffer = weatherDrawable.draw(bufferCanvas, RES.getMatrixForPos(pos));
+                    } else if (fullDraw.getNumVal() == pos) {
+                        bufferCanvas.drawRGB(0, 0, 0);
+                        fromBuffer = weatherDrawable.drawFull(bufferCanvas, RES.getMatrixForPos(pos));
+                    }
 
-                anyDrawChanges = true;
-                if (Log.isLoggable(LogType.DRAW)) {
-                    Log.d(Consts.TAG_WEAR, "Draw new Weather" + (fromBuffer ? " from Buffer" : ""));
+                    anyDrawChanges = true;
+                    if (Log.isLoggable(LogType.DRAW)) {
+                        Log.d(Consts.TAG_WEAR, "Draw new Weather" + (fromBuffer ? " from Buffer" : ""));
+                    }
                 }
+                weatherDrawable.resetMustRedraw();
             }
 
 
@@ -652,42 +657,44 @@ public class PowerWatchFaceService extends CanvasWatchFaceService {
                 if (dateDrawable == null) {
                     dateDrawable = new TinyDateDrawable(PowerWatchFaceService.this);
                 }
-
-                boolean fromBuffer = false;
                 int pos = mConfig.getPositionOf(View.Date);
-                if (fullDraw == FullDraw.None) {
-                    fromBuffer = dateDrawable.draw(bufferCanvas, RES.getMatrixForPos(pos));
-                } else if (fullDraw.getNumVal() == pos) {
-                    fromBuffer = dateDrawable.drawFull(bufferCanvas, RES.getMatrixForPos(pos));
+                //check to have this a drawing index
+                if (pos >= 0 && pos <= 3) {
+                    boolean fromBuffer = false;
+                    if (fullDraw == FullDraw.None) {
+                        fromBuffer = dateDrawable.draw(bufferCanvas, RES.getMatrixForPos(pos));
+                    } else if (fullDraw.getNumVal() == pos) {
+                        fromBuffer = dateDrawable.drawFull(bufferCanvas, RES.getMatrixForPos(pos));
+                    }
+                    anyDrawChanges = true;
+                    if (Log.isLoggable(LogType.DRAW)) {
+                        Log.d(Consts.TAG_WEAR, "Draw new Date" + (fromBuffer ? " from Buffer" : ""));
+                    }
                 }
                 dateDrawable.resetMustRedraw();
-                anyDrawChanges = true;
-                if (Log.isLoggable(LogType.DRAW)) {
-                    Log.d(Consts.TAG_WEAR, "Draw new Date" + (fromBuffer ? " from Buffer" : ""));
-                }
             }
 
             if (mustDrawTinyClock) {
-
                 if (tinyClockDrawable == null) {
                     tinyClockDrawable = new TinyClockDrawable(PowerWatchFaceService.this);
                     tinyClockDrawable.setInvalidateListener(this);
                 }
 
-                boolean fromBuffer = false;
                 int pos = mConfig.getPositionOf(View.SecondTime);
-                if (fullDraw == FullDraw.None) {
-                    fromBuffer = tinyClockDrawable.draw(bufferCanvas, RES.getMatrixForPos(pos));
-                } else if (fullDraw.getNumVal() == pos) {
-                    fromBuffer = tinyClockDrawable.drawFull(bufferCanvas, RES.getMatrixForPos(pos));
+                //check to have this a drawing index
+                if (pos >= 0 && pos <= 3) {
+                    boolean fromBuffer = false;
+                    if (fullDraw == FullDraw.None) {
+                        fromBuffer = tinyClockDrawable.draw(bufferCanvas, RES.getMatrixForPos(pos));
+                    } else if (fullDraw.getNumVal() == pos) {
+                        fromBuffer = tinyClockDrawable.drawFull(bufferCanvas, RES.getMatrixForPos(pos));
+                    }
+                    anyDrawChanges = true;
+                    if (Log.isLoggable(LogType.DRAW)) {
+                        Log.d(Consts.TAG_WEAR, "Draw new second clock" + (fromBuffer ? " from Buffer" : ""));
+                    }
                 }
-
                 tinyClockDrawable.resetMustRedraw();
-                anyDrawChanges = true;
-                if (Log.isLoggable(LogType.DRAW)) {
-                    Log.d(Consts.TAG_WEAR, "Draw new second clock" + (fromBuffer ? " from Buffer" : ""));
-                }
-
             }
 
 
@@ -988,7 +995,7 @@ public class PowerWatchFaceService extends CanvasWatchFaceService {
 
                     if (mConfig == null) mConfig = new Config();
                     try {
-                        mConfig.deserialize(store);
+                        backgroundChanged = mConfig.deserializeVisualIsChanged(store);
                         configLoaded = true;
                     } catch (NotImplementedException e) {
                         e.printStackTrace();
@@ -1089,7 +1096,6 @@ public class PowerWatchFaceService extends CanvasWatchFaceService {
                 if (Log.isLoggable(LogType.COMMUNICATION, LogType.WEATHER)) {
                     Log.d(Consts.TAG_WEAR, "SendWeatherRequireMessage: " + TypeString);
                 }
-
 
 
                 //add Listener

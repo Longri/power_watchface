@@ -366,9 +366,7 @@ public class TinyWeatherDrawable extends TinyDrawable {
     }
 
     public boolean weatherIsNull() {
-
         return mWeatherInfo == null || mWeatherForecast1 == null || mWeatherForecast2 == null;
-
     }
 
     public void setOutputToCelsius() {

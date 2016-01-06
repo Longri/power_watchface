@@ -18,11 +18,11 @@ package de.longri.watchface;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.text.format.DateUtils;
-import de.longri.watchface.loging.Log;
-import de.longri.watchface.loging.LogType;
 import de.longri.serializable.NotImplementedException;
 import de.longri.serializable.Serializable;
 import de.longri.serializable.StoreBase;
+import de.longri.watchface.loging.Log;
+import de.longri.watchface.loging.LogType;
 
 
 /**
@@ -105,15 +105,37 @@ public class Config implements Serializable {
 
     @Override
     public void deserialize(StoreBase storeBase) throws NotImplementedException {
+        deserializeVisualIsChanged(storeBase);
+    }
+
+
+    public boolean deserializeVisualIsChanged(StoreBase storeBase) throws NotImplementedException {
+        boolean isChanged = false;
+
+
         byte first = storeBase.readByte();
         theme = (byte) (MASK_THEME & first);
         updateInterval = (byte) ((MASK_UPDATE_INTERVAL & first) >>> 3);
-        timeUnit = getMaskValue(first, MASK_TIME_UNIT);
-        useCelsius = getMaskValue(first, MASK_USE_CELSIUS);
+
+        boolean val = getMaskValue(first, MASK_TIME_UNIT);
+        if (timeUnit != val) isChanged = true;
+        timeUnit = val;
+
+        val = getMaskValue(first, MASK_USE_CELSIUS);
+        if (useCelsius != val) isChanged = true;
+        useCelsius = val;
 
         View[] viewValues = View.values();
-        views = new View[]{viewValues[storeBase.readInt()], viewValues[storeBase.readInt()],
+
+
+        View[] storeViews = new View[]{viewValues[storeBase.readInt()], viewValues[storeBase.readInt()],
                 viewValues[storeBase.readInt()], viewValues[storeBase.readInt()]};
+
+        int index = 0;
+        for (View v : storeViews) {
+            if (views[index++] != v) isChanged = true;
+        }
+        views = storeViews;
 
         debug = storeBase.readBool();
         LogWEATHER = storeBase.readBool();
@@ -148,6 +170,9 @@ public class Config implements Serializable {
         showDigitalClock = storeBase.readBool();
         this.secondTimeZone = new WearTimeZone(storeBase);
         debugIntervalDevisor = storeBase.readInt();
+
+
+        return isChanged;
     }
 
 
@@ -169,9 +194,7 @@ public class Config implements Serializable {
         return (store & mask) == mask;
     }
 
-
     public int getPositionOf(View view) {
-
         int index = 0;
         for (View v : views) {
             if (v == view) return index;
@@ -243,12 +266,7 @@ public class Config implements Serializable {
         if (this.views[1] == view) this.views[1] = View.None;
         if (this.views[2] == view) this.views[2] = View.None;
         if (this.views[3] == view) this.views[3] = View.None;
-        chkPreferences(context);
-        mAndroidSettingEditor.putInt(Consts.KEY_CONFIG_VIEW_TOP, this.views[0].ordinal());
-        mAndroidSettingEditor.putInt(Consts.KEY_CONFIG_VIEW_RIGHT, this.views[1].ordinal());
-        mAndroidSettingEditor.putInt(Consts.KEY_CONFIG_VIEW_BOTTOM, this.views[2].ordinal());
-        mAndroidSettingEditor.putInt(Consts.KEY_CONFIG_VIEW_LEFT, this.views[3].ordinal());
-        mAndroidSettingEditor.commit();
+        saveViewPositions(context);
     }
 
     public void setViewPositionRight(Context context, View view) {
@@ -257,12 +275,7 @@ public class Config implements Serializable {
         this.views[1] = view;
         if (this.views[2] == view) this.views[2] = View.None;
         if (this.views[3] == view) this.views[3] = View.None;
-        chkPreferences(context);
-        mAndroidSettingEditor.putInt(Consts.KEY_CONFIG_VIEW_TOP, this.views[0].ordinal());
-        mAndroidSettingEditor.putInt(Consts.KEY_CONFIG_VIEW_RIGHT, this.views[1].ordinal());
-        mAndroidSettingEditor.putInt(Consts.KEY_CONFIG_VIEW_BOTTOM, this.views[2].ordinal());
-        mAndroidSettingEditor.putInt(Consts.KEY_CONFIG_VIEW_LEFT, this.views[3].ordinal());
-        mAndroidSettingEditor.commit();
+        saveViewPositions(context);
     }
 
     public void setViewPositionBottom(Context context, View view) {
@@ -271,12 +284,7 @@ public class Config implements Serializable {
         if (this.views[2] == view) return;
         this.views[2] = view;
         if (this.views[3] == view) this.views[3] = View.None;
-        chkPreferences(context);
-        mAndroidSettingEditor.putInt(Consts.KEY_CONFIG_VIEW_TOP, this.views[0].ordinal());
-        mAndroidSettingEditor.putInt(Consts.KEY_CONFIG_VIEW_RIGHT, this.views[1].ordinal());
-        mAndroidSettingEditor.putInt(Consts.KEY_CONFIG_VIEW_BOTTOM, this.views[2].ordinal());
-        mAndroidSettingEditor.putInt(Consts.KEY_CONFIG_VIEW_LEFT, this.views[3].ordinal());
-        mAndroidSettingEditor.commit();
+        saveViewPositions(context);
     }
 
     public void setViewPositionLeft(Context context, View view) {
@@ -285,6 +293,10 @@ public class Config implements Serializable {
         if (this.views[2] == view) this.views[2] = View.None;
         if (this.views[3] == view) return;
         this.views[3] = view;
+        saveViewPositions(context);
+    }
+
+    private void saveViewPositions(Context context) {
         chkPreferences(context);
         mAndroidSettingEditor.putInt(Consts.KEY_CONFIG_VIEW_TOP, this.views[0].ordinal());
         mAndroidSettingEditor.putInt(Consts.KEY_CONFIG_VIEW_RIGHT, this.views[1].ordinal());
@@ -378,7 +390,16 @@ public class Config implements Serializable {
         sb.append("UpdateInterval =" + getInterval());
         sb.append("\n");
 
-        sb.append("Theme =" + theme);
+        sb.append("TopView =" + this.views[0]);
+        sb.append("\n");
+
+        sb.append("RightView =" + this.views[1]);
+        sb.append("\n");
+
+        sb.append("BottomView =" + this.views[2]);
+        sb.append("\n");
+
+        sb.append("LeftView =" + this.views[3]);
         sb.append("\n");
 
         return sb.toString();

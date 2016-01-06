@@ -56,5 +56,12 @@
     <string name="timzone_secondTime">Timezone for second time</string>
     <string name="select_icon">Select Icon</string>
     <string name="layout">Layout</string>
+    <string name="clock">second clock</string>
+    <string name="date">date</string>
+    <string name="logo">logo</string>
+    <string name="none">none</string>
+    <string name="apply">Apply</string>
+    <string name="cancel">Cancel</string>
+    <string name="select_view">Select a view</string>
 
 </resources>

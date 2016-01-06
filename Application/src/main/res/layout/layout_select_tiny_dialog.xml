@@ -15,30 +15,72 @@
   limitations under the License.
  -->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent">
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
 
-    <ImageView
-            android:id="@+id/image"
+
+    <LinearLayout
+            android:orientation="vertical"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="5dp"/>
+            android:layout_height="wrap_content" android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true">
 
-    <TextView
-            android:id="@+id/text"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:textColor="#FFF"
-            android:layout_toRightOf="@+id/image"/>
+        <RadioGroup
+                android:id="@+id/radioView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
 
-    <Button
-            android:id="@+id/dialogButtonOK"
-            android:layout_width="100px"
-            android:layout_height="wrap_content"
-            android:text=" Ok "
-            android:layout_marginTop="5dp"
-            android:layout_marginRight="5dp"
-            android:layout_below="@+id/image"
-    />
-
+            <RadioButton
+                    android:drawableRight="@drawable/tiny_back"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/radioButton0" android:minWidth="300dp" android:text="@string/none"
+                    android:layout_marginRight="@dimen/main_margin" android:layout_marginTop="@dimen/dialog_margin"
+                    android:layout_marginBottom="@dimen/dialog_margin"/>
+            <RadioButton
+                    android:drawableRight="@drawable/tiny_back"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/radioButton1" android:minWidth="300dp" android:text="@string/logo"
+                    android:layout_marginRight="@dimen/main_margin"
+                    android:layout_marginBottom="@dimen/dialog_margin"/>
+            <RadioButton
+                    android:drawableRight="@drawable/tiny_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/radioButton2" android:minWidth="300dp" android:text="@string/date"
+                    android:layout_marginBottom="@dimen/dialog_margin" android:layout_marginRight="@dimen/main_margin"
+            />
+            <RadioButton
+                    android:drawableRight="@drawable/tiny_clock"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/radioButton3" android:minWidth="300dp" android:text="@string/clock"
+                    android:layout_marginRight="@dimen/main_margin"
+                    android:layout_marginBottom="@dimen/dialog_margin"/>
+            <RadioButton
+                    android:drawableRight="@drawable/tiny_weather"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/weather"
+                    android:id="@+id/radioButton4" android:minWidth="300dp"
+                    android:layout_marginBottom="@dimen/dialog_margin" android:layout_marginRight="@dimen/main_margin"
+            />
+        </RadioGroup>
+        <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" android:gravity="right">
+            <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/cancel"
+                    android:id="@+id/btn_cancel"/>
+            <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/apply"
+                    android:id="@+id/btn_apply"/>
+        </LinearLayout>
+    </LinearLayout>
 </RelativeLayout>

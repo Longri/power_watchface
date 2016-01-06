@@ -15,8 +15,11 @@
  */
 package de.longri.watchface;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.res.Resources;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.wearable.companion.WatchFaceCompanion;
 import android.view.View;
@@ -35,15 +38,56 @@ import roboguice.inject.ContentView;
 import roboguice.inject.InjectView;
 
 import java.util.ArrayList;
-import java.util.List;
 
 @ContentView(R.layout.activity_weather_watch_face_config)
 public class WeatherWatchFaceConfigActivity extends RoboActivity {
 // ------------------------------ FIELDS ------------------------------
 
 
-    private List<Integer> themes = new ArrayList<>();
-    private List<View> themeButtons = new ArrayList<>();
+    private GoogleApiClient mGoogleApiClient;
+
+    @InjectView(R.id.container)
+    private ViewGroup mContainer;
+
+    @InjectView(R.id.InfoTextView)
+    private TextView mInfoLabel;
+
+    @InjectView(R.id.scaleRadioGroup)
+    private RadioGroup mScaleRadioGroup;
+
+    @InjectView(R.id.intervalSpinner)
+    private Spinner mIntervalSpinner;
+    private String mPeerId;
+
+    @InjectView(R.id.switch_time_unit)
+    private Switch mTimeUnitSwitch;
+
+    @InjectView(R.id.switch_digital)
+    private Switch mTimeDigitalSwitch;
+
+    @InjectView(R.id.VersionTextView)
+    private TextView mVersionLabel;
+
+
+    @InjectView(R.id.btn_refresh_button)
+    private View mManualUpdateButton;
+
+    @InjectView(R.id.infoLayout)
+    private LinearLayout mInfoLine;
+
+    @InjectView(R.id.imageViewTop)
+    private ImageView imageViewTop;
+
+    @InjectView(R.id.imageViewLeft)
+    private ImageView imageViewLeft;
+
+    @InjectView(R.id.imageViewBottom)
+    private ImageView imageViewBottom;
+
+    @InjectView(R.id.imageViewRight)
+    private ImageView imageViewRight;
+
+    private boolean alreadyInitialize;
     Config mConfig;
 
     public static WeatherWatchFaceConfigActivity THAT;
@@ -60,7 +104,6 @@ public class WeatherWatchFaceConfigActivity extends RoboActivity {
         mTimeDigitalSwitch.setChecked(mConfig.getDigital());
         mIntervalSpinner.setSelection(mConfig.getIntervalSpinnerPos(), false);
 
-        //onColorViewClick.onClick(themeButtons.get(mConfig.getTheme()));
         alreadyInitialize = true;
         mContainer.setVisibility(View.VISIBLE);
         mTimeUnitSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -123,7 +166,6 @@ public class WeatherWatchFaceConfigActivity extends RoboActivity {
             }
         }
 
-
         TZone.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
@@ -136,41 +178,180 @@ public class WeatherWatchFaceConfigActivity extends RoboActivity {
             }
         });
 
+
+        //delete (override) tiny images to none
+        Resources resources = this.getResources();
+        setToImage(0, resources.getDrawable(R.drawable.tiny_back));
+        setToImage(1, resources.getDrawable(R.drawable.tiny_back));
+        setToImage(2, resources.getDrawable(R.drawable.tiny_back));
+        setToImage(3, resources.getDrawable(R.drawable.tiny_back));
+
+        //set images to tiny positions
+        setToImage(mConfig.getPositionOf(de.longri.watchface.View.Date), resources.getDrawable(R.drawable.tiny_date));
+        setToImage(mConfig.getPositionOf(de.longri.watchface.View.SecondTime), resources.getDrawable(R.drawable.tiny_clock));
+        setToImage(mConfig.getPositionOf(de.longri.watchface.View.Weather), resources.getDrawable(R.drawable.tiny_weather));
+
+        imageViewTop.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //show selection dialog
+                showTinyPositionSelectDialog(getPositionIndex(0), 0);
+            }
+        });
+
+        imageViewRight.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //show selection dialog
+                showTinyPositionSelectDialog(getPositionIndex(1), 1);
+            }
+        });
+
+        imageViewBottom.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //show selection dialog
+                showTinyPositionSelectDialog(getPositionIndex(2), 2);
+            }
+        });
+
+        imageViewLeft.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //show selection dialog
+                showTinyPositionSelectDialog(getPositionIndex(3), 3);
+            }
+        });
+
     }
 
 
-    private GoogleApiClient mGoogleApiClient;
+    private int getPositionIndex(int index) {
+        if (index == mConfig.getPositionOf(de.longri.watchface.View.Date)) return 2;
+        if (index == mConfig.getPositionOf(de.longri.watchface.View.SecondTime)) return 3;
+        if (index == mConfig.getPositionOf(de.longri.watchface.View.Weather)) return 4;
+        if (index == mConfig.getPositionOf(de.longri.watchface.View.Logo)) return 1;
+        return 0;
+    }
 
-    @InjectView(R.id.container)
-    private ViewGroup mContainer;
+    private void showTinyPositionSelectDialog(int selected, final int editPosition) {
+        alreadyInitialize = false;
 
-    @InjectView(R.id.InfoTextView)
-    private TextView mInfoLabel;
+        final Dialog dialog = new Dialog(this);
+        dialog.setContentView(R.layout.layout_select_tiny_dialog);
 
-    @InjectView(R.id.scaleRadioGroup)
-    private RadioGroup mScaleRadioGroup;
+        dialog.setTitle(getString(R.string.select_view));
 
-    @InjectView(R.id.intervalSpinner)
-    private Spinner mIntervalSpinner;
-    private String mPeerId;
+        dialog.show();
 
-    @InjectView(R.id.switch_time_unit)
-    private Switch mTimeUnitSwitch;
+        // set the custom dialog components
 
-    @InjectView(R.id.switch_digital)
-    private Switch mTimeDigitalSwitch;
+        RadioButton rb0 = (RadioButton) dialog.findViewById(R.id.radioButton0);
+        RadioButton rb1 = (RadioButton) dialog.findViewById(R.id.radioButton1);
+        RadioButton rb2 = (RadioButton) dialog.findViewById(R.id.radioButton2);
+        RadioButton rb3 = (RadioButton) dialog.findViewById(R.id.radioButton3);
+        RadioButton rb4 = (RadioButton) dialog.findViewById(R.id.radioButton4);
+        switch (selected) {
+            case 0:
+                rb0.setChecked(true);
+                break;
+            case 1:
+                rb1.setChecked(true);
+                break;
+            case 2:
+                rb2.setChecked(true);
+                break;
+            case 3:
+                rb3.setChecked(true);
+                break;
+            case 4:
+                rb4.setChecked(true);
+                break;
+        }
 
-    @InjectView(R.id.VersionTextView)
-    private TextView mVersionLabel;
+        //Button listener
+        Button btnCancel = (Button) dialog.findViewById(R.id.btn_cancel);
+        btnCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //close dialog without any changes
+                dialog.dismiss();
+            }
+        });
+
+        Button btnApply = (Button) dialog.findViewById(R.id.btn_apply);
+        btnApply.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //close dialog and save changes
+                RadioGroup group = (RadioGroup) dialog.findViewById(R.id.radioView);
+
+                int selectionId = group.getCheckedRadioButtonId();
+                de.longri.watchface.View view = de.longri.watchface.View.None;
+
+                switch (selectionId) {
+                    case R.id.radioButton0:
+                        view = de.longri.watchface.View.None;
+                        break;
+                    case R.id.radioButton1:
+                        view = de.longri.watchface.View.Logo;
+                        break;
+                    case R.id.radioButton2:
+                        view = de.longri.watchface.View.Date;
+                        break;
+                    case R.id.radioButton3:
+                        view = de.longri.watchface.View.SecondTime;
+                        break;
+                    case R.id.radioButton4:
+                        view = de.longri.watchface.View.Weather;
+                        break;
+                }
 
 
-    @InjectView(R.id.btn_refresh_button)
-    private View mManualUpdateButton;
+                switch (editPosition) {
+                    case 0:
+                        mConfig.setViewPositionTop(WeatherWatchFaceConfigActivity.this, view);
+                        break;
+                    case 1:
+                        mConfig.setViewPositionRight(WeatherWatchFaceConfigActivity.this, view);
+                        break;
+                    case 2:
+                        mConfig.setViewPositionBottom(WeatherWatchFaceConfigActivity.this, view);
+                        break;
+                    case 3:
+                        mConfig.setViewPositionLeft(WeatherWatchFaceConfigActivity.this, view);
+                        break;
+                }
 
-    @InjectView(R.id.infoLayout)
-    private LinearLayout mInfoLine;
+                // reload ConfigActivity
+                alreadyInitialize = false;
+                WeatherWatchFaceConfigActivity.this.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        dialog.dismiss();
+                    }
+                });
+            }
+        });
+    }
 
-    private boolean alreadyInitialize;
+    private void setToImage(int pos, Drawable drawable) {
+        switch (pos) {
+            case 0:
+                imageViewTop.setImageDrawable((drawable));
+                break;
+            case 1:
+                imageViewRight.setImageDrawable((drawable));
+                break;
+            case 2:
+                imageViewBottom.setImageDrawable((drawable));
+                break;
+            case 3:
+                imageViewLeft.setImageDrawable((drawable));
+                break;
+        }
+    }
+
 
 // -------------------------- OTHER METHODS --------------------------
 
@@ -180,7 +361,7 @@ public class WeatherWatchFaceConfigActivity extends RoboActivity {
 
 
         //Initialize Logs
-        if (!Log.isInitial()) new Log(WeatherWatchFaceConfigActivity.this, false);
+        new Log(WeatherWatchFaceConfigActivity.this, false);
 
         THAT = this;
 
@@ -202,11 +383,6 @@ public class WeatherWatchFaceConfigActivity extends RoboActivity {
             }
         });
 
-        int themeSize = this.getResources().getInteger(R.integer.theme_size);
-        for (int i = 1; i <= themeSize; i++) {
-            int id = this.getResources().getIdentifier("theme_" + i, "color", WeatherWatchFaceConfigActivity.class.getPackage().getName());
-            themes.add(this.getResources().getColor(id));
-        }
 
         //load config from preferences
         mConfig = new Config();
@@ -232,12 +408,15 @@ public class WeatherWatchFaceConfigActivity extends RoboActivity {
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
 
+        if (!hasFocus) return;
+
         if (!alreadyInitialize) {
             mConfig.loadFromPreferences(this);
             setPreferencesToUI();
             mConfig.setDebugIntervalDevisor(this, 1);
         }
     }
+
 
     @Override
     protected void onStart() {
