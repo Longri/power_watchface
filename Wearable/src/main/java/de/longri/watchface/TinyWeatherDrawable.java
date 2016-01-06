@@ -339,6 +339,14 @@ public class TinyWeatherDrawable extends TinyDrawable {
 
         if (mWeatherForecast1 != null && mWeatherForecast2 != null) {
 
+            if (RES.mTime.monthDay > mWeatherForecast1.getDate().getDay() ||
+                    RES.mTime.month > mWeatherForecast1.getDate().getMonth() ||
+                    RES.mTime.year > mWeatherForecast1.getDate().getYear()) {
+                if (loggable)
+                    Log.d(Consts.TAG_WEAR, "return FORCAST (Day Changed)");
+                return WeatherInfoType.FORECAST;
+            }
+
             int minutes1 = RES.mTime.hour * 60 + RES.mTime.minute + 90;
             int minuets2 = mWeatherForecast1.getDate().getHours() * 60 + mWeatherForecast1.getDate().getMinutes();
 
