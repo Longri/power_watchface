@@ -87,6 +87,13 @@ public class WeatherWatchFaceConfigActivity extends RoboActivity {
     @InjectView(R.id.imageViewRight)
     private ImageView imageViewRight;
 
+    @InjectView(R.id.brightnessSeekBar)
+    private SeekBar brightnessSeekBar;
+
+    @InjectView(R.id.brightnessTextView)
+    private TextView brightnessTextView;
+
+
     private boolean alreadyInitialize;
     Config mConfig;
 
@@ -223,6 +230,40 @@ public class WeatherWatchFaceConfigActivity extends RoboActivity {
             }
         });
 
+
+        // set brightness values
+        int brightness = mConfig.getBrightness();
+        brightnessSeekBar.setMax(100);
+        brightnessSeekBar.setProgress(brightness);
+
+        brightnessTextView.setText(R.string.brightness);
+        brightnessTextView.append("  " + brightness + "%");
+
+        brightnessSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+
+            int value;
+
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                value = progress;
+                brightnessTextView.setText(R.string.brightness);
+                brightnessTextView.append("  " + value + "%");
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                // set to config
+                mConfig.setBrightness(WeatherWatchFaceConfigActivity.this, value);
+                brightnessTextView.setText(R.string.brightness);
+                brightnessTextView.append("  " + value + "%");
+                sendConfigUpdateMessage();
+            }
+        });
     }
 
 

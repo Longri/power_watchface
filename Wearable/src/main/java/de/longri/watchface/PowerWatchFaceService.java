@@ -475,12 +475,21 @@ public class PowerWatchFaceService extends CanvasWatchFaceService {
 
 
             //draw black with transparency to overdraw brightness
-            canvas.drawARGB(100, 0, 0, 0); // TODO: 03.01.16 set brightness over config 0=100% to 200=0%
-
+            if (lastBrightness != mConfig.getBrightness()) {
+                lastBrightness = mConfig.getBrightness();
+                byte br = mConfig.getBrightness();
+                // set brightness over config 100%=0 to 0%=140
+                alphaDraw = 140 - Utils.mapValues(0, 100, 0, 140, br);
+            }
+            canvas.drawARGB(alphaDraw, 0, 0, 0);
 
             // reset flag
             RES.mMinuteChanged = false;
         }
+
+
+        byte lastBrightness = -1;
+        int alphaDraw = 255;
 
         Paint debugPaint;
 

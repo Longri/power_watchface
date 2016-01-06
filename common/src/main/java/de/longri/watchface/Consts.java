@@ -58,6 +58,7 @@ public class Consts {
     public static final String KEY_LOG_TouchInput = "LogTouch";
     public static final String KEY_CONFIG_DIGI = "digital";
     public static final String KEY_SECOND_TIME_ZONE = "timeZone";
+    public static final String KEY_BRIGHTNESS = "brightness";
 
 
 }

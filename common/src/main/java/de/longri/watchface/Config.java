@@ -66,7 +66,7 @@ public class Config implements Serializable {
 
     private View[] views = new View[]{View.Logo, View.Date, View.SecondTime, View.Weather};
     private boolean debug;
-
+    private byte brightness = 100; //100-0
 
     @Override
     public void serialize(StoreBase storeBase) throws NotImplementedException {
@@ -100,7 +100,7 @@ public class Config implements Serializable {
         storeBase.write(showDigitalClock);
         this.secondTimeZone.serialize(storeBase);
         storeBase.write(debugIntervalDevisor);
-
+        storeBase.write(brightness);
     }
 
     @Override
@@ -171,6 +171,9 @@ public class Config implements Serializable {
         this.secondTimeZone = new WearTimeZone(storeBase);
         debugIntervalDevisor = storeBase.readInt();
 
+        byte br = storeBase.readByte();
+        if (brightness != br) isChanged = true;
+        brightness = br;
 
         return isChanged;
     }
@@ -249,6 +252,7 @@ public class Config implements Serializable {
         if (LogHTTP) Log.addLogType(LogType.HTTP);
         else Log.removeLogType(LogType.HTTP);
 
+        brightness = (byte) mAndroidSetting.getInt(Consts.KEY_BRIGHTNESS, 100);
 
     }
 
@@ -511,5 +515,16 @@ public class Config implements Serializable {
 
     public WearTimeZone getSecondTimeZone() {
         return secondTimeZone;
+    }
+
+    public byte getBrightness() {
+        return brightness;
+    }
+
+    public void setBrightness(Context context, int value) {
+        chkPreferences(context);
+        mAndroidSettingEditor.putInt(Consts.KEY_BRIGHTNESS, value);
+        mAndroidSettingEditor.commit();
+        brightness = (byte) value;
     }
 }

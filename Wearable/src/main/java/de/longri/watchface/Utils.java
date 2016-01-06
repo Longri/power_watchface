@@ -83,4 +83,9 @@ public final class Utils {
     public static final ColorMatrix cm = new ColorMatrix(de.longri.watchface.ColorMatrix.AMBIENT);
 
 
+    public static int mapValues(int srcMin, int srcMax, int targetMin, int targetMax, int value) {
+        double v = ((double) (value - srcMin)) / ((double) (srcMax - srcMin));
+        return (int) (v * (targetMax - targetMin) + targetMin);
+    }
+
 }

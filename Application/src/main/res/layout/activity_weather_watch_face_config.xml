@@ -127,6 +127,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/TimeZoneEntry"/>
+        <TextView style="@style/SecondTitleLabel" android:text="@string/brightness"
+                  android:layout_marginTop="@dimen/main_margin" android:layout_width="wrap_content"
+                  android:layout_height="wrap_content" android:id="@+id/brightnessTextView"/>
+        <SeekBar
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/brightnessSeekBar"/>
         <View style="@style/HorizontalLine"/>
 
         <RelativeLayout
