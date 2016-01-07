@@ -16,8 +16,6 @@ import android.graphics.Rect;
  */
 public final class Utils {
 
-
-    // TODO: 04.01.2016 REMOVE unused
     private static Rect bounds = new Rect();
 
     public static void drawString(Canvas canvas, final Paint paint, final String str, int x, int y) {

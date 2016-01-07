@@ -17,7 +17,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:tools="http://schemas.android.com/tools"
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical"
             android:padding="4dip"
             tools:context=".AboutActivity$VersionViewCreator">
@@ -29,7 +29,7 @@
 
         <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="165dp"
+                android:layout_height="270dp"
                 android:layout_marginTop="10dip"
                 android:orientation="vertical" android:weightSum="1">
 
@@ -51,6 +51,11 @@
                     android:layout_marginRight="10dip"
                     android:text="@string/powered_by"
                     android:textSize="14sp"/>
+            <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/imageView" android:layout_gravity="right" android:src="@drawable/longri_img"
+                    android:layout_marginRight="40dp"/>
         </LinearLayout>
 
         <RelativeLayout android:layout_width="wrap_content"

@@ -226,7 +226,7 @@ public class AboutActivity extends RoboActivity {
         mDebugSwitch.setChecked(value);
         WeatherWatchFaceConfigActivity.THAT.mConfig.setDebug(this, value);
         if (value) mDebugLayout.setVisibility(View.VISIBLE);
-        else mDebugLayout.setVisibility(View.INVISIBLE);
+        else mDebugLayout.setVisibility(View.GONE);
         WeatherWatchFaceConfigActivity.THAT.sendConfigUpdateMessage();
     }
 
