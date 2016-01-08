@@ -114,9 +114,11 @@
 <ul id="finishing"></ul>
 </ul>
 
-<div id="footer">
-<p>Good Old Fashioned Hand Written Code by <a href="http://schwarttzy.com/about-2/">Eric J. Schwarz</a> <!-- <?php echo get_num_queries(); ?> queries in <?php timer_stop(1); ?> seconds --></p>
-</div>
+<!-- Longri changed: disable footer
+	<div id="footer">
+	<p>Good Old Fashioned Hand Written Code by <a href="http://schwarttzy.com/about-2/">Eric J. Schwarz</a> </p>
+	</div> 
+-->
 <!-- Closing the Layout of the Page with a Finishing Touch. -->
 
 
