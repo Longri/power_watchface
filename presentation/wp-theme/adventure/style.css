@@ -1,0 +1,548 @@
+/*  
+Theme Name: Adventure
+Theme URI: http://schwarttzy.com/shop/adventureplus/
+Author: Eric Schwarz
+Author URI: http://schwarttzy.com/about-2/
+Description: Inspired by a certain GPS Manufacture, I designed this theme to feel like you're looking through a window out into the wilderness and hopefully inspire you to explore. I'm constantly adding new features to this theme to allow you to personalize it to your own needs. If you want a new feature or just want to be able to change something just ask me and I would be happy to add it for you. I would like to thank you for your support, visit the Theme URI for the update history, and Enjoy!
+Version: 2.2
+License: GNU General Public License
+License URI: license.txt
+Tags: white, purple, one-column, two-columns, fixed-width, custom-menu, custom-background, custom-colors, featured-images, theme-options, custom-header, editor-style, flexible-header, flexible-width, full-width-template, theme-options, sticky-post, threaded-comments
+*/
+
+/*------------------------------------------------------------------
+
+                   Starting with a clean slate
+
+------------------------------------------------------------------*/
+
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, img, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, font, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td {background: transparent;border: 0;font-size: 100%;margin: 0;outline: 0;padding: 0;vertical-align: baseline;}
+h1, h2, h3, h4, h5, h6 {font-weight: normal;}
+html {min-height:100%;height: 100%; min-width:100%; width: 100%;}
+blockquote, q {quotes:none;}
+:focus {outline:0;}
+ins {text-decoration:none;}
+del {text-decoration:line-through;}
+table {border-collapse:collapse;border-spacing:0;}
+
+/*------------------------------------------------------------------
+
+                   Ready? Set... BEGIN!
+
+------------------------------------------------------------------*/
+
+body {
+	background-image: url(images/02.jpg);
+	background-repeat: no-repeat;
+	background-position:  top center;
+	background-attachment: fixed;
+	background-size: cover;
+	color:#000;
+	font:normal 107% sans-serif;
+	height: 100%;
+	text-align:center;
+	width: 100%;}
+	
+body.custom-background{background:none;}	
+
+h1	{font-size:3em;}
+h2	{font-size:2em;}
+h3	{font-size:1.8em;}
+h4	{font-size:1.6em;}
+h5	{font-size:1.3em;}
+h6	{font-size:1.1em;}
+h1,h2,h3,h4,h5,h6{line-height:normal; font-family: adobe-text-pro, sans-serif; clear:both;}
+
+a {
+	-webkit-transition: color 0.12s ease-in-out;
+	-moz-transition: color 0.12s ease-in-out;
+	transition: color 0.12s ease-in-out;
+	color: #0b6492;
+	text-decoration: none;
+	font-weight: bold;}
+a:hover {
+	color: #FFF;
+	text-decoration: none;
+	font-weight: bold;}
+
+a img {border:none;}
+
+ul, li {display:inline-block;}
+
+/*------------------------------------------------------------------
+
+                   The Stuff You Read
+
+------------------------------------------------------------------*/
+
+#spacing {
+	height:35%;
+	min-height:250px;
+	width:100%;}
+
+#finishing {
+	clear:both;
+	height:20%;
+	min-height:75px;
+	width:100%;}
+
+#content {
+	margin:0 auto;
+	padding:0 2.5%;
+	position: relative;
+	width:95%;
+	max-width:70em;
+	min-width:30em;}
+	
+.logo1 {
+	height:auto;
+	margin:0 0 2.25em;
+	box-shadow: 1px 1px 3px #111;
+	width:100%;}
+
+.logo2 {}
+
+.logo3 {}
+
+.roundedborder {
+	border: 3px solid #4a4646;
+	border-radius: 6px;}
+	
+.rounded {border-radius: 6px;}
+	
+#content>li {
+	float:left;
+	line-height: 1.3em;
+	margin:0 0 2.25em;
+	padding: 2%;
+	border: 3px solid #4a4646;
+	border-radius: 6px;
+	box-shadow: 1px 1px 3px #111;
+	text-align: justify;
+	text-shadow:0 0 1px #AAA;
+	width:62%;}
+	
+#content.floatnone>li {float:none;}
+
+#content>li h4:first-child  {margin:0 0 1.5em;}
+
+#content>li h4:first-child a {color:#111; font-weight:normal;}
+
+#content>li h4:first-child a:hover {color:#444;}
+
+#content>li h4:first-child span {font-size: .6em; line-height:.9em;float:right; padding:.20em; text-align:center;}
+
+#content>li ul, #content>li ol {float:none; list-style-type:decimal; margin:.1em 0 0 5%; width:95%;}
+
+#content>li ul li, #content>li ol li {width:100%; text-align:left; margin:.1em 0 0;}
+
+#content>li ul li {list-style-type:circle;}
+
+#content>li ol li {list-style-type:decimal-leading-zero;}
+
+.tag {float:left; font-size:.8em; margin:1em 0 0; width:100%;}
+
+.tag p {margin:0;}
+
+/*------------------------------------------------------------------
+
+                   Sidebar & Widgets
+
+------------------------------------------------------------------*/
+	
+li#sidebar {
+	border:none;
+	box-shadow: -1px -1px 2px #111;
+	color:#cccbc4;
+	float:right;
+	font-size:.95em;
+	margin:0 0 3em;
+	text-align:left;
+	text-shadow:0 0 1px #666;
+	width:25%;}
+	
+#sidebar li, #sidebar ul {width:100%; list-style:none; overflow: hidden;}
+
+#sidebar input {width:60%;}
+#sidebar input#searchsubmit {width:35%; margin:0;}
+
+/* --------------------------------------------------------------- FIX THIS ONCE THE THEME STARTS WORKING ------------------------------------------------------------------------------------------------ */
+#sidebar li ul li ul li {padding:0 10%; width:90%;}
+
+#sidebar a {color:#e1e0d7;}
+
+#sidebar a:hover  {color:#FFF;}
+	
+#sidebar h2 {border-bottom:2px solid #FFF; color:#FFF; font-weight:bold; margin:.9em 0 .5em;}
+
+.screen-reader-text {display:none;}
+
+#content>li ul.tweets .timesince {
+	background: url(images/tweet.png) top left no-repeat;
+	clear:both;
+	font-size:.8em;
+	float:right;
+	padding:0 0 0 1.8em;}
+	
+#content>li ul.tweets li {margin:0 0 1em; text-align:justify;}
+
+/*------------------------------------------------------------------
+
+                   Displaying Comments
+
+------------------------------------------------------------------*/
+
+#content>li .commentbox, #content>li .commentlist {margin:0; padding:0; text-align:justify; width:100%;}
+.comment-body {
+	border-radius:.2em;
+	float:left;
+	padding:1.5em 2%;
+	position:relative;
+	width:96%;}
+.odd .comment-body .children {margin:.5em 0 0; width:100%;}
+.comment img.avatar {
+	float:left;
+	margin:-.6em 1em .5em 0;
+	border-radius: 50%;
+	-webkit-border-radius: 0%;/* chrome sucks */
+	border:4px solid #FFF;
+	box-shadow:2px 2px 2px rgba(0, 0, 0, 0.2);}
+@media all and (-webkit-min-device-pixel-ratio:10000), not all and (-webkit-min-device-pixel-ratio:0) {.comment img.avatar {border-:none;}/* Opera too */}
+.comment-author {max-width:50%;}
+.comment-meta {
+	font-size:.8em;
+	margin:1.8em 1% 0 0;
+	position:absolute;
+	right:0;
+	top:0;}
+.comment-meta a{color:#111;}
+.comment-meta a:hover{color:#555;}
+.comment.parent ul {border-left:.25em solid rgba(0, 0, 0, 0.3); margin:0;}
+#content>li .commentbox .children {width:94.5%;}
+.reply {background: url(images/reply.png) top left no-repeat; margin-left:80%; padding-left:1.5em;float:right;}
+
+/* Step ladder of alternating comments so every other one is shaded (got a smaller solution?)*/
+.comment-body {background:none;}
+.comment.alt .comment-body, .pingback.alt .comment-body {background:rgba(0, 0, 0, 0.05);}
+.comment.alt .comment .comment-body {background:none;}
+.comment.alt .comment.alt .comment-body {background:rgba(0, 0, 0, 0.05);}
+.comment.alt .comment.alt .comment .comment-body {background:none;}
+.comment.alt .comment.alt .comment.alt .comment-body {background:rgba(0, 0, 0, 0.05);}
+.comment.alt .comment.alt .comment.alt .comment .comment-body {background:none;}
+.comment.alt .comment.alt .comment.alt .comment.alt .comment-body {background:rgba(0, 0, 0, 0.05);}
+.comment.alt .comment.alt .comment.alt .comment.alt .comment .comment-body {background:none;}
+.comment.alt .comment.alt .comment.alt .comment.alt .comment.alt .comment-body {background:rgba(0, 0, 0, 0.05);}
+.comment.alt .comment.alt .comment.alt .comment.alt .comment.alt .comment .comment-body {background:none;}
+.comment.alt .comment.alt .comment.alt .comment.alt .comment.alt .comment.alt .comment-body {background:rgba(0, 0, 0, 0.05);}
+.comment.alt .comment.alt .comment.alt .comment.alt .comment.alt .comment.alt .comment .comment-body {background:none;}
+.comment.alt .comment.alt .comment.alt .comment.alt .comment.alt .comment.alt .comment.alt .comment-body {background:rgba(0, 0, 0, 0.05);}
+.comment.alt .comment.alt .comment.alt .comment.alt .comment.alt .comment.alt .comment.alt .comment .comment-body {background:none;}
+
+/*------------------------------------------------------------------
+
+                   Responding to Comments
+
+------------------------------------------------------------------*/
+
+#respond label {display:inline;}
+.form-allowed-tags { display:none;}
+#reply-title {margin:0em 0em 1em;}
+#respond, .commentbox {float:left;width:94%;padding:0em;margin:1em 3% 0em;line-height:1.25em;}
+#respond .comment-form-comment label {float:left;clear:both;}
+#respond .comment-form-comment textarea {clear:left;}
+.screen-reader-text {display:none;}
+#subscribe-blog input, #searchsubmit, #_wpnonce {width:35%; float:right;}
+#searchsubmit {margin:.25em 0 1em;}
+#searchform {margin:1em 0 0;}
+.form-submit, .comment-notes {float:right;}
+#commentform input {float:right; margin:0; width:70%;}
+#commentform .form-submit input {width:100%;}
+#commentform .comment-subscription-form input {float:left; margin:.3em 1.25em 0 0;}
+#commentform .required {color:#dc1111;}
+.comment-notes { width:26%; margin:0 12% 0 0; font-size:.75em; color:#222; text-align:center;}
+.comment-form-author, .comment-form-email, .comment-form-url {width:48.999%; margin:0 0 1.5em;}
+textarea {width:99.5%; max-width:99.5%; min-width:99.5%; border:1px solid #111;box-shadow: 0 0 4px rgba(17,17,17,0.2);}
+.comment-form-comment textarea {width:100%; max-width:100%; min-width:100%;}
+.comment-form-comment label {margin:0 0 .6em;}
+.comment-subscription-form {font-size:.8em; color:#222; margin:.25em 0;}
+
+/*------------------------------------------------------------------
+
+                   		Footer
+
+------------------------------------------------------------------*/
+
+#footer { height:1.75em; overflow:hidden; font-size:.8em; width:96%; padding:0 2%; background:#111; color: #DDD; text-align:center; visibility:visible;}
+
+#footer p{ padding:0; margin:.25em 0; text-shadow: none;}
+
+/*------------------------------------------------------------------
+
+                   		Menu
+
+------------------------------------------------------------------*/
+
+#navi {
+	background: bottom url(images/purple.png);
+	border-top:solid 1px #1c1c1c;
+	border-bottom:solid 1px #1c1c1c;
+	box-shadow: 0 0 20px #111;
+	left: 0;
+	margin:25px 0 0;
+	padding: 10px auto 0;
+	position: absolute;
+	text-align:center;
+	top: 0;
+	width: 100%;
+	z-index: 100;}
+	
+#navi img {
+	margin:0 auto;
+	padding:2.5% 2.5% 0;
+	width:95%;
+	max-height:20em;
+	max-width:70em;
+	min-width:30em;}
+
+#navi h1 {
+	color:#eee2d6;
+    display: block;
+	font-family: Impact;
+	font-size:90px;
+	line-height:.9em;
+    margin: 25px 0 -15px;
+	padding:0;
+	overflow: hidden;
+	font-variant: small-caps;}
+	
+#navi h1 i{
+	bottom:.4em;
+    display: block;
+	font-family: Comic Sans, Comic Sans MS, cursive;
+	font-style: italic;
+	font-style: normal;
+    font-variant:small-caps;
+	font-weight:bolder;
+	font-size:.3em;
+	line-height:1.3em;
+	padding:0 0 0 25%;
+	position:relative;
+	-moz-transform: rotate(-2deg);
+	transform: rotate(-2deg);
+	text-shadow: -1px -1px 0 #111;}
+	
+#navi li {
+	display: inline-block;
+	padding: .8em 1em .8em;
+	position: relative;
+	min-width:0;}
+	
+#navi li ul {
+	background:#111;
+	background:rgba(15, 15, 15, 0.90);
+	box-shadow: 0 0 10px #111;
+	display:none;
+	left:-2.5em;
+	margin-right:1em;
+	position: absolute;
+	padding:.5em 0;
+	text-align:justify;
+	top:2.78em;
+	width:14em;
+	z-index:1;}
+	
+#navi li ul li ul{
+	position: absolute;
+	right:12em;}
+	
+#navi li:hover ul {display:block;}
+#navi li ul li {width:12em; padding-bottom:.25em; overflow:hidden;}
+#navi li a {color: #CCC; }
+#navi li ul li a {color:  #BBB;}
+#navi li a:hover {color: #0b6492; }
+#navi li ul li a:hover {color: #0b6492; }
+#navi.small {position: fixed;margin-top:0px;}
+.admin-bar #navi.small {margin-top:28px;}
+#navi.small h1:first-child, #navi.small h1:first-child i, #navi.small img:first-child{display: none;}
+
+/*------------------------------------------------------------------
+
+                   Tables
+
+------------------------------------------------------------------*/
+
+table { text-align:left;width:100%;margin:1.5em 0; padding:1em;}
+#content>li table {font-size:.8em;}
+table th {border-right:1px solid #111;padding:.5em .5em;}
+table tr th:last-child {border-right:none;}
+table td {border-top:1px solid #111;border-right:1px solid #111;padding:.5em .5em;}
+table tr td:last-child {border-right:none;}
+tbody tr:nth-child(odd) {
+   background:#EEE;
+   background:rgba(0, 0, 0, 0.08);
+   border:none;}
+
+/* Minor alterations specifically for the WordPress Calendar Widget */
+#sidebar table{text-align:center;background:none;margin:.5em 0;}
+#calendar_wrap caption {text-align:center !important;padding:0 0 .25em; text-decoration:underline;}
+#calendar_wrap table td, #calendar_wrap table th {padding:.5em .5em;}
+#calendar_wrap table td{color:#555;}
+#calendar_wrap tbody tr:nth-child(odd) {background:none;}
+
+/*------------------------------------------------------------------
+
+                   Standard Stuff
+
+------------------------------------------------------------------*/
+
+address {font-weight:bold;}
+blockquote {
+background:rgba(0, 0, 0, 0.1);
+border-left:.5em solid #555;
+border-left:.5em solid rgba(0, 0, 0, 0.6);
+border-radius:.2em;
+margin:1em 2%;
+padding:1em;
+quotes:"\201C""\201D""\2018""\2019";}
+blockquote blockquote {background:none;}
+blockquote:before {
+color:#000;
+content:open-quote;
+font-size:4em;
+line-height:.1em;
+margin-right:.25em;
+vertical-align:-.4em;}
+blockquote p {display:inline;}
+blockquote p cite {
+	font-weight: 300;
+	letter-spacing: 0.05em;
+	margin:1em 0 0;
+	text-transform: uppercase;}
+blockquote cite:before {content:"- ";}
+dt, dd {width:90%;}
+dt {margin:0 5%;font-weight:bold;}
+dd {margin:0 5% 1em;}
+abbr, acronym, dfn {
+	border-bottom: 1px dotted #111;
+	cursor: help;}
+#wpadminbar {text-align:left;}
+.left{float:left;}
+.right, #cancel-comment-reply-link{float:right;}
+.aligncenter {
+	clear: both;
+	display: block;
+	margin-left: auto;
+	margin-right: auto;}
+.alignleft {text-align:left;}
+.alignright {text-align:right;}
+img.alignleft {
+	float: left;
+	margin: .5em 2% .5em 0;}
+img.endleft{ margin: 0 0 1% 0;}
+img.alignright {
+	float: right;
+	margin: .5em 0 .5em 2%;}
+img.endright{ margin: 0 0 1% 0;}
+img.aligncenter {
+	margin:2% auto 2%;
+	text-align: center;
+	display: block;
+	max-width:100% !important; height:auto}
+img.alignnone {
+	display: block;
+	margin: .5em 0;}
+img#wpstats {display:none;}
+.wp-caption{
+	border-radius: .2em;
+	background:rgba(0, 0, 0, 0.2);
+	box-shadow:1px 1px 1px rgba(0, 0, 0, 0.1);
+	margin:1em 2%;
+	max-width:93%;
+	padding:1.5%;
+	text-align:center;}
+.wp-caption.alignright {float: right;}
+.wp-caption.alignleft {float: left;}
+.wp-caption img {margin:0 auto;}
+.wp-caption-text {color:#111; font-family: Georgia, "Bitstream Charter", serif; text-align:center;}
+pre {background:rgba(255, 255, 255, 0.6); overflow:scroll; padding:.5em 5%;}
+ins { color:#dc1111;}
+img {max-width:100% !important; height:auto !important;}
+iframe, embed {max-width:100% !important;} 
+.gallery { float:left;width:100%; padding:0; margin:1em 0;}
+.gallery-item {float:left;}
+.gallery-caption {font-size:.7em; color:#333; text-align:center;}
+.gallery-columns-2 .gallery-item {width:47%; margin:0 1% 3% 2%;}
+.gallery-columns-3 .gallery-item {width:30%; margin:0 1% 3% 2%;}
+.gallery-columns-4 .gallery-item {width:22%; margin:0 1% 3% 2%;}
+.gallery-columns-5 .gallery-item {width:18%; margin:0 .5% 3% 1.5%;}
+.gallery-columns-6 .gallery-item {width:14.6%; margin:0 .5% 3% 1.5%;}
+.gallery-columns-7 .gallery-item {width:12.27%; margin:0 .5% 3% 1.5%;}
+.gallery-columns-8 .gallery-item {width:11.5%; margin:0 .25% 2% .75%;}
+.gallery-columns-9 .gallery-item {width:10.1%; margin:0 .25% 2% .75%;}
+.gallery-columns-10 .gallery-item {width:9%; margin:0 .25% 2% .75%;}
+.gallery-item img {width:100%; height:auto;}
+sup, sub {
+	font-size:.8em;
+	height: 0;
+	line-height: 1em;
+	position: relative;
+	vertical-align: baseline;}
+sup {bottom: .3em;}
+sub {top: .3em;}
+.video-container, .embed-youtube {
+	margin:0 0 2.5%;
+	padding:0 0 56.25%;
+	position:relative;
+	width:100%;}
+.video-container iframe, .embed-youtube iframe, .video-container object, .video-container embed {
+	height:100%!important;
+	left:0!important;
+	position:absolute!important;
+	top:0!important;
+	width:100%!important;}
+.sticky{}
+.bypostauthor{}
+
+/*------------------------------------------------------------------
+
+                  Screen Sizing
+
+------------------------------------------------------------------*/
+
+@media only screen and (max-width:55em) {
+#content>li, li#sidebar {
+	float:none;
+	margin:1.5% 2%;
+	padding: 2%;
+	width:80%;}
+	
+.logo1 {
+	float:none;
+	margin:0 2% 1.5%;
+	width:84%;}
+	
+#navi li:hover ul {display:none;}
+
+#content>li .commentbox .children {width:94%;}
+
+.comment-meta {display:none;} }
+
+@media only screen and (min-width:80em) {
+
+#content {padding:0 2.5% 0 12.5%; width:85%;}
+
+#content.floatnone {padding:0 2.5%;} }
+
+/* Resizing Based on How Many Letters You can Fit on Screen
+-------------------------------------------------------------- */
+@media only screen and (max-width:100em) { body {font:normal 104%} }
+@media only screen and (max-width:82em) { body {font:normal 101%} }
+@media only screen and (max-width:70em) { body {font:normal 98%} }
+@media only screen and (max-width:50em) { body {font:normal 95%} }
+@media only screen and (max-width:35em) { body {font:normal 91%}
+			        
+/*------------------------------------------------------------------
+
+                   Fortitudo Et Honos 
+
+------------------------------------------------------------------*/

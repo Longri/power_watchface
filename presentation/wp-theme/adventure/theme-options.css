@@ -1,0 +1,83 @@
+.cover {
+	background-image: url(images/02.jpg);
+	background-repeat: no-repeat;
+	background-position:  top center;
+	background-attachment: fixed;
+	background-size: cover;
+	color:#000;
+	font-family: sans-serif;
+	font-size:1.2em;
+	height: 100%;
+	text-align:center;
+	width: 99%;}
+.cover h4	{font-size:1.6em; line-height:normal; -family: sans-serif; clear:both;}
+a {
+	-webkit-transition: color 0.12s ease-in-out;
+	-moz-transition: color 0.12s ease-in-out;
+	transition: color 0.12s ease-in-out;
+	color: #0b6492;
+	text-decoration: none;
+	font-weight: bold;}
+a:hover {
+	color: #FFF;
+	text-decoration: none;
+	font-weight: bold;}
+
+a img {border:none;}
+
+#content ul, #content li {display:inline-block;}
+
+#spacing {
+	height:25%;
+	min-height:150px;
+	width:100%;}
+
+#finishing {
+	clear:both;
+	height:20%;
+	min-height:75px;
+	width:100%;}
+
+#content {
+	margin:0 auto;
+	position: relative;
+	width:100%;
+	max-width:1100px;
+	min-width:500px;}
+	
+#content>li {
+	background: rgba(180, 176, 157, .8);
+	line-height: 1.2em;
+	margin:0 0 2.25em;
+	padding: 2%;
+	border: 3px solid #4a4646;
+	border-radius: 6px;
+	box-shadow: 1px 1px 3px #111;
+	text-align: justify;
+	text-shadow:0 0 1px #AAA;
+	width:65%;}
+
+#content>li h4:first-child  {margin:0 0 1.5em;}
+
+#content>li h4:first-child a {color:#111; font-weight:normal;}
+
+#content>li h4:first-child a:hover {color:#444;}
+
+#content>li h4:first-child span {font-size: .6em; line-height:.9em;float:right; padding:.20em; text-align:center;}
+
+#content>li ul, #content>li ol {float:none; list-style-type:decimal; margin:.1em 0 0 5%; width:95%;}
+
+#content>li ul li, #content>li ol li {width:100%; text-align:left; margin:.1em 0 0;}
+
+table { text-align:left;width:100%;margin:1.5em 0; padding:1em; line-height:1.5em;}
+#content>li table {font-size:.9em;}
+table th {border-right:1px solid #111; padding:.5em .5em; text-align:center;}
+table tr th:last-child {border-right:none;}
+table td {border-top:1px solid #111; border-right:1px solid #111; padding:.5em .5em; text-align:center;}
+table tr td:last-child {border-right:none;}
+tbody tr:nth-child(odd) {
+   background:#EEE;
+   background:rgba(0, 0, 0, 0.08);
+   border:none;}
+.justify {text-align:justify;}
+@media only screen and (max-width:700px), only screen and (max-device-width : 700px){ #content>li {width:85%;} }
