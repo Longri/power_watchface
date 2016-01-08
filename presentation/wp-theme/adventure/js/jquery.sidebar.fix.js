@@ -1,1 +1,0 @@
-if (matchMedia('only screen and (max-width: 700px)').matches) { $('#sidebar').insertBefore('#finishing'); }
