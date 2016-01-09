@@ -10,9 +10,9 @@ buildscript {
 allprojects {
 
     ext {
-        appName = 'longri watch face'
-        allVersionCode = 115
-        allVersionName = '0.8.115'
+        appName = 'power watch face'
+        allVersionCode = 121
+        allVersionName = '0.8.121'
         allApplicationId = "de.longri.watchface"
     }
 

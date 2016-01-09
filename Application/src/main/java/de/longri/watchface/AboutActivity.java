@@ -141,6 +141,11 @@ public class AboutActivity extends RoboActivity {
         WeatherWatchFaceConfigActivity.THAT.mConfig.loadFromPreferences(this);
         Log.writeLogs(mLogTextView);
 
+        //disable debug switch with release version
+        if (Consts.RELEASE) {
+            switchDebug(false);
+            mDebugSwitch.setVisibility(View.GONE);
+        }
 
         switchDebug(WeatherWatchFaceConfigActivity.THAT.mConfig.getDebug());
         mDebugSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {

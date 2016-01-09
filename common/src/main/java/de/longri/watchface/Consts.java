@@ -17,6 +17,9 @@ package de.longri.watchface;
 
 public class Consts {
 
+    public static final boolean RELEASE = true;
+
+
     public static final String TAG_PHONE = "PHONE";
     public static final String TAG_WEAR = "WEAR ";
 

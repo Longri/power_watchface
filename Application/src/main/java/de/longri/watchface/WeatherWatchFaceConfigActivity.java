@@ -68,7 +68,6 @@ public class WeatherWatchFaceConfigActivity extends RoboActivity {
     @InjectView(R.id.VersionTextView)
     private TextView mVersionLabel;
 
-
     @InjectView(R.id.btn_refresh_button)
     private View mManualUpdateButton;
 
@@ -93,6 +92,14 @@ public class WeatherWatchFaceConfigActivity extends RoboActivity {
     @InjectView(R.id.brightnessTextView)
     private TextView brightnessTextView;
 
+    @InjectView(R.id.layoutForecastUpdateIntervall)
+    private View mLayoutForecastUpdateIntervall;
+
+    @InjectView(R.id.selectIconButton)
+    private View mSelectIconButton;
+
+    @InjectView(R.id.layoutOpenWeatherApi)
+    private View mLayoutOpenWeatherApi;
 
     private boolean alreadyInitialize;
     Config mConfig;
@@ -101,6 +108,14 @@ public class WeatherWatchFaceConfigActivity extends RoboActivity {
 
 
     private void setPreferencesToUI() {
+
+        //disable settings views yet implemented on release
+        if (Consts.RELEASE) {
+            mSelectIconButton.setVisibility(View.GONE);
+            mLayoutForecastUpdateIntervall.setVisibility(View.GONE);
+            mLayoutOpenWeatherApi.setVisibility(View.GONE);
+        }
+
         if (mConfig.getUseCelsius()) {
             mScaleRadioGroup.check(R.id.celsiusRadioButton);
         } else {

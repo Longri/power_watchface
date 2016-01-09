@@ -93,7 +93,7 @@
                             android:id="@+id/imageViewLeft" android:layout_column="0" android:layout_row="1"
                             android:src="@drawable/tiny_back"/>
                 </GridLayout>
-                <Button android:id="@+id/button" android:text="@string/select_icon"
+                <Button android:id="@+id/selectIconButton" android:text="@string/select_icon"
                         android:padding="12dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" android:layout_gravity="right"
@@ -207,7 +207,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/main_margin"
-                android:layout_marginBottom="@dimen/main_margin" android:layout_weight="0.17">
+                android:layout_marginBottom="@dimen/main_margin" android:layout_weight="0.17"
+                android:id="@+id/layoutForecastUpdateIntervall">
 
             <TextView
                     android:text="@string/ForecastIntervalLabel"
@@ -223,7 +224,8 @@
         </RelativeLayout>
 
         <LinearLayout android:orientation="vertical"
-                      android:layout_width="match_parent" android:layout_height="wrap_content">
+                      android:layout_width="match_parent" android:layout_height="wrap_content"
+                      android:id="@+id/layoutOpenWeatherApi">
             <TextView style="@style/TitleLabel" android:text="@string/open_weather_key"
                       android:layout_width="wrap_content"
                       android:layout_height="wrap_content" android:id="@+id/textViewApiKey"/>
