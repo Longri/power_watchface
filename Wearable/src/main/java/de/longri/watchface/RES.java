@@ -35,6 +35,7 @@ public class RES {
     public static Time mTime = new Time();
     private static int mLastMinute = -1;
     private static int mLastTinyMinute = -1;
+    private static float mScale = 1;
 
     public static boolean mMinuteChanged = false;
 
@@ -43,7 +44,9 @@ public class RES {
         mAntiAliasPaint_noGreyScale.setFilterBitmap(true);
     }
 
-    public static void setTheme(Theme theme) {
+
+    public static void setTheme(Theme theme, float scaleFactor) {
+        mScale = scaleFactor;
         mTheme = theme;
     }
 
@@ -52,23 +55,23 @@ public class RES {
     }
 
     public static Bitmap getAmbientBackGround() {
-        return mTheme.BackGround;
+        return Utils.scaleBitmap(mScale, mTheme.BackGround);
     }
 
     public static Bitmap get12BackGround() {
-        return mTheme.BackGround12;
+        return Utils.scaleBitmap(mScale, mTheme.BackGround12);
     }
 
     public static Bitmap get24BackGround() {
-        return mTheme.BackGround24;
+        return Utils.scaleBitmap(mScale, mTheme.BackGround24);
     }
 
     public static Bitmap getTinyAmbientBackground() {
-        return mTheme.tinyAmbientBackgroundBitmap;
+        return Utils.scaleBitmap(mScale, mTheme.tinyAmbientBackgroundBitmap);
     }
 
     public static Bitmap getTinyBackground() {
-        return mTheme.tinyBackgroundBitmap;
+        return Utils.scaleBitmap(mScale, mTheme.tinyBackgroundBitmap);
     }
 
     public static Matrix getMatrixForPos(int position) {
@@ -76,43 +79,43 @@ public class RES {
     }
 
     public static Bitmap getTinyClock12Bitmap() {
-        return mTheme.tinyClock12Background;
+        return Utils.scaleBitmap(mScale, mTheme.tinyClock12Background);
     }
 
     public static Bitmap getTinyClock24Bitmap() {
-        return mTheme.tinyClock24Background;
+        return Utils.scaleBitmap(mScale, mTheme.tinyClock24Background);
     }
 
     public static Bitmap getTinyHandMinuteBitmap() {
-        return mTheme.tinyHandMinuteBitmap;
+        return Utils.scaleBitmap(mScale, mTheme.tinyHandMinuteBitmap);
     }
 
     public static Bitmap getWatchHandHourBitmap() {
-        return mTheme.watchHandHourBitmap;
+        return Utils.scaleBitmap(mScale, mTheme.watchHandHourBitmap);
     }
 
     public static Bitmap getWatchHandMinuteBitmap() {
-        return mTheme.watchHandMinuteBitmap;
+        return Utils.scaleBitmap(mScale, mTheme.watchHandMinuteBitmap);
     }
 
     public static Bitmap getWatchHandMinuteBitmapAmbient() {
-        return mTheme.watchHandMinuteBitmapAmbient;
+        return Utils.scaleBitmap(mScale, mTheme.watchHandMinuteBitmapAmbient);
     }
 
     public static Bitmap getWatchHandHourBitmapAmbient() {
-        return mTheme.watchHandHourBitmapAmbient;
+        return Utils.scaleBitmap(mScale, mTheme.watchHandHourBitmapAmbient);
     }
 
     public static Bitmap getTinyHandHourBitmap() {
-        return mTheme.tinyHandHourBitmap;
+        return Utils.scaleBitmap(mScale, mTheme.tinyHandHourBitmap);
     }
 
     public static Bitmap getTinyAmbientLogo() {
-        return mTheme.tinyAmbientLogoBitmap;
+        return Utils.scaleBitmap(mScale, mTheme.tinyAmbientLogoBitmap);
     }
 
     public static Bitmap getTinyLogo() {
-        return mTheme.tinyLogoBitmap;
+        return Utils.scaleBitmap(mScale, mTheme.tinyLogoBitmap);
     }
 
     public static Matrix getTinyHourHandMatrix() {
@@ -140,4 +143,5 @@ public class RES {
             hourMatrix.postRotate((((time.hour + (time.minute / 60f)) / 6f) * Utils.PI) * Utils.radiansToDegrees, centerX, centerY);
         }
     }
+
 }

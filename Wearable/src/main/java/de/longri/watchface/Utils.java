@@ -1,10 +1,9 @@
 package de.longri.watchface;
 
 
-import android.graphics.Canvas;
+import android.graphics.*;
 import android.graphics.ColorMatrix;
-import android.graphics.Paint;
-import android.graphics.Rect;
+import android.util.Log;
 
 
 /**
@@ -84,6 +83,22 @@ public final class Utils {
     public static int mapValues(int srcMin, int srcMax, int targetMin, int targetMax, int value) {
         double v = ((double) (value - srcMin)) / ((double) (srcMax - srcMin));
         return (int) (v * (targetMax - targetMin) + targetMin);
+    }
+
+
+    public static Bitmap scaleBitmap(float scale, Bitmap bitmap) {
+        if (scale == 1) return bitmap; // return original
+
+        int scaledWidth = (int) (bitmap.getWidth() * scale);
+        int scaledHeight = (int) (bitmap.getHeight() * scale);
+        Log.d("WEAR", "BMP WIDTH:" + bitmap.getWidth());
+        Log.d("WEAR", "BMP ScaledWidth:" + scaledWidth);
+
+        bitmap = bitmap.createScaledBitmap(bitmap, scaledWidth, scaledHeight, true);
+
+        Log.d("WEAR", "BMP Return WIDTH:" + bitmap.getWidth());
+
+        return bitmap;
     }
 
 }

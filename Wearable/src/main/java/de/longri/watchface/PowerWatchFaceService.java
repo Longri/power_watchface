@@ -30,6 +30,7 @@ import android.support.wearable.watchface.CanvasWatchFaceService;
 import android.support.wearable.watchface.WatchFaceService;
 import android.support.wearable.watchface.WatchFaceStyle;
 import android.text.format.DateUtils;
+import android.util.DisplayMetrics;
 import android.view.SurfaceHolder;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -99,10 +100,20 @@ public class PowerWatchFaceService extends CanvasWatchFaceService {
 
     private GoogleApiClient mClient;
     private static final int MSG_UPDATE_TIME = 0;
+    private static float mesuredWidth;
+    private static float mesuredHeight;
+    private static float widthScaleFactor;
+    private static float heightScaleFactor;
 
 
     @Override
     public Engine onCreateEngine() {
+        DisplayMetrics displaymetrics = this.getResources().getDisplayMetrics();
+        mesuredWidth = displaymetrics.heightPixels;
+        mesuredHeight = displaymetrics.widthPixels;
+        widthScaleFactor = mesuredWidth / 320;
+        heightScaleFactor = mesuredHeight / 320;
+
         return new Engine();
     }
 
@@ -454,6 +465,8 @@ public class PowerWatchFaceService extends CanvasWatchFaceService {
                 Bitmap handHourBmp = isInAmbientMode() ? RES.getWatchHandHourBitmapAmbient() : RES.getWatchHandHourBitmap();
                 Bitmap handMinuteBmp = isInAmbientMode() ? RES.getWatchHandMinuteBitmapAmbient() : RES.getWatchHandMinuteBitmap();
 
+                android.util.Log.d(Consts.TAG_WEAR,"HandWidth:"+handHourBmp.getWidth());
+
                 canvas.drawBitmap(handHourBmp, mHourHandMatrix, RES.mAntiAliasPaint_noGreyScale);
                 canvas.drawBitmap(handMinuteBmp, mMinuteHandMatrix, RES.mAntiAliasPaint_noGreyScale);
                 if (!isInAmbientMode()) {
@@ -728,7 +741,7 @@ public class PowerWatchFaceService extends CanvasWatchFaceService {
 
             DefaultTheme.resources = PowerWatchFaceService.this.getResources();
             DefaultTheme.bounds = bounds;
-            RES.setTheme(new DefaultTheme());
+            RES.setTheme(new DefaultTheme(), widthScaleFactor);
 
             mWidth = bounds.width();
             mHeight = bounds.height();
