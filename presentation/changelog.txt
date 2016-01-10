@@ -1,0 +1,3 @@
+
+REV 0.8.123
+  * Fix layout for different display resolutions

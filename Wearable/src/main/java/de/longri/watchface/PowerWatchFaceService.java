@@ -63,7 +63,7 @@ import java.util.concurrent.TimeUnit;
  * Weather watch face tutorial => https://github.com/swarmnyc/Android-Watch-Face-Template
  */
 public class PowerWatchFaceService extends CanvasWatchFaceService {
-    private static final boolean DEBUG_WEATHER = false;
+    private static final boolean DEBUG_WEATHER = false; //TODO set DEBUG to false
     static String debugString;
     static String mVersionString = "-1";
     static String lastWeatherUpdateTime = "?";
@@ -109,10 +109,16 @@ public class PowerWatchFaceService extends CanvasWatchFaceService {
     @Override
     public Engine onCreateEngine() {
         DisplayMetrics displaymetrics = this.getResources().getDisplayMetrics();
-        mesuredWidth = displaymetrics.heightPixels;
-        mesuredHeight = displaymetrics.widthPixels;
+        mesuredWidth = displaymetrics.widthPixels;
+        mesuredHeight = displaymetrics.heightPixels;
         widthScaleFactor = mesuredWidth / 320;
         heightScaleFactor = mesuredHeight / 320;
+
+
+        android.util.Log.d("WEAR", "MesuredWidth: " + mesuredWidth);
+        android.util.Log.d("WEAR", "MesuredHeight: " + mesuredHeight);
+        android.util.Log.d("WEAR", "MesuredScale: " + widthScaleFactor);
+
 
         return new Engine();
     }
@@ -465,8 +471,6 @@ public class PowerWatchFaceService extends CanvasWatchFaceService {
                 Bitmap handHourBmp = isInAmbientMode() ? RES.getWatchHandHourBitmapAmbient() : RES.getWatchHandHourBitmap();
                 Bitmap handMinuteBmp = isInAmbientMode() ? RES.getWatchHandMinuteBitmapAmbient() : RES.getWatchHandMinuteBitmap();
 
-                android.util.Log.d(Consts.TAG_WEAR,"HandWidth:"+handHourBmp.getWidth());
-
                 canvas.drawBitmap(handHourBmp, mHourHandMatrix, RES.mAntiAliasPaint_noGreyScale);
                 canvas.drawBitmap(handMinuteBmp, mMinuteHandMatrix, RES.mAntiAliasPaint_noGreyScale);
                 if (!isInAmbientMode()) {
@@ -740,7 +744,10 @@ public class PowerWatchFaceService extends CanvasWatchFaceService {
 //    load defaultResources
 
             DefaultTheme.resources = PowerWatchFaceService.this.getResources();
-            DefaultTheme.bounds = bounds;
+
+            android.util.Log.d("WEAR", "new Theme with scale:" + widthScaleFactor);
+            Theme.bounds = bounds;
+            Theme.scaleFactor = widthScaleFactor;
             RES.setTheme(new DefaultTheme(), widthScaleFactor);
 
             mWidth = bounds.width();

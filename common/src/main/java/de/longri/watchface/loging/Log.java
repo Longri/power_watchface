@@ -19,10 +19,10 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Base64;
 import android.widget.TextView;
-import de.longri.watchface.Consts;
 import de.longri.serializable.BitStore;
 import de.longri.serializable.NotImplementedException;
 import de.longri.serializable.SerializableArrayList;
+import de.longri.watchface.Consts;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -77,7 +77,7 @@ public class Log {
 
 
     private static int maxMassagLines = 500;
-    private static LogTo logTo = LogTo.Both;
+    private static LogTo logTo = LogTo.NONE;
     public static SerializableArrayList<LogItem> logs = new SerializableArrayList<>(LogItem.class);
     private static Log THAT;
     private static final ArrayList<LogType> logTypeList = new ArrayList<>();
@@ -105,7 +105,7 @@ public class Log {
 
 
     public static boolean isLoggable() {
-        return logTo != LogTo.NONE;
+        return !Consts.RELEASE;
     }
 
     public static boolean isLoggable(LogType type) {

@@ -77,17 +77,20 @@ public class TinyWeatherDrawable extends TinyDrawable {
 
     public TinyWeatherDrawable(Context context) {
         super(context);
+
+        float scale = Theme.scaleFactor;
+
         mTxtPaint = new Paint();
         mTxtPaint.setColor(Color.WHITE);
-        mTxtPaint.setTextSize(30);
+        mTxtPaint.setTextSize(30 * scale);
         mTxtPaint.setAntiAlias(true);
         mDatePaint = new Paint();
         mDatePaint.setColor(Color.WHITE);
-        mDatePaint.setTextSize(21);
+        mDatePaint.setTextSize(21 * scale);
         mDatePaint.setAntiAlias(true);
 
-        WEATHER_ICON_MATRIX.setScale(0.5f, 0.5f);
-        WEATHER_ICON_MATRIX.postTranslate(20, 5);
+        WEATHER_ICON_MATRIX.setScale(0.5f * scale, 0.5f * scale);
+        WEATHER_ICON_MATRIX.postTranslate(20 * scale, 5 * scale);
     }
 
     Bitmap bufferBitmap;
@@ -145,7 +148,7 @@ public class TinyWeatherDrawable extends TinyDrawable {
 
             float dateCircleWidth = res.getTinyBackground().getWidth();
             float PositionDegrese = dateCircleWidth / 2 - mTxtPaint.measureText(mDegrease) / 2;
-            bufferCanvas.drawText(mDegrease, PositionDegrese, 90, mTxtPaint);
+            bufferCanvas.drawText(mDegrease, PositionDegrese, 90 * Theme.scaleFactor, mTxtPaint);
 
             fromBuffer = false;
         }
@@ -158,18 +161,20 @@ public class TinyWeatherDrawable extends TinyDrawable {
     @Override
     public boolean drawFull(Canvas canvas, Matrix matrix) {
 
+        float scale = Theme.scaleFactor;
+
         if (nowMatrix == null) {
             nowMatrix = new Matrix();
-            nowMatrix.setTranslate(20, 80);
+            nowMatrix.setTranslate(20 * scale, 80 * scale);
 
 
             forecast1Matrix = new Matrix();
-            forecast1Matrix.setTranslate(230, 70);
+            forecast1Matrix.setTranslate(230 * scale, 70 * scale);
             forecast1Matrix.postScale(0.7f, 0.7f);
 
 
             forecast2Matrix = new Matrix();
-            forecast2Matrix.setTranslate(230, 240);
+            forecast2Matrix.setTranslate(230 * scale, 240 * scale);
             forecast2Matrix.postScale(0.7f, 0.7f);
         }
 
@@ -213,17 +218,19 @@ public class TinyWeatherDrawable extends TinyDrawable {
         canvas.setMatrix(matrix);
 
 
+        float scale = Theme.scaleFactor;
+
         if (withDate) {
             SimpleDateFormat dateFormatter = new SimpleDateFormat("HH:mm", Locale.ENGLISH);
             Date date = info.getDate();
             String dateString = dateFormatter.format(date);
-            canvas.drawText(dateString, 130, 60, mDatePaint);
+            canvas.drawText(dateString, 130 * scale, 60 * scale, mDatePaint);
         }
 
         String degreeString = info.getTemp();
         float dateCircleWidth = res.getTinyBackground().getWidth();
         float degree = dateCircleWidth / 2 - mTxtPaint.measureText(degreeString) / 2;
-        canvas.drawText(degreeString, degree, 150, mTxtPaint);
+        canvas.drawText(degreeString, degree, 150 * scale, mTxtPaint);
         canvas.setMatrix(null);
     }
 

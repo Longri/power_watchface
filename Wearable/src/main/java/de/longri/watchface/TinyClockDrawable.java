@@ -94,14 +94,12 @@ public class TinyClockDrawable extends TinyDrawable {
 
             datePaint = new Paint();
             datePaint.setColor(RES.getTextColor());
-            datePaint.setTextSize(45);
+            datePaint.setTextSize(45 * Theme.scaleFactor);
             datePaint.setAntiAlias(true);
             datePaint.setTypeface(digiTypeface);
         }
         setTimeZoneOffset();
-
         String timeString = String.format("%02d", mTime.hour) + ":" + String.format("%02d", mTime.minute);
-
 
         Rect bounds = new Rect();
         datePaint.getTextBounds(timeString, 0, timeString.length(), bounds);

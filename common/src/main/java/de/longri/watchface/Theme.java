@@ -27,7 +27,9 @@ import de.longri.serializable.StoreBase;
  * Created by Longri on 17.11.15.
  */
 public abstract class Theme implements Serializable {
+
     public static Rect bounds;
+    public static float scaleFactor;
 
     //TODO create implementation of IPlugin like cachebox
 

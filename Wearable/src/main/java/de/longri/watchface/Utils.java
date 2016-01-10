@@ -3,7 +3,6 @@ package de.longri.watchface;
 
 import android.graphics.*;
 import android.graphics.ColorMatrix;
-import android.util.Log;
 
 
 /**
@@ -91,13 +90,7 @@ public final class Utils {
 
         int scaledWidth = (int) (bitmap.getWidth() * scale);
         int scaledHeight = (int) (bitmap.getHeight() * scale);
-        Log.d("WEAR", "BMP WIDTH:" + bitmap.getWidth());
-        Log.d("WEAR", "BMP ScaledWidth:" + scaledWidth);
-
         bitmap = bitmap.createScaledBitmap(bitmap, scaledWidth, scaledHeight, true);
-
-        Log.d("WEAR", "BMP Return WIDTH:" + bitmap.getWidth());
-
         return bitmap;
     }
 

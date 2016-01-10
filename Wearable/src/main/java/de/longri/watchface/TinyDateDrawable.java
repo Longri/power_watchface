@@ -85,14 +85,16 @@ public class TinyDateDrawable extends TinyDrawable {
             final Canvas bufferCanvas = new Canvas(bufferBitmap);
 
 
+            float scale = Theme.scaleFactor;
+
             final Paint datePaint = new Paint();
             datePaint.setColor(RES.getTextColor());
-            datePaint.setTextSize(42);
+            datePaint.setTextSize(42 * scale);
             datePaint.setAntiAlias(true);
 
             final Paint dateNamePaint = new Paint();
             dateNamePaint.setColor(Color.WHITE);
-            dateNamePaint.setTextSize(28);
+            dateNamePaint.setTextSize(28 * scale);
             dateNamePaint.setAntiAlias(true);
 
 
@@ -103,8 +105,8 @@ public class TinyDateDrawable extends TinyDrawable {
             final float xPositionDateName = width / 2 - dateNamePaint.measureText(dateNameString) / 2;
 
             drawTinyBackground(bufferCanvas, EMPTY_MATRIX);
-            bufferCanvas.drawText(dateString, xPositionDate, 50, datePaint);
-            bufferCanvas.drawText(dateNameString, xPositionDateName, 80, dateNamePaint);
+            bufferCanvas.drawText(dateString, xPositionDate, 50 * scale, datePaint);
+            bufferCanvas.drawText(dateNameString, xPositionDateName, 80 * scale, dateNamePaint);
 
             //draw Power
             mPowerWatchDrawable.setPowerPercent(getBatteryPercent());

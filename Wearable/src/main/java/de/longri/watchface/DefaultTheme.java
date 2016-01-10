@@ -20,6 +20,7 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.drawable.BitmapDrawable;
+import android.util.Log;
 
 /**
  * Created by Longri on 17.11.15.
@@ -28,11 +29,8 @@ public class DefaultTheme extends Theme {
 
     public static Resources resources;
 
-
     public DefaultTheme() {
-
     }
-
 
     Matrix bottomMatrix;
     Matrix topMatrix;
@@ -140,12 +138,21 @@ public class DefaultTheme extends Theme {
     }
 
     private void calcMatrix() {
-        int width = bounds.width();
-        int height = bounds.height();
-        float tinyMargin = width / 17f;
-        int tinyWidth = getTinyBackground().getWidth();
+        int width = (int) (bounds.width());
+        int height = (int) (bounds.height());
+
+        float tinyMargin = (width / 17f);
+        int tinyWidth = (int) (getTinyBackground().getWidth() * scaleFactor);
         float x = height / 2 - tinyWidth / 2;
         float y = x * 2 - tinyMargin;
+
+        Log.d("LOG", "Scalefactor :" + scaleFactor);
+        Log.d("LOG", "WIDTH :" + width);
+        Log.d("LOG", "tinyMargin: " + tinyMargin);
+        Log.d("LOG", "tinyWidth: " + tinyWidth);
+        Log.d("LOG", "x: " + x);
+
+
         bottomMatrix = new Matrix();
         bottomMatrix.postTranslate(x, y);
         topMatrix = new Matrix();
