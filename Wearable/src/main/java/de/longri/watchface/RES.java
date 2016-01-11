@@ -62,6 +62,10 @@ public class RES {
         return Utils.scaleBitmap(mScale, mTheme.AmbientBackGround);
     }
 
+    public static Bitmap getScale() {
+        return Utils.scaleBitmap(mScale, mTheme.Scale);
+    }
+
     public static Bitmap get12BackGround() {
         return Utils.scaleBitmap(mScale, mTheme.BackGround12);
     }
@@ -147,6 +151,7 @@ public class RES {
             hourMatrix.postRotate((((time.hour + (time.minute / 60f)) / 6f) * Utils.PI) * Utils.radiansToDegrees, centerX, centerY);
         }
     }
+
 
 
 }

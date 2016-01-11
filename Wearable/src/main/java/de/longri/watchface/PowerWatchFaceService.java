@@ -571,27 +571,38 @@ public class PowerWatchFaceService extends CanvasWatchFaceService {
             }
 
             DrawType newBackgroundType;
-            DrawType newScaleType;
-            DrawType newScaleValueType;
+            DrawType newScaleType = DrawType.NONE;
+            DrawType newScaleValueType = DrawType.NONE;
             boolean timeUnit = mConfig != null ? mConfig.getTimeUnit() : false;
 
             if (isInAmbientMode()) {
                 newBackgroundType = DrawType.Ambient;
+                if (mConfig.getShowScaleAmbient()) newScaleType = DrawType.Ambient;
+                if (mConfig.getShowScaleValueAmbient()) newScaleValueType = DrawType.Ambient;
             } else {
                 if (fullDraw == FullDraw.None) {
                     newBackgroundType = DrawType.No_Ambient;
+                    if (mConfig.getShowScale()) newScaleType = DrawType.No_Ambient;
+                    if (mConfig.getShowScaleValue()) newScaleValueType = DrawType.No_Ambient;
                 } else {
                     newBackgroundType = DrawType.Ambient;
+                    newScaleType = DrawType.NONE;
+                    newScaleValueType = DrawType.NONE;
                 }
             }
 
 
-            if (backgroundChanged || lastBackgroundDrawType != newBackgroundType) {
+            if (backgroundChanged || lastBackgroundDrawType != newBackgroundType
+                    || lastScaleType != newScaleType || lastScaleValueType != newScaleValueType) {
+
+                // set last values
                 lastBackgroundDrawType = newBackgroundType;
+                lastScaleType = newScaleType;
+                lastScaleValueType = lastScaleValueType;
+
+                //select background image
                 Bitmap mBackgroundBitmap = null;
-
                 switch (newBackgroundType) {
-
                     case No_Ambient:
                         if (Log.isLoggable(LogType.DRAW)) Log.d(Consts.TAG_WEAR, "BACKGROUND CHANGED: Non Ambient");
                         mBackgroundBitmap = RES.getBackGround();
@@ -601,10 +612,50 @@ public class PowerWatchFaceService extends CanvasWatchFaceService {
                         mBackgroundBitmap = RES.getAmbientBackGround();
                         break;
                 }
+
+                //select scale image
+                Bitmap mScaleBitmap = null;
+                if (newScaleType != DrawType.NONE) {
+                    if (Log.isLoggable(LogType.DRAW)) Log.d(Consts.TAG_WEAR, "SCALE CHANGED: Draw");
+                    mScaleBitmap = RES.getScale();
+                }
+
+                //select scale value image
+                Bitmap mScaleValueBitmap = null;
+                if (newScaleValueType != DrawType.NONE) {
+                    if (Log.isLoggable(LogType.DRAW)) Log.d(Consts.TAG_WEAR, "SCALE VALUE CHANGED: Draw");
+
+                    //decide 12h/24h
+                    if (RES.mTime.hour > 12) {
+                        //  24h Background or 12h Background
+                        if (timeUnit) {
+                            mScaleValueBitmap = RES.get24BackGround();
+                        } else {
+                            mScaleValueBitmap = RES.get12BackGround();
+                        }
+                    } else {
+                        // 12h Background
+                        mScaleValueBitmap = RES.get12BackGround();
+                    }
+                }
+
+
+                //draw Background
                 if (mBackgroundBitmap != null && !mBackgroundBitmap.isRecycled()) {
                     backgroundChanged = false;
                     bufferCanvas.drawBitmap(mBackgroundBitmap, 0, 0, RES.mAntiAliasPaint_noGreyScale);
                 }
+
+                // draw scale
+                if (mScaleBitmap != null && !mScaleBitmap.isRecycled()) {
+                    bufferCanvas.drawBitmap(mScaleBitmap, 0, 0, RES.mAntiAliasPaint_noGreyScale);
+                }
+
+                // draw scale values
+                if (mScaleValueBitmap != null && !mScaleValueBitmap.isRecycled()) {
+                    bufferCanvas.drawBitmap(mScaleValueBitmap, 0, 0, RES.mAntiAliasPaint_noGreyScale);
+                }
+
 
                 // background is changed, must redraw all tiny'S
                 mustDrawLogo = true;

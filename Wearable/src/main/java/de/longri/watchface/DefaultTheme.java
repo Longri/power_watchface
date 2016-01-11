@@ -60,6 +60,11 @@ public class DefaultTheme extends Theme {
     }
 
     @Override
+    protected Bitmap getScale() {
+        return ((BitmapDrawable) resources.getDrawable(R.drawable.scale)).getBitmap();
+    }
+
+    @Override
     protected Bitmap get24Background() {
         return ((BitmapDrawable) resources.getDrawable(R.drawable.back_24)).getBitmap();
     }

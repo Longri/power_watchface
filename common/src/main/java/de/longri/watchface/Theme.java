@@ -37,6 +37,7 @@ public abstract class Theme implements Serializable {
     public final Bitmap AmbientBackGround = getAmbientBackGround();
     public final Bitmap tinyAmbientBackgroundBitmap = getTinyAmbientBackground();
     public final Bitmap tinyBackgroundBitmap = getTinyBackground();
+    public final Bitmap Scale = getScale();
     public final Bitmap BackGround24 = get24Background();
     public final Bitmap BackGround12 = get12Background();
     public final int TextColor = getTextColor();
@@ -73,6 +74,8 @@ public abstract class Theme implements Serializable {
     protected abstract Bitmap getTinyAmbientBackground();
 
     protected abstract Bitmap getTinyBackground();
+
+    protected abstract Bitmap getScale();
 
     protected abstract Bitmap get24Background();
 
