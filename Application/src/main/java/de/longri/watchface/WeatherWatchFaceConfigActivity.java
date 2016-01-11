@@ -101,6 +101,18 @@ public class WeatherWatchFaceConfigActivity extends RoboActivity {
     @InjectView(R.id.layoutOpenWeatherApi)
     private View mLayoutOpenWeatherApi;
 
+    @InjectView(R.id.switchScaleNormal)
+    private Switch mSwitchScaleNormal;
+
+    @InjectView(R.id.switchScaleAmbient)
+    private Switch mSwitchScaleAmbient;
+
+    @InjectView(R.id.switchScaleValueNormal)
+    private Switch mSwitchScaleValueNormal;
+
+    @InjectView(R.id.switchScaleValueAmbient)
+    private Switch mSwitchScaleValueAmbient;
+
     private boolean alreadyInitialize;
     Config mConfig;
 
@@ -279,6 +291,47 @@ public class WeatherWatchFaceConfigActivity extends RoboActivity {
                 sendConfigUpdateMessage();
             }
         });
+
+
+        // set Scale drawing settings
+        mSwitchScaleNormal.setChecked(mConfig.getShowScale());
+        mSwitchScaleNormal.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                mConfig.setShowScale(WeatherWatchFaceConfigActivity.this, isChecked);
+                sendConfigUpdateMessage();
+            }
+        });
+
+        mSwitchScaleAmbient.setChecked(mConfig.getShowScaleAmbient());
+        mSwitchScaleAmbient.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                mConfig.setShowScaleAmbient(WeatherWatchFaceConfigActivity.this, isChecked);
+                sendConfigUpdateMessage();
+            }
+        });
+
+        mSwitchScaleValueNormal.setChecked(mConfig.getShowScaleValue());
+        mSwitchScaleValueNormal.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                mConfig.setShowScaleValue(WeatherWatchFaceConfigActivity.this, isChecked);
+                sendConfigUpdateMessage();
+            }
+        });
+
+        mSwitchScaleValueAmbient.setChecked(mConfig.getShowScaleValueAmbient());
+        mSwitchScaleValueAmbient.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                mConfig.setShowScaleValueAmbient(WeatherWatchFaceConfigActivity.this, isChecked);
+                sendConfigUpdateMessage();
+            }
+        });
+
+
+
     }
 
 

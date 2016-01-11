@@ -136,6 +136,25 @@
                 android:id="@+id/brightnessSeekBar"/>
         <View style="@style/HorizontalLine"/>
 
+
+        <TextView
+                style="@style/TitleLabel"
+                android:text="@string/scale_setting"/>
+        <Switch android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:text="@string/scaleDraw" android:id="@+id/switchScaleNormal"
+                android:layout_marginBottom="@dimen/main_margin" android:checked="true"/>
+        <Switch android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:text="@string/scaleAmbientDraw" android:id="@+id/switchScaleAmbient"
+                android:layout_marginBottom="@dimen/main_margin" android:checked="true"/>
+        <Switch android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:text="@string/drawScaleValue" android:id="@+id/switchScaleValueNormal"
+                android:layout_marginBottom="@dimen/main_margin" android:checked="true"/>
+        <Switch android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:text="@string/drawScaleValueAmbient" android:id="@+id/switchScaleValueAmbient"
+                android:layout_marginBottom="@dimen/main_margin" android:checked="true"/>
+        <View style="@style/HorizontalLine"/>
+
+
         <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
