@@ -54,8 +54,12 @@ public class RES {
         return mTheme.TextColor;
     }
 
-    public static Bitmap getAmbientBackGround() {
+    public static Bitmap getBackGround() {
         return Utils.scaleBitmap(mScale, mTheme.BackGround);
+    }
+
+    public static Bitmap getAmbientBackGround() {
+        return Utils.scaleBitmap(mScale, mTheme.AmbientBackGround);
     }
 
     public static Bitmap get12BackGround() {
@@ -143,5 +147,6 @@ public class RES {
             hourMatrix.postRotate((((time.hour + (time.minute / 60f)) / 6f) * Utils.PI) * Utils.radiansToDegrees, centerX, centerY);
         }
     }
+
 
 }

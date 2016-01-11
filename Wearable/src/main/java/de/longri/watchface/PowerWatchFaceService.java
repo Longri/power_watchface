@@ -69,6 +69,7 @@ public class PowerWatchFaceService extends CanvasWatchFaceService {
     static String lastWeatherUpdateTime = "?";
     static String lastWeatherRequestTime = "?";
 
+
     static void initialDebugString() {
         debugString = mVersionString + "\n    " + lastWeatherUpdateTime + "\n    " + lastWeatherRequestTime;
     }
@@ -87,8 +88,8 @@ public class PowerWatchFaceService extends CanvasWatchFaceService {
         }
     }
 
-    private enum BackgroundType {
-        B_24, B_12, NONE, B_Ambient
+    private enum DrawType {
+        Ambient, NONE, No_Ambient
     }
 
 
@@ -166,7 +167,9 @@ public class PowerWatchFaceService extends CanvasWatchFaceService {
         private RectF touchLeft;
         private boolean invalid = true;
 
-        private BackgroundType lastBackgroundType = BackgroundType.NONE;
+        private DrawType lastBackgroundDrawType = DrawType.NONE;
+        private DrawType lastScaleType = DrawType.NONE;
+        private DrawType lastScaleValueType = DrawType.NONE;
 
         /**
          * Handler to update the time once a second in interactive mode.
@@ -567,56 +570,38 @@ public class PowerWatchFaceService extends CanvasWatchFaceService {
                 }
             }
 
-            BackgroundType newType;
+            DrawType newBackgroundType;
+            DrawType newScaleType;
+            DrawType newScaleValueType;
+            boolean timeUnit = mConfig != null ? mConfig.getTimeUnit() : false;
 
             if (isInAmbientMode()) {
-                newType = BackgroundType.B_Ambient;
+                newBackgroundType = DrawType.Ambient;
             } else {
-
-                boolean timeUnit = mConfig != null ? mConfig.getTimeUnit() : false;
-
                 if (fullDraw == FullDraw.None) {
-                    if (RES.mTime.hour > 12) {
-                        //  24h Background or 12h Background
-                        if (timeUnit) {
-                            newType = BackgroundType.B_24;
-                        } else {
-                            newType = BackgroundType.B_12;
-                        }
-                    } else {
-                        // 12h Background
-                        newType = BackgroundType.B_12;
-                    }
+                    newBackgroundType = DrawType.No_Ambient;
                 } else {
-                    newType = BackgroundType.B_Ambient;
+                    newBackgroundType = DrawType.Ambient;
                 }
             }
 
 
-            if (backgroundChanged || lastBackgroundType != newType) {
-
-                lastBackgroundType = newType;
-
+            if (backgroundChanged || lastBackgroundDrawType != newBackgroundType) {
+                lastBackgroundDrawType = newBackgroundType;
                 Bitmap mBackgroundBitmap = null;
 
-                switch (newType) {
-                    case B_12:
-                        mBackgroundBitmap = RES.get12BackGround();
+                switch (newBackgroundType) {
+
+                    case No_Ambient:
+                        if (Log.isLoggable(LogType.DRAW)) Log.d(Consts.TAG_WEAR, "BACKGROUND CHANGED: Non Ambient");
+                        mBackgroundBitmap = RES.getBackGround();
                         break;
-                    case B_24:
-                        mBackgroundBitmap = RES.get24BackGround();
-                        break;
-                    case B_Ambient:
+                    case Ambient:
+                        if (Log.isLoggable(LogType.DRAW)) Log.d(Consts.TAG_WEAR, "BACKGROUND CHANGED: Ambient");
                         mBackgroundBitmap = RES.getAmbientBackGround();
                         break;
                 }
-
-
                 if (mBackgroundBitmap != null && !mBackgroundBitmap.isRecycled()) {
-
-                    if (Log.isLoggable(LogType.DRAW)) {
-                        Log.d(Consts.TAG_WEAR, "Draw new Background");
-                    }
                     backgroundChanged = false;
                     bufferCanvas.drawBitmap(mBackgroundBitmap, 0, 0, RES.mAntiAliasPaint_noGreyScale);
                 }

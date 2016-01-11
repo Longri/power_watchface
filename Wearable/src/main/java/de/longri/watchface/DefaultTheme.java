@@ -40,6 +40,11 @@ public class DefaultTheme extends Theme {
     Matrix tinyMinuteHandMatrix;
 
     @Override
+    protected Bitmap getBackGround() {
+        return ((BitmapDrawable) resources.getDrawable(R.drawable.background)).getBitmap();
+    }
+
+    @Override
     protected Bitmap getAmbientBackGround() {
         return ((BitmapDrawable) resources.getDrawable(R.drawable.bg)).getBitmap();
     }

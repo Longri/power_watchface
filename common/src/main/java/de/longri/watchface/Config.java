@@ -62,7 +62,10 @@ public class Config implements Serializable {
 
     private boolean showDigitalClock = false;
     private WearTimeZone secondTimeZone = WearTimeZone.getAvailableTimeZones()[25];
-
+    private boolean showScale = false;
+    private boolean showScaleValue = true;
+    private boolean showScaleAmbient = false;
+    private boolean showScaleValueAmbient = false;
 
     private View[] views = new View[]{View.Logo, View.Date, View.SecondTime, View.Weather};
     private boolean debug;
@@ -101,6 +104,10 @@ public class Config implements Serializable {
         this.secondTimeZone.serialize(storeBase);
         storeBase.write(debugIntervalDevisor);
         storeBase.write(brightness);
+        storeBase.write(showScale);
+        storeBase.write(showScaleValue);
+        storeBase.write(showScaleAmbient);
+        storeBase.write(showScaleValueAmbient);
     }
 
     @Override
@@ -174,6 +181,23 @@ public class Config implements Serializable {
         byte br = storeBase.readByte();
         if (brightness != br) isChanged = true;
         brightness = br;
+
+
+        boolean show = storeBase.readBool();
+        if (showScale != show) isChanged = true;
+        showScale = show;
+
+        show = storeBase.readBool();
+        if (showScaleValue != show) isChanged = true;
+        showScaleValue = show;
+
+        show = storeBase.readBool();
+        if (showScaleAmbient != show) isChanged = true;
+        showScaleAmbient = show;
+
+        show = storeBase.readBool();
+        if (showScaleValueAmbient != show) isChanged = true;
+        showScaleValueAmbient = show;
 
         return isChanged;
     }
@@ -254,6 +278,10 @@ public class Config implements Serializable {
 
         brightness = (byte) mAndroidSetting.getInt(Consts.KEY_BRIGHTNESS, 100);
 
+        showScale = mAndroidSetting.getBoolean(Consts.KEY_CONFIG_SCALE, false);
+        showScaleValue = mAndroidSetting.getBoolean(Consts.KEY_CONFIG_SCALE_VALUE, true);
+        showScaleAmbient = mAndroidSetting.getBoolean(Consts.KEY_CONFIG_SCALE_AMBIENT, false);
+        showScaleValueAmbient = mAndroidSetting.getBoolean(Consts.KEY_CONFIG_SCALE_VALUE_AMBIENT, false);
     }
 
     public static void chkPreferences(Context context) {
@@ -343,6 +371,51 @@ public class Config implements Serializable {
         chkPreferences(context);
         mAndroidSettingEditor.putBoolean(Consts.KEY_CONFIG_TEMPERATURE_SCALE, celsius);
         mAndroidSettingEditor.commit();
+    }
+
+
+    public void setShowScale(Context context, boolean value) {
+        this.showScale = value;
+        chkPreferences(context);
+        mAndroidSettingEditor.putBoolean(Consts.KEY_CONFIG_SCALE, value);
+        mAndroidSettingEditor.commit();
+    }
+
+    public void setShowScaleValue(Context context, boolean value) {
+        this.showScaleValue = value;
+        chkPreferences(context);
+        mAndroidSettingEditor.putBoolean(Consts.KEY_CONFIG_SCALE_VALUE, value);
+        mAndroidSettingEditor.commit();
+    }
+
+    public void setShowScaleAmbient(Context context, boolean value) {
+        this.showScaleAmbient = value;
+        chkPreferences(context);
+        mAndroidSettingEditor.putBoolean(Consts.KEY_CONFIG_SCALE_AMBIENT, value);
+        mAndroidSettingEditor.commit();
+    }
+
+    public void setShowScaleValueAmbient(Context context, boolean value) {
+        this.showScaleValueAmbient = value;
+        chkPreferences(context);
+        mAndroidSettingEditor.putBoolean(Consts.KEY_CONFIG_SCALE_VALUE_AMBIENT, value);
+        mAndroidSettingEditor.commit();
+    }
+
+    public boolean getShowScale() {
+        return this.showScale;
+    }
+
+    public boolean getShowScaleValue() {
+        return this.showScaleValue;
+    }
+
+    public boolean getShowScaleAmbient() {
+        return this.showScaleAmbient;
+    }
+
+    public boolean getShowScaleValueAmbient() {
+        return this.showScaleValueAmbient;
     }
 
     public int getIntervalSpinnerPos() {

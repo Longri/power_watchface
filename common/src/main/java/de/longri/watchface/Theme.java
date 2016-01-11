@@ -33,7 +33,8 @@ public abstract class Theme implements Serializable {
 
     //TODO create implementation of IPlugin like cachebox
 
-    public final Bitmap BackGround = getAmbientBackGround();
+    public final Bitmap BackGround = getBackGround();
+    public final Bitmap AmbientBackGround = getAmbientBackGround();
     public final Bitmap tinyAmbientBackgroundBitmap = getTinyAmbientBackground();
     public final Bitmap tinyBackgroundBitmap = getTinyBackground();
     public final Bitmap BackGround24 = get24Background();
@@ -64,6 +65,8 @@ public abstract class Theme implements Serializable {
 
     }
 
+
+    protected abstract Bitmap getBackGround();
 
     protected abstract Bitmap getAmbientBackGround();
 

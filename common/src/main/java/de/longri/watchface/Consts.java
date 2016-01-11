@@ -64,4 +64,8 @@ public class Consts {
     public static final String KEY_BRIGHTNESS = "brightness";
 
 
+    public static final String KEY_CONFIG_SCALE = "scale";
+    public static final String KEY_CONFIG_SCALE_VALUE = "scale_value";
+    public static final String KEY_CONFIG_SCALE_AMBIENT = "scale_ambient";
+    public static final String KEY_CONFIG_SCALE_VALUE_AMBIENT = "scale_value_ambient";
 }
