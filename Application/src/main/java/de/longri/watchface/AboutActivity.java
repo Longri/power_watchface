@@ -71,6 +71,9 @@ public class AboutActivity extends RoboActivity {
     @InjectView(R.id.donate)
     private Button mBtnDonate;
 
+    @InjectView(R.id.home_link)
+    private TextView mHomeLink;
+
     private boolean alreadyInitialize = false;
 
 
@@ -86,6 +89,21 @@ public class AboutActivity extends RoboActivity {
                 Log.writeLogs(mLogTextView);
             }
         });
+
+        mHomeLink.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // call Browser Intent
+                String url = getString(R.string.home_Url);
+                try {
+                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url.trim()));
+                    AboutActivity.this.startActivity(browserIntent);
+                } catch (Exception exc) {
+                    Toast.makeText(AboutActivity.this, getString(R.string.can_not_open_url) + " (" + url.trim() + ")", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+
 
         mBtnDonate.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -42,20 +42,37 @@
                     android:scaleType="fitXY"
                     android:src="@drawable/preview"/>
 
-            <TextView
-                    android:layout_width="86dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="right"
-                    android:layout_marginBottom="5dip"
-                    android:layout_marginLeft="10dip"
-                    android:layout_marginRight="10dip"
-                    android:text="@string/powered_by"
-                    android:textSize="14sp"/>
-            <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/imageView" android:layout_gravity="right" android:src="@drawable/longri_img"
-                    android:layout_marginRight="40dp"/>
+            <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/home_Url"
+                        android:id="@+id/home_link" android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="20dp"/>
+                <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+                    <TextView
+                            android:layout_width="86dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="right"
+                            android:layout_marginBottom="5dip"
+                            android:layout_marginLeft="10dip"
+                            android:layout_marginRight="10dip"
+                            android:text="@string/powered_by"
+                            android:textSize="14sp"/>
+                    <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/imageView" android:layout_gravity="right"
+                            android:src="@drawable/longri_img"
+                            android:layout_marginRight="40dp"/>
+                </LinearLayout>
+            </LinearLayout>
         </LinearLayout>
 
         <RelativeLayout android:layout_width="wrap_content"
@@ -64,7 +81,7 @@
             <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-            />
+                    android:layout_marginLeft="40dp"/>
         </RelativeLayout>
 
         <TextView
@@ -92,9 +109,7 @@
                     android:id="@+id/donate"
                     android:layout_height="wrap_content"
                     android:layout_width="280dip"
-                    android:lines="2"
-                    android:singleLine="false"
-                    android:text="@string/donation"/>
+                    android:background="@drawable/paypal_btn_drawable"/>
         </LinearLayout>
         <Switch android:layout_width="match_parent" android:layout_height="wrap_content"
                 android:text="@string/debug" android:id="@+id/debugSwitch"
@@ -117,17 +132,20 @@
                       android:text="Log POWER" android:id="@+id/debugPOWER"/>
             <CheckBox android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Log DRAW"
                       android:id="@+id/debugDRAW"/>
-            <CheckBox android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Log TouchInput"
+            <CheckBox android:layout_width="wrap_content" android:layout_height="wrap_content"
+                      android:text="Log TouchInput"
                       android:id="@+id/debugTouchInput"/>
             <CheckBox android:layout_width="wrap_content" android:layout_height="wrap_content"
                       android:text="Log HTTP" android:id="@+id/debugHTTP"/>
-            <CheckBox android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Intevall / 10"
+            <CheckBox android:layout_width="wrap_content" android:layout_height="wrap_content"
+                      android:text="Intevall / 10"
                       android:id="@+id/debugIntervallDividor"/>
             <LinearLayout
                     android:orientation="horizontal"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent" android:gravity="center_horizontal">
-                <Button android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Refresh Logs"
+                <Button android:layout_width="wrap_content" android:layout_height="wrap_content"
+                        android:text="Refresh Logs"
                         android:id="@+id/btnRefresh"/>
                 <Button
                         android:layout_width="wrap_content"
