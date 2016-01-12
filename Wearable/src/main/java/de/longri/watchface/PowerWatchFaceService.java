@@ -782,72 +782,90 @@ public class PowerWatchFaceService extends CanvasWatchFaceService {
         Matrix scaleValueRightMatrix;
         Matrix scaleValueBottomMatrix;
         Matrix scaleValueLeftMatrix;
+        Bitmap bmpScaleValueBuffer;
+        Canvas scaleBufferCanvas;
+        String lastScaleValue = "";
 
         private void drawScaleValues(Canvas canvas, String str0, String str1, String str2, String str3) {
 
-            if (scaleValuePaint == null) {
-                scaleValuePaint = new Paint();
-                scaleValuePaint.setColor(Color.WHITE);
-                scaleValuePaint.setTextSize(20 * widthScaleFactor);
-                scaleValuePaint.setAntiAlias(true);
-            }
-            float margin = 1;
-            float lineHeight = scaleValuePaint.getFontMetrics().ascent + scaleValuePaint.getFontMetrics().descent;
-            float translateX = 0;
-            float translateY = 0;
-
-            if (scaleValueTopMatrix == null) {
-                scaleValueTopMatrix = new Matrix();
-                float halfWidth = ((int) scaleValuePaint.measureText(str0)) >> 1; // remember x >> 1 is equivalent to x / 2, but works much much faster
-                translateX = mCenterX - halfWidth;
-                translateY = margin - lineHeight;
-                scaleValueTopMatrix.postTranslate(translateX, translateY);
+            if (!lastScaleValue.equals(str0)) {
+                bmpScaleValueBuffer.recycle();
+                bmpScaleValueBuffer = null;
+                lastScaleValue = str0;
             }
 
-            if (scaleValueRightMatrix == null) {
-                scaleValueRightMatrix = new Matrix();
-                float halfWidth = ((int) scaleValuePaint.measureText(str1)) >> 1; // remember x >> 1 is equivalent to x / 2, but works much much faster
-                translateX = mCenterX - halfWidth;
-                translateY = margin - lineHeight;
-                scaleValueRightMatrix.postRotate(-90, halfWidth, lineHeight / 2);
-                scaleValueRightMatrix.postTranslate(translateX, translateY);
-                scaleValueRightMatrix.postRotate(90, mCenterX, mCenterY);
+            if (bmpScaleValueBuffer == null) {
+                bmpScaleValueBuffer = Bitmap.createBitmap(mWidth, mHeight, Bitmap.Config.ARGB_8888);
+                scaleBufferCanvas = new Canvas(bmpScaleValueBuffer);
+
+
+                if (scaleValuePaint == null) {
+                    scaleValuePaint = new Paint();
+                    scaleValuePaint.setColor(Color.WHITE);
+                    scaleValuePaint.setTextSize(20 * widthScaleFactor);
+                    scaleValuePaint.setAntiAlias(true);
+                }
+                float margin = 1;
+                float lineHeight = scaleValuePaint.getFontMetrics().ascent + scaleValuePaint.getFontMetrics().descent;
+                float translateX = 0;
+                float translateY = 0;
+
+                if (scaleValueTopMatrix == null) {
+                    scaleValueTopMatrix = new Matrix();
+                    float halfWidth = ((int) scaleValuePaint.measureText(str0)) >> 1; // remember x >> 1 is equivalent to x / 2, but works much much faster
+                    translateX = mCenterX - halfWidth;
+                    translateY = margin - lineHeight;
+                    scaleValueTopMatrix.postTranslate(translateX, translateY);
+                }
+
+                if (scaleValueRightMatrix == null) {
+                    scaleValueRightMatrix = new Matrix();
+                    float halfWidth = ((int) scaleValuePaint.measureText(str1)) >> 1; // remember x >> 1 is equivalent to x / 2, but works much much faster
+                    translateX = mCenterX - halfWidth;
+                    translateY = margin - lineHeight;
+                    scaleValueRightMatrix.postRotate(-90, halfWidth, lineHeight / 2);
+                    scaleValueRightMatrix.postTranslate(translateX, translateY);
+                    scaleValueRightMatrix.postRotate(90, mCenterX, mCenterY);
+                }
+
+                if (scaleValueBottomMatrix == null) {
+                    scaleValueBottomMatrix = new Matrix();
+                    float halfWidth = ((int) scaleValuePaint.measureText(str2)) >> 1; // remember x >> 1 is equivalent to x / 2, but works much much faster
+                    translateX = mCenterX - halfWidth;
+                    translateY = margin - lineHeight;
+                    scaleValueBottomMatrix.postRotate(-180, halfWidth, lineHeight / 2);
+                    scaleValueBottomMatrix.postTranslate(translateX, translateY);
+                    scaleValueBottomMatrix.postRotate(180, mCenterX, mCenterY);
+                }
+
+                if (scaleValueLeftMatrix == null) {
+                    scaleValueLeftMatrix = new Matrix();
+                    float halfWidth = ((int) scaleValuePaint.measureText(str3)) >> 1; // remember x >> 1 is equivalent to x / 2, but works much much faster
+                    translateX = mCenterX - halfWidth;
+                    translateY = margin - lineHeight;
+                    scaleValueLeftMatrix.postRotate(90, halfWidth, lineHeight / 2);
+                    scaleValueLeftMatrix.postTranslate(translateX, translateY);
+                    scaleValueLeftMatrix.postRotate(-90, mCenterX, mCenterY);
+                }
+
+
+                scaleBufferCanvas.setMatrix(scaleValueTopMatrix);
+                scaleBufferCanvas.drawText(str0, 0, 0, scaleValuePaint);
+
+                scaleBufferCanvas.setMatrix(scaleValueRightMatrix);
+                scaleBufferCanvas.drawText(str1, 0, 0, scaleValuePaint);
+
+                scaleBufferCanvas.setMatrix(scaleValueBottomMatrix);
+                scaleBufferCanvas.drawText(str2, 0, 0, scaleValuePaint);
+
+                scaleBufferCanvas.setMatrix(scaleValueLeftMatrix);
+                scaleBufferCanvas.drawText(str3, 0, 0, scaleValuePaint);
+
+                scaleBufferCanvas.setMatrix(null);
             }
 
-            if (scaleValueBottomMatrix == null) {
-                scaleValueBottomMatrix = new Matrix();
-                float halfWidth = ((int) scaleValuePaint.measureText(str2)) >> 1; // remember x >> 1 is equivalent to x / 2, but works much much faster
-                translateX = mCenterX - halfWidth;
-                translateY = margin - lineHeight;
-                scaleValueBottomMatrix.postRotate(-180, halfWidth, lineHeight / 2);
-                scaleValueBottomMatrix.postTranslate(translateX, translateY);
-                scaleValueBottomMatrix.postRotate(180, mCenterX, mCenterY);
-            }
-
-            if (scaleValueLeftMatrix == null) {
-                scaleValueLeftMatrix = new Matrix();
-                float halfWidth = ((int) scaleValuePaint.measureText(str3)) >> 1; // remember x >> 1 is equivalent to x / 2, but works much much faster
-                translateX = mCenterX - halfWidth;
-                translateY = margin - lineHeight;
-                scaleValueLeftMatrix.postRotate(90, halfWidth, lineHeight / 2);
-                scaleValueLeftMatrix.postTranslate(translateX, translateY);
-                scaleValueLeftMatrix.postRotate(-90, mCenterX, mCenterY);
-            }
-
-
-            canvas.setMatrix(scaleValueTopMatrix);
-            canvas.drawText(str0, 0, 0, scaleValuePaint);
-
-            canvas.setMatrix(scaleValueRightMatrix);
-            canvas.drawText(str1, 0, 0, scaleValuePaint);
-
-            canvas.setMatrix(scaleValueBottomMatrix);
-            canvas.drawText(str2, 0, 0, scaleValuePaint);
-
-            canvas.setMatrix(scaleValueLeftMatrix);
-            canvas.drawText(str3, 0, 0, scaleValuePaint);
-
-            canvas.setMatrix(null);
+            //draw buffer
+            canvas.drawBitmap(bmpScaleValueBuffer, 0, 0, RES.mAntiAliasPaint_noGreyScale);
         }
 
 
