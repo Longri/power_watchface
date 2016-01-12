@@ -63,7 +63,7 @@ import java.util.concurrent.TimeUnit;
  * Weather watch face tutorial => https://github.com/swarmnyc/Android-Watch-Face-Template
  */
 public class PowerWatchFaceService extends CanvasWatchFaceService {
-    private static final boolean DEBUG_WEATHER = false; //TODO set DEBUG to false
+    private static final boolean DEBUG_WEATHER = true; //TODO set DEBUG to false
     static String debugString;
     static String mVersionString = "-1";
     static String lastWeatherUpdateTime = "?";
@@ -447,7 +447,7 @@ public class PowerWatchFaceService extends CanvasWatchFaceService {
                     Log.d(Consts.TAG_WEAR, "weatherCheckInterval elapsed");
                 }
 
-                if (weatherUpdateInterval.isElapsed()) {
+                if (weatherUpdateInterval.isElapsed() && weatherDrawable != null) {
 
                     boolean force = weatherDrawable.weatherIsNull();
                     WeatherInfoType requestType = getWeatherRequestType();
@@ -477,7 +477,9 @@ public class PowerWatchFaceService extends CanvasWatchFaceService {
                 canvas.drawBitmap(handHourBmp, mHourHandMatrix, RES.mAntiAliasPaint_noGreyScale);
                 canvas.drawBitmap(handMinuteBmp, mMinuteHandMatrix, RES.mAntiAliasPaint_noGreyScale);
                 if (!isInAmbientMode()) {
-                    float secRot = RES.mTime.second / 30f * Utils.PI;
+                    // float secRot = RES.mTime.second / 30f * Utils.PI;
+
+                    float secRot = 15 / 30f * Utils.PI;
                     float secX = Utils.sin(secRot) * mSecLength;
                     float secY = -Utils.cos(secRot) * mSecLength;
                     canvas.drawLine(mCenterX, mCenterY, mCenterX + secX, mCenterY + secY, mSecondPaint);
@@ -620,24 +622,9 @@ public class PowerWatchFaceService extends CanvasWatchFaceService {
                     mScaleBitmap = RES.getScale();
                 }
 
-                //select scale value image
-                Bitmap mScaleValueBitmap = null;
-                if (newScaleValueType != DrawType.NONE) {
-                    if (Log.isLoggable(LogType.DRAW)) Log.d(Consts.TAG_WEAR, "SCALE VALUE CHANGED: Draw");
 
-                    //decide 12h/24h
-                    if (RES.mTime.hour > 12) {
-                        //  24h Background or 12h Background
-                        if (timeUnit) {
-                            mScaleValueBitmap = RES.get24BackGround();
-                        } else {
-                            mScaleValueBitmap = RES.get12BackGround();
-                        }
-                    } else {
-                        // 12h Background
-                        mScaleValueBitmap = RES.get12BackGround();
-                    }
-                }
+                //TODO delete debug config setting
+                mConfig.setShowScaleValue(PowerWatchFaceService.this, true);
 
 
                 //draw Background
@@ -651,9 +638,22 @@ public class PowerWatchFaceService extends CanvasWatchFaceService {
                     bufferCanvas.drawBitmap(mScaleBitmap, 0, 0, RES.mAntiAliasPaint_noGreyScale);
                 }
 
-                // draw scale values
-                if (mScaleValueBitmap != null && !mScaleValueBitmap.isRecycled()) {
-                    bufferCanvas.drawBitmap(mScaleValueBitmap, 0, 0, RES.mAntiAliasPaint_noGreyScale);
+                //draw scale values
+                if (newScaleValueType != DrawType.NONE) {
+                    if (Log.isLoggable(LogType.DRAW)) Log.d(Consts.TAG_WEAR, "SCALE VALUE CHANGED: Draw");
+
+                    //decide 12h/24h
+                    if (RES.mTime.hour > 12) {
+                        //  24h Background or 12h Background
+                        if (timeUnit) {
+                            drawScaleValues(bufferCanvas, "24", "15", "18", "21");
+                        } else {
+                            drawScaleValues(bufferCanvas, "12", "3", "6", "9");
+                        }
+                    } else {
+                        // 12h Background
+                        drawScaleValues(bufferCanvas, "12", "3", "6", "9");
+                    }
                 }
 
 
@@ -776,6 +776,81 @@ public class PowerWatchFaceService extends CanvasWatchFaceService {
             invalid = true;
         }
 
+
+        Paint scaleValuePaint;
+        Matrix scaleValueTopMatrix;
+        Matrix scaleValueRightMatrix;
+        Matrix scaleValueBottomMatrix;
+        Matrix scaleValueLeftMatrix;
+
+        private void drawScaleValues(Canvas canvas, String str0, String str1, String str2, String str3) {
+
+            if (scaleValuePaint == null) {
+                scaleValuePaint = new Paint();
+                scaleValuePaint.setColor(Color.WHITE);
+                scaleValuePaint.setTextSize(20 * widthScaleFactor);
+                scaleValuePaint.setAntiAlias(true);
+            }
+            float margin = 1;
+            float lineHeight = scaleValuePaint.getFontMetrics().ascent + scaleValuePaint.getFontMetrics().descent;
+            float translateX = 0;
+            float translateY = 0;
+
+            if (scaleValueTopMatrix == null) {
+                scaleValueTopMatrix = new Matrix();
+                float halfWidth = ((int) scaleValuePaint.measureText(str0)) >> 1; // remember x >> 1 is equivalent to x / 2, but works much much faster
+                translateX = mCenterX - halfWidth;
+                translateY = margin - lineHeight;
+                scaleValueTopMatrix.postTranslate(translateX, translateY);
+            }
+
+            if (scaleValueRightMatrix == null) {
+                scaleValueRightMatrix = new Matrix();
+                float halfWidth = ((int) scaleValuePaint.measureText(str1)) >> 1; // remember x >> 1 is equivalent to x / 2, but works much much faster
+                translateX = mCenterX - halfWidth;
+                translateY = margin - lineHeight;
+                scaleValueRightMatrix.postRotate(-90, halfWidth, lineHeight / 2);
+                scaleValueRightMatrix.postTranslate(translateX, translateY);
+                scaleValueRightMatrix.postRotate(90, mCenterX, mCenterY);
+            }
+
+            if (scaleValueBottomMatrix == null) {
+                scaleValueBottomMatrix = new Matrix();
+                float halfWidth = ((int) scaleValuePaint.measureText(str2)) >> 1; // remember x >> 1 is equivalent to x / 2, but works much much faster
+                translateX = mCenterX - halfWidth;
+                translateY = margin - lineHeight;
+                scaleValueBottomMatrix.postRotate(-180, halfWidth, lineHeight / 2);
+                scaleValueBottomMatrix.postTranslate(translateX, translateY);
+                scaleValueBottomMatrix.postRotate(180, mCenterX, mCenterY);
+            }
+
+            if (scaleValueLeftMatrix == null) {
+                scaleValueLeftMatrix = new Matrix();
+                float halfWidth = ((int) scaleValuePaint.measureText(str3)) >> 1; // remember x >> 1 is equivalent to x / 2, but works much much faster
+                translateX = mCenterX - halfWidth;
+                translateY = margin - lineHeight;
+                scaleValueLeftMatrix.postRotate(90, halfWidth, lineHeight / 2);
+                scaleValueLeftMatrix.postTranslate(translateX, translateY);
+                scaleValueLeftMatrix.postRotate(-90, mCenterX, mCenterY);
+            }
+
+
+            canvas.setMatrix(scaleValueTopMatrix);
+            canvas.drawText(str0, 0, 0, scaleValuePaint);
+
+            canvas.setMatrix(scaleValueRightMatrix);
+            canvas.drawText(str1, 0, 0, scaleValuePaint);
+
+            canvas.setMatrix(scaleValueBottomMatrix);
+            canvas.drawText(str2, 0, 0, scaleValuePaint);
+
+            canvas.setMatrix(scaleValueLeftMatrix);
+            canvas.drawText(str3, 0, 0, scaleValuePaint);
+
+            canvas.setMatrix(null);
+        }
+
+
         private void initialSize(Rect bounds) {
 //    load defaultResources
 
@@ -788,8 +863,12 @@ public class PowerWatchFaceService extends CanvasWatchFaceService {
 
             mWidth = bounds.width();
             mHeight = bounds.height();
-            mCenterX = mWidth / 2f;
-            mCenterY = mHeight / 2f;
+
+            // remember x >> 1 is equivalent to x / 2, but works much much faster
+            mCenterX = mWidth >> 1;
+            mCenterY = mHeight >> 1;
+
+
             mSecLength = mCenterX - 20;
             mSizeIsInitial = true;
         }
@@ -1114,6 +1193,7 @@ public class PowerWatchFaceService extends CanvasWatchFaceService {
 
         protected void requireWeatherInfo(WeatherInfoType type, final boolean force) {
 
+            if (weatherDrawable == null) return;
 
             if (DEBUG_WEATHER && weatherDrawable.weatherIsNull()) {
                 Info actWeather = new Info();
