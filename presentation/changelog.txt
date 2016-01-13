@@ -1,3 +1,7 @@
+REV 0.8.126
+  + draw scale or scale values depending of config settings
+  + add Zoom and Margin control over Config
+
 
 REV 0.8.123
   * Fix layout for different display resolutions
