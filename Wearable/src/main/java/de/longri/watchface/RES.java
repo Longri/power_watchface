@@ -152,6 +152,11 @@ public class RES {
         }
     }
 
+    public static void setThemeMargin(byte value) {
+        mTheme.setTinyMargin(value);
+    }
 
-
+    public static void setThemeScale(byte value) {
+        mTheme.setTinyScale(value);
+    }
 }

@@ -70,6 +70,8 @@ public class Config implements Serializable {
     private View[] views = new View[]{View.Logo, View.Date, View.SecondTime, View.Weather};
     private boolean debug;
     private byte brightness = 100; //100-0
+    private byte totalisatorZoom = 50; //100-0
+    private byte totalisatorMargin = 50; //100-0
 
     @Override
     public void serialize(StoreBase storeBase) throws NotImplementedException {
@@ -108,6 +110,8 @@ public class Config implements Serializable {
         storeBase.write(showScaleValue);
         storeBase.write(showScaleAmbient);
         storeBase.write(showScaleValueAmbient);
+        storeBase.write(totalisatorZoom);
+        storeBase.write(totalisatorMargin);
     }
 
     @Override
@@ -182,7 +186,6 @@ public class Config implements Serializable {
         if (brightness != br) isChanged = true;
         brightness = br;
 
-
         boolean show = storeBase.readBool();
         if (showScale != show) isChanged = true;
         showScale = show;
@@ -198,6 +201,14 @@ public class Config implements Serializable {
         show = storeBase.readBool();
         if (showScaleValueAmbient != show) isChanged = true;
         showScaleValueAmbient = show;
+
+        byte v = storeBase.readByte();
+        if (totalisatorZoom != v) isChanged = true;
+        totalisatorZoom = v;
+
+        v = storeBase.readByte();
+        if (totalisatorMargin != v) isChanged = true;
+        totalisatorMargin = v;
 
         return isChanged;
     }
@@ -277,6 +288,8 @@ public class Config implements Serializable {
         else Log.removeLogType(LogType.HTTP);
 
         brightness = (byte) mAndroidSetting.getInt(Consts.KEY_BRIGHTNESS, 100);
+        totalisatorZoom = (byte) mAndroidSetting.getInt(Consts.KEY_TOTALISATOR_ZOOM, 50);
+        totalisatorMargin = (byte) mAndroidSetting.getInt(Consts.KEY_TOTALISATOR_MARGIN, 50);
 
         showScale = mAndroidSetting.getBoolean(Consts.KEY_CONFIG_SCALE, false);
         showScaleValue = mAndroidSetting.getBoolean(Consts.KEY_CONFIG_SCALE_VALUE, true);
@@ -479,6 +492,13 @@ public class Config implements Serializable {
         sb.append("LeftView =" + this.views[3]);
         sb.append("\n");
 
+        sb.append("TinyZoom =" + this.totalisatorZoom);
+        sb.append("\n");
+
+        sb.append("TinyMargin =" + this.totalisatorMargin);
+        sb.append("\n");
+
+
         return sb.toString();
     }
 
@@ -599,5 +619,27 @@ public class Config implements Serializable {
         mAndroidSettingEditor.putInt(Consts.KEY_BRIGHTNESS, value);
         mAndroidSettingEditor.commit();
         brightness = (byte) value;
+    }
+
+    public byte getTotalisatorZoom() {
+        return totalisatorZoom;
+    }
+
+    public void setTotalisatorZoom(Context context, int value) {
+        chkPreferences(context);
+        mAndroidSettingEditor.putInt(Consts.KEY_TOTALISATOR_ZOOM, value);
+        mAndroidSettingEditor.commit();
+        totalisatorZoom = (byte) value;
+    }
+
+    public byte getTotalisatorMargin() {
+        return totalisatorMargin;
+    }
+
+    public void setTotalisatorMargin(Context context, int value) {
+        chkPreferences(context);
+        mAndroidSettingEditor.putInt(Consts.KEY_TOTALISATOR_MARGIN, value);
+        mAndroidSettingEditor.commit();
+        totalisatorMargin = (byte) value;
     }
 }

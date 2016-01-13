@@ -113,6 +113,19 @@ public class WeatherWatchFaceConfigActivity extends RoboActivity {
     @InjectView(R.id.switchScaleValueAmbient)
     private Switch mSwitchScaleValueAmbient;
 
+    @InjectView(R.id.seekBarTotalizatorMargin)
+    private SeekBar seekBarTotalizatorMargin;
+
+    @InjectView(R.id.tvTotalizatorMargin)
+    private TextView tvTotalizatorMargin;
+
+    @InjectView(R.id.seekBarTotalizatorZoom)
+    private SeekBar seekBarTotalizatorZoom;
+
+    @InjectView(R.id.tvTotalizatorZoom)
+    private TextView tvTotalizatorZoom;
+
+
     private boolean alreadyInitialize;
     Config mConfig;
 
@@ -293,6 +306,76 @@ public class WeatherWatchFaceConfigActivity extends RoboActivity {
         });
 
 
+        // set totalizator zoom values
+        int tvTotalizatorZoomValue = mConfig.getTotalisatorZoom();
+        seekBarTotalizatorZoom.setMax(100);
+        seekBarTotalizatorZoom.setProgress(tvTotalizatorZoomValue);
+
+        tvTotalizatorZoom.setText(R.string.totalizator_zoom);
+        tvTotalizatorZoom.append("  " + (tvTotalizatorZoomValue - 50) + "%");
+
+        seekBarTotalizatorZoom.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+
+            int value;
+
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                value = progress;
+                tvTotalizatorZoom.setText(R.string.totalizator_zoom);
+                tvTotalizatorZoom.append("  " + (value - 50) + "%");
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                // set to config
+                mConfig.setTotalisatorZoom(WeatherWatchFaceConfigActivity.this, value);
+                tvTotalizatorZoom.setText(R.string.totalizator_zoom);
+                tvTotalizatorZoom.append("  " + (value - 50) + "%");
+                sendConfigUpdateMessage();
+            }
+        });
+
+
+        // set totalizator zoom values
+        int tvTotalizatorMarginValue = mConfig.getTotalisatorMargin();
+        seekBarTotalizatorMargin.setMax(100);
+        seekBarTotalizatorMargin.setProgress(tvTotalizatorMarginValue);
+
+        tvTotalizatorMargin.setText(R.string.totalizator_margin);
+        tvTotalizatorMargin.append("  " + (tvTotalizatorMarginValue - 50) + "%");
+
+        seekBarTotalizatorMargin.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+
+            int value;
+
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                value = progress;
+                tvTotalizatorMargin.setText(R.string.totalizator_margin);
+                tvTotalizatorMargin.append("  " + (value - 50) + "%");
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                // set to config
+                mConfig.setTotalisatorMargin(WeatherWatchFaceConfigActivity.this, value);
+                tvTotalizatorMargin.setText(R.string.totalizator_margin);
+                tvTotalizatorMargin.append("  " + (value - 50) + "%");
+                sendConfigUpdateMessage();
+            }
+        });
+
+
         // set Scale drawing settings
         mSwitchScaleNormal.setChecked(mConfig.getShowScale());
         mSwitchScaleNormal.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -329,7 +412,6 @@ public class WeatherWatchFaceConfigActivity extends RoboActivity {
                 sendConfigUpdateMessage();
             }
         });
-
 
 
     }

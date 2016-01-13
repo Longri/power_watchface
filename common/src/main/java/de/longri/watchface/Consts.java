@@ -17,7 +17,7 @@ package de.longri.watchface;
 
 public class Consts {
 
-    public static final boolean RELEASE = false; //TODO set RELEASE flag
+    public static final boolean RELEASE = true; //TODO set RELEASE flag
 
 
     public static final String TAG_PHONE = "PHONE";
@@ -62,10 +62,12 @@ public class Consts {
     public static final String KEY_CONFIG_DIGI = "digital";
     public static final String KEY_SECOND_TIME_ZONE = "timeZone";
     public static final String KEY_BRIGHTNESS = "brightness";
-
+    public static final String KEY_TOTALISATOR_ZOOM = "totalisatorZoom";
+    public static final String KEY_TOTALISATOR_MARGIN = "totalisatorMargin";
 
     public static final String KEY_CONFIG_SCALE = "scale";
     public static final String KEY_CONFIG_SCALE_VALUE = "scale_value";
     public static final String KEY_CONFIG_SCALE_AMBIENT = "scale_ambient";
     public static final String KEY_CONFIG_SCALE_VALUE_AMBIENT = "scale_value_ambient";
+
 }

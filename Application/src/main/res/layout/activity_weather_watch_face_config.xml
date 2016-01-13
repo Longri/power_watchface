@@ -101,6 +101,16 @@
             </LinearLayout>
         </RelativeLayout>
 
+        <TextView style="@style/SecondTitleLabel" android:text="@string/totalizator_zoom"
+                  android:layout_marginTop="@dimen/main_margin" android:layout_width="wrap_content"
+                  android:layout_height="wrap_content" android:id="@+id/tvTotalizatorZoom"/>
+        <SeekBar android:layout_width="match_parent" android:layout_height="wrap_content"
+                 android:id="@+id/seekBarTotalizatorZoom"/>
+        <TextView style="@style/SecondTitleLabel" android:text="@string/totalizator_margin"
+                  android:layout_marginTop="@dimen/main_margin" android:layout_width="wrap_content"
+                  android:layout_height="wrap_content" android:id="@+id/tvTotalizatorMargin"/>
+        <SeekBar android:layout_width="match_parent" android:layout_height="wrap_content"
+                 android:id="@+id/seekBarTotalizatorMargin"/>
         <View style="@style/HorizontalLine"/>
 
         <TextView

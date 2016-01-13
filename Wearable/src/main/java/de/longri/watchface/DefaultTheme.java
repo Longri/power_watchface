@@ -20,6 +20,8 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.drawable.BitmapDrawable;
+import android.util.Log;
+
 
 /**
  * Created by Longri on 17.11.15.
@@ -146,27 +148,105 @@ public class DefaultTheme extends Theme {
         return tinyMinuteHandMatrix;
     }
 
+    boolean mScaleIsDrawing = false;
 
-    //TODO set Config and recalculate Matrix (ShowScale, ShowScaleValue)
-    // Change tinyMargin
+    @Override
+    protected void setScaleIsDrawing(boolean scaleIsDrawn) {
+        if (mScaleIsDrawing != scaleIsDrawn) {
+            mScaleIsDrawing = scaleIsDrawn;
+            bottomMatrix = null;
+            matrix = getMatrix();
+        }
+    }
+
+
+    int tinyScale = 50;
+
+    @Override
+    public void setTinyScale(byte value) {
+        if (tinyScale != value) {
+            tinyScale = value;
+            bottomMatrix = null;
+            matrix = getMatrix();
+        }
+    }
+
+    int tinyMargin = 50;
+
+    @Override
+    public void setTinyMargin(byte value) {
+        Log.d("W", "setTinyMargin " + value);
+
+        if (tinyMargin != value) {
+            tinyMargin = value;
+            bottomMatrix = null;
+            Log.d("W", "getNewMatrix");
+            matrix = getMatrix();
+        }
+    }
+
+    private float getMultiplier(float value) {
+        if (value >= 50) return value / 50;
+        float v = Utils.mapValues(0, 50, 25, 50, value);
+        return v / 50.0f;
+    }
 
 
     private void calcMatrix() {
         int width = (int) (bounds.width());
         int height = (int) (bounds.height());
 
-        float tinyMargin = (width / 17f);
+        float marginMultiplier = getMultiplier(tinyMargin);
+        float scaleMultiplier = getMultiplier(Utils.mapValues(0f, 100f, 30f, 60f, tinyScale));
+        Log.d("W", "Margin multi: " + marginMultiplier);
+
+        float tinyMargin = (width / 16f) * marginMultiplier;
+
+        //float scale = 1f;
+        float invertScale = (1 / scaleMultiplier);
+
+        if (mScaleIsDrawing) {
+            tinyMargin += 15 * scaleFactor;
+        }
+
         int tinyWidth = (int) (getTinyBackground().getWidth() * scaleFactor);
-        float x = height / 2 - tinyWidth / 2;
-        float y = x * 2 - tinyMargin;
+        float x = ((height * invertScale) / 2) - (tinyWidth / 2);
+        // float y = (height * invertScale) - ((tinyMargin * invertScale) + (tinyWidth * invertScale));
+
+        float y = x * 2 - ((tinyMargin) * invertScale);
+
+        tinyMargin *= invertScale;
+        // x *= invertScale;
+        //y *= invertScale;
+
 
         bottomMatrix = new Matrix();
-        bottomMatrix.postTranslate(x, y);
         topMatrix = new Matrix();
-        topMatrix.postTranslate(x, tinyMargin);
         leftMatrix = new Matrix();
-        leftMatrix.postTranslate(tinyMargin, x);
         rightMatrix = new Matrix();
-        rightMatrix.postTranslate(y, x);
+
+
+//        bottomMatrix.preTranslate(x, y);
+//        topMatrix.preTranslate(x, tinyMargin);
+//        leftMatrix.preTranslate(tinyMargin, x);
+//        rightMatrix.preTranslate(y, x);
+
+
+//        bottomMatrix.preScale(scaleMultiplier, scaleMultiplier);
+//        topMatrix.preScale(scaleMultiplier, scaleMultiplier);
+//        leftMatrix.preScale(scaleMultiplier, scaleMultiplier);
+//        rightMatrix.preScale(scaleMultiplier, scaleMultiplier);
+
+
+        bottomMatrix.postScale(scaleMultiplier, scaleMultiplier);
+        topMatrix.postScale(scaleMultiplier, scaleMultiplier);
+        leftMatrix.postScale(scaleMultiplier, scaleMultiplier);
+        rightMatrix.postScale(scaleMultiplier, scaleMultiplier);
+
+        bottomMatrix.preTranslate(x, y);
+        topMatrix.preTranslate(x, tinyMargin);
+        leftMatrix.preTranslate(tinyMargin, x);
+        rightMatrix.preTranslate(y, x);
+
     }
 }

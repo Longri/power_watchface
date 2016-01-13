@@ -84,6 +84,11 @@ public final class Utils {
         return (int) (v * (targetMax - targetMin) + targetMin);
     }
 
+    public static float mapValues(float srcMin, float srcMax, float targetMin, float targetMax, float value) {
+        float v = ((value - srcMin)) / ((srcMax - srcMin));
+        return (v * (targetMax - targetMin) + targetMin);
+    }
+
 
     public static Bitmap scaleBitmap(float scale, Bitmap bitmap) {
         if (scale == 1) return bitmap; // return original

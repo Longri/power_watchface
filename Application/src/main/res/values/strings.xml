@@ -71,5 +71,7 @@
     <string name="scaleAmbientDraw">Draw scale at ambient mode</string>
     <string name="drawScaleValue">Draw values at normal mode</string>
     <string name="drawScaleValueAmbient">Draw values at ambient mode</string>
+    <string name="totalizator_zoom">Totalizator zoom</string>
+    <string name="totalizator_margin">Margin of totalizators</string>
 
 </resources>

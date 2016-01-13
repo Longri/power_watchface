@@ -41,7 +41,7 @@ public abstract class Theme implements Serializable {
     public final Bitmap BackGround24 = get24Background();
     public final Bitmap BackGround12 = get12Background();
     public final int TextColor = getTextColor();
-    public final Matrix[] matrix = getMatrix();
+    public Matrix[] matrix = getMatrix();
     public final Bitmap tinyClock12Background = getTinyClock12Background();
     public final Bitmap tinyClock24Background = getTinyClock24Background();
     public final Bitmap tinyHandMinuteBitmap = getTinyHandMinuteBitmap();
@@ -65,7 +65,6 @@ public abstract class Theme implements Serializable {
     public void deserialize(StoreBase storeBase) throws NotImplementedException {
 
     }
-
 
     protected abstract Bitmap getBackGround();
 
@@ -109,4 +108,11 @@ public abstract class Theme implements Serializable {
     protected abstract Matrix getTinyHourHandMatrix();
 
     protected abstract Matrix getTinyMinuteHandMatrix();
+
+    protected abstract void setScaleIsDrawing(boolean scaleIsDrawn);
+
+    public abstract void setTinyMargin(byte value);
+
+    public abstract void setTinyScale(byte value);
 }
+

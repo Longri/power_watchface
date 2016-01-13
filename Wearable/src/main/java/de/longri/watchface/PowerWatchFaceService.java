@@ -63,7 +63,7 @@ import java.util.concurrent.TimeUnit;
  * Weather watch face tutorial => https://github.com/swarmnyc/Android-Watch-Face-Template
  */
 public class PowerWatchFaceService extends CanvasWatchFaceService {
-    private static final boolean DEBUG_WEATHER = true; //TODO set DEBUG to false
+    private static final boolean DEBUG_WEATHER = false; //TODO set DEBUG to false
     static String debugString;
     static String mVersionString = "-1";
     static String lastWeatherUpdateTime = "?";
@@ -114,13 +114,6 @@ public class PowerWatchFaceService extends CanvasWatchFaceService {
         mesuredHeight = displaymetrics.heightPixels;
         widthScaleFactor = mesuredWidth / 320;
         heightScaleFactor = mesuredHeight / 320;
-
-
-        android.util.Log.d("WEAR", "MesuredWidth: " + mesuredWidth);
-        android.util.Log.d("WEAR", "MesuredHeight: " + mesuredHeight);
-        android.util.Log.d("WEAR", "MesuredScale: " + widthScaleFactor);
-
-
         return new Engine();
     }
 
@@ -205,6 +198,7 @@ public class PowerWatchFaceService extends CanvasWatchFaceService {
                 .addOnConnectionFailedListener(this)
                 .addApi(Wearable.API)
                 .build();
+        private Theme mTheme;
 
 
         @Override
@@ -428,7 +422,6 @@ public class PowerWatchFaceService extends CanvasWatchFaceService {
             }
 
             RES.mTime.setToNow();
-
             if (!mSizeIsInitial) initialSize(bounds);
 
 
@@ -477,9 +470,7 @@ public class PowerWatchFaceService extends CanvasWatchFaceService {
                 canvas.drawBitmap(handHourBmp, mHourHandMatrix, RES.mAntiAliasPaint_noGreyScale);
                 canvas.drawBitmap(handMinuteBmp, mMinuteHandMatrix, RES.mAntiAliasPaint_noGreyScale);
                 if (!isInAmbientMode()) {
-                    // float secRot = RES.mTime.second / 30f * Utils.PI;
-
-                    float secRot = 15 / 30f * Utils.PI;
+                    float secRot = RES.mTime.second / 30f * Utils.PI;
                     float secX = Utils.sin(secRot) * mSecLength;
                     float secY = -Utils.cos(secRot) * mSecLength;
                     canvas.drawLine(mCenterX, mCenterY, mCenterX + secX, mCenterY + secY, mSecondPaint);
@@ -593,14 +584,21 @@ public class PowerWatchFaceService extends CanvasWatchFaceService {
                 }
             }
 
-
             if (backgroundChanged || lastBackgroundDrawType != newBackgroundType
                     || lastScaleType != newScaleType || lastScaleValueType != newScaleValueType) {
 
                 // set last values
                 lastBackgroundDrawType = newBackgroundType;
                 lastScaleType = newScaleType;
-                lastScaleValueType = lastScaleValueType;
+                lastScaleValueType = newScaleValueType;
+
+                boolean scaleIsDrawn = (isInAmbientMode() && mConfig.getShowScaleAmbient())
+                        || (!isInAmbientMode() && mConfig.getShowScale());
+
+                boolean scaleValueIsDrawn = (isInAmbientMode() && mConfig.getShowScaleValueAmbient())
+                        || (!isInAmbientMode() && mConfig.getShowScaleValue());
+
+                this.mTheme.setScaleIsDrawing(scaleIsDrawn && scaleValueIsDrawn);
 
                 //select background image
                 Bitmap mBackgroundBitmap = null;
@@ -621,11 +619,6 @@ public class PowerWatchFaceService extends CanvasWatchFaceService {
                     if (Log.isLoggable(LogType.DRAW)) Log.d(Consts.TAG_WEAR, "SCALE CHANGED: Draw");
                     mScaleBitmap = RES.getScale();
                 }
-
-
-                //TODO delete debug config setting
-                mConfig.setShowScaleValue(PowerWatchFaceService.this, true);
-
 
                 //draw Background
                 if (mBackgroundBitmap != null && !mBackgroundBitmap.isRecycled()) {
@@ -785,12 +778,28 @@ public class PowerWatchFaceService extends CanvasWatchFaceService {
         Bitmap bmpScaleValueBuffer;
         Canvas scaleBufferCanvas;
         String lastScaleValue = "";
+        boolean lastScaleDrawn = false;
 
         private void drawScaleValues(Canvas canvas, String str0, String str1, String str2, String str3) {
 
-            if (!lastScaleValue.equals(str0)) {
-                bmpScaleValueBuffer.recycle();
+            boolean scaleIsDrawn = (isInAmbientMode() && mConfig.getShowScaleAmbient())
+                    || (!isInAmbientMode() && mConfig.getShowScale());
+
+
+            boolean mustRedraw = true;
+//            if (lastScaleDrawn != scaleIsDrawn) {
+//                lastScaleDrawn = scaleIsDrawn;
+//                mustRedraw = true;
+//            }
+
+
+            if (!lastScaleValue.equals(str0) || mustRedraw) {
+                if (bmpScaleValueBuffer != null) bmpScaleValueBuffer.recycle();
                 bmpScaleValueBuffer = null;
+                scaleValueTopMatrix = null;
+                scaleValueRightMatrix = null;
+                scaleValueBottomMatrix = null;
+                scaleValueLeftMatrix = null;
                 lastScaleValue = str0;
             }
 
@@ -805,7 +814,11 @@ public class PowerWatchFaceService extends CanvasWatchFaceService {
                     scaleValuePaint.setTextSize(20 * widthScaleFactor);
                     scaleValuePaint.setAntiAlias(true);
                 }
-                float margin = 1;
+                float margin = 5;
+                if (scaleIsDrawn) {
+                    margin += 12;
+                }
+
                 float lineHeight = scaleValuePaint.getFontMetrics().ascent + scaleValuePaint.getFontMetrics().descent;
                 float translateX = 0;
                 float translateY = 0;
@@ -873,11 +886,11 @@ public class PowerWatchFaceService extends CanvasWatchFaceService {
 //    load defaultResources
 
             DefaultTheme.resources = PowerWatchFaceService.this.getResources();
-
-            android.util.Log.d("WEAR", "new Theme with scale:" + widthScaleFactor);
             Theme.bounds = bounds;
             Theme.scaleFactor = widthScaleFactor;
-            RES.setTheme(new DefaultTheme(), widthScaleFactor);
+
+            this.mTheme = new DefaultTheme();
+            RES.setTheme(this.mTheme, widthScaleFactor);
 
             mWidth = bounds.width();
             mHeight = bounds.height();
@@ -1174,6 +1187,8 @@ public class PowerWatchFaceService extends CanvasWatchFaceService {
                     tinyClockDrawable.setTimeZone(mConfig.getSecondTimeZone());
                     setWeatherInfoToUnity();
 
+                    RES.setThemeMargin(mConfig.getTotalisatorMargin());
+                    RES.setThemeScale(mConfig.getTotalisatorZoom());
 
                     Interval.setDebugDivisor(mConfig.getDebugIntervalDevisor());
 

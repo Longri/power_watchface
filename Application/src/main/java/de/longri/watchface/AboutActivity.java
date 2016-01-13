@@ -115,7 +115,7 @@ public class AboutActivity extends RoboActivity {
                     Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url.trim()));
                     AboutActivity.this.startActivityForResult(browserIntent, 1);
                 } catch (Exception exc) {
-                    android.util.Log.d(Consts.TAG_PHONE, "cant open ext url");
+                    Log.d(Consts.TAG_PHONE, "cant open ext url");
                 }
             }
         });
