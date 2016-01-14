@@ -67,6 +67,9 @@
                 style="@style/TitleLabel"
                 android:text="@string/layout"/>
 
+        <de.longri.watchface.TotalisatorView android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+
+
         <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
@@ -93,11 +96,6 @@
                             android:id="@+id/imageViewLeft" android:layout_column="0" android:layout_row="1"
                             android:src="@drawable/tiny_back"/>
                 </GridLayout>
-                <Button android:id="@+id/selectIconButton" android:text="@string/select_icon"
-                        android:padding="12dp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" android:layout_gravity="right"
-                        android:layout_marginLeft="50dp"/>
             </LinearLayout>
         </RelativeLayout>
 
