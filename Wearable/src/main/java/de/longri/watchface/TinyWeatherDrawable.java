@@ -236,8 +236,8 @@ public class TinyWeatherDrawable extends TinyDrawable {
 
 
     @Override
-    public View getViewType() {
-        return View.Weather;
+    public WatchFaceView getViewType() {
+        return WatchFaceView.Weather;
     }
 
     private boolean[] inLoad = new boolean[]{false, false, false};

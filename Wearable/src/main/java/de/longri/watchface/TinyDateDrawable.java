@@ -140,7 +140,7 @@ public class TinyDateDrawable extends TinyDrawable {
     }
 
     @Override
-    public View getViewType() {
-        return View.Date;
+    public WatchFaceView getViewType() {
+        return WatchFaceView.Date;
     }
 }

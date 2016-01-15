@@ -62,7 +62,7 @@
     <string name="none">none</string>
     <string name="apply">Apply</string>
     <string name="cancel">Cancel</string>
-    <string name="select_view">Select a view</string>
+    <string name="select_view">Select a watchFaceView</string>
     <string name="brightness">Brightness</string>
     <string name="home_Url">http://power-watchface.de/</string>
     <string name="can_not_open_url">can\'t open URL :</string>

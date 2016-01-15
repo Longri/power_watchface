@@ -272,13 +272,13 @@ public class PowerWatchFaceService extends CanvasWatchFaceService {
             //check where taped
             if (fullDraw != FullDraw.None) {
                 //send to tiny Drawable
-                if (fullDraw.getNumVal() == mConfig.getPositionOf(View.Logo)) {
+                if (fullDraw.getNumVal() == mConfig.getPositionOf(WatchFaceView.Logo)) {
                     logoDrawable.onTapCommand(tapType, x, y, eventTime);
-                } else if (fullDraw.getNumVal() == mConfig.getPositionOf(View.Date)) {
+                } else if (fullDraw.getNumVal() == mConfig.getPositionOf(WatchFaceView.Date)) {
                     dateDrawable.onTapCommand(tapType, x, y, eventTime);
-                } else if (fullDraw.getNumVal() == mConfig.getPositionOf(View.SecondTime)) {
+                } else if (fullDraw.getNumVal() == mConfig.getPositionOf(WatchFaceView.SecondTime)) {
                     tinyClockDrawable.onTapCommand(tapType, x, y, eventTime);
-                } else if (fullDraw.getNumVal() == mConfig.getPositionOf(View.Weather)) {
+                } else if (fullDraw.getNumVal() == mConfig.getPositionOf(WatchFaceView.Weather)) {
                     weatherDrawable.onTapCommand(tapType, x, y, eventTime);
                 }
 
@@ -314,12 +314,12 @@ public class PowerWatchFaceService extends CanvasWatchFaceService {
 
         public boolean hasFullDraw(FullDraw fd) {
             boolean handleTab = false;
-            for (View v : View.values()) {
+            for (WatchFaceView v : WatchFaceView.values()) {
                 if (fd.getNumVal() == mConfig.getPositionOf(v)) {
-                    if (v == View.Logo) handleTab = logoDrawable.hasFullDraw();
-                    if (v == View.Date) handleTab = dateDrawable.hasFullDraw();
-                    if (v == View.SecondTime) handleTab = tinyClockDrawable.hasFullDraw();
-                    if (v == View.Weather) handleTab = weatherDrawable.hasFullDraw();
+                    if (v == WatchFaceView.Logo) handleTab = logoDrawable.hasFullDraw();
+                    if (v == WatchFaceView.Date) handleTab = dateDrawable.hasFullDraw();
+                    if (v == WatchFaceView.SecondTime) handleTab = tinyClockDrawable.hasFullDraw();
+                    if (v == WatchFaceView.Weather) handleTab = weatherDrawable.hasFullDraw();
                     break;
                 }
             }
@@ -553,10 +553,10 @@ public class PowerWatchFaceService extends CanvasWatchFaceService {
                     mustDrawTinyClock = true;
                 } else {
                     backgroundChanged = true;
-                    mustDrawLogo = fullDraw.getNumVal() == mConfig.getPositionOf(View.Logo);
-                    mustDrawWeather = fullDraw.getNumVal() == mConfig.getPositionOf(View.Weather);
-                    mustDrawDate = fullDraw.getNumVal() == mConfig.getPositionOf(View.Date);
-                    mustDrawTinyClock = fullDraw.getNumVal() == mConfig.getPositionOf(View.SecondTime);
+                    mustDrawLogo = fullDraw.getNumVal() == mConfig.getPositionOf(WatchFaceView.Logo);
+                    mustDrawWeather = fullDraw.getNumVal() == mConfig.getPositionOf(WatchFaceView.Weather);
+                    mustDrawDate = fullDraw.getNumVal() == mConfig.getPositionOf(WatchFaceView.Date);
+                    mustDrawTinyClock = fullDraw.getNumVal() == mConfig.getPositionOf(WatchFaceView.SecondTime);
                 }
                 if (Log.isLoggable(LogType.DRAW)) {
                     Log.d(Consts.TAG_WEAR, "Full draw is changed");
@@ -664,7 +664,7 @@ public class PowerWatchFaceService extends CanvasWatchFaceService {
                     logoDrawable = new TinyLogoDrawable(PowerWatchFaceService.this);
                 }
 
-                int pos = mConfig.getPositionOf(View.Logo);
+                int pos = mConfig.getPositionOf(WatchFaceView.Logo);
                 //check to have this a drawing index
                 if (pos >= 0 && pos <= 3) {
                     boolean fromBuffer = false;
@@ -688,7 +688,7 @@ public class PowerWatchFaceService extends CanvasWatchFaceService {
                     weatherDrawable = new TinyWeatherDrawable(PowerWatchFaceService.this);
                     weatherDrawable.setInvalidateListener(this);
                 }
-                int pos = mConfig.getPositionOf(View.Weather);
+                int pos = mConfig.getPositionOf(WatchFaceView.Weather);
                 //check to have this a drawing index
                 if (pos >= 0 && pos <= 3) {
                     boolean fromBuffer = false;
@@ -712,7 +712,7 @@ public class PowerWatchFaceService extends CanvasWatchFaceService {
                 if (dateDrawable == null) {
                     dateDrawable = new TinyDateDrawable(PowerWatchFaceService.this);
                 }
-                int pos = mConfig.getPositionOf(View.Date);
+                int pos = mConfig.getPositionOf(WatchFaceView.Date);
                 //check to have this a drawing index
                 if (pos >= 0 && pos <= 3) {
                     boolean fromBuffer = false;
@@ -735,7 +735,7 @@ public class PowerWatchFaceService extends CanvasWatchFaceService {
                     tinyClockDrawable.setInvalidateListener(this);
                 }
 
-                int pos = mConfig.getPositionOf(View.SecondTime);
+                int pos = mConfig.getPositionOf(WatchFaceView.SecondTime);
                 //check to have this a drawing index
                 if (pos >= 0 && pos <= 3) {
                     boolean fromBuffer = false;

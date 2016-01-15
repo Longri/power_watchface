@@ -16,15 +16,25 @@
 package de.longri.watchface;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 /**
  * Created by Longri on 14.01.2016.
  */
 public class TotalisatorView extends LinearLayout {
+
+
+    ImageView imageView;
+    Button btnTop;
+    Button btnRight;
+    Button btnBottom;
+    Button btnLeft;
 
     public TotalisatorView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -36,6 +46,30 @@ public class TotalisatorView extends LinearLayout {
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         inflater.inflate(R.layout.totalisator_view, this, true);
 
+        imageView = (ImageView) findViewById(R.id.imageViewTotalisator);
 
+        btnTop = (Button) findViewById(R.id.buttonTop);
+        btnRight = (Button) findViewById(R.id.buttonRight);
+        btnBottom = (Button) findViewById(R.id.buttonBottom);
+        btnLeft = (Button) findViewById(R.id.buttonLeft);
+    }
+
+    public void setImageDrawable(Drawable drawable) {
+        imageView.setImageDrawable(drawable);
+    }
+
+
+    public void setButtonVisibility(int visibility) {
+        btnTop.setVisibility(visibility);
+        btnRight.setVisibility(visibility);
+        btnBottom.setVisibility(visibility);
+        btnLeft.setVisibility(visibility);
+    }
+
+    public void setOnButtonClickListener(OnClickListener x_plus, OnClickListener x_minus, OnClickListener y_plus, OnClickListener y_minus) {
+        btnRight.setOnClickListener(x_plus);
+        btnLeft.setOnClickListener(x_minus);
+        btnTop.setOnClickListener(y_minus);
+        btnBottom.setOnClickListener(y_plus);
     }
 }

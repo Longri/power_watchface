@@ -6,25 +6,55 @@
     <GridLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" android:rowOrderPreserved="false" android:rowCount="3"
-            android:columnCount="3">
-        <ImageView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                   android:id="@+id/imageViewRight" android:layout_column="2" android:layout_row="1"
-                   android:src="@drawable/tiny_back"/>
-        <ImageView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                   android:id="@+id/imageViewBottom" android:layout_column="1" android:layout_row="2"
-                   android:src="@drawable/tiny_back"/>
-        <ImageView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                   android:id="@+id/imageViewTop" android:layout_column="1" android:layout_row="0"
-                   android:src="@drawable/tiny_back"/>
-        <ImageView
+            android:columnCount="3" android:layout_gravity="center" android:layout_margin="0dp">
+
+        <Button android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:id="@+id/buttonRight" android:layout_column="2" android:layout_row="1"
+                android:minWidth="2dp"
+                android:background="@drawable/totalisator_btn_right" android:minHeight="2dp"
+                android:gravity="center_vertical|center|center_horizontal" android:layout_gravity="center"
+                android:layout_marginLeft="-12dp"/>
+
+
+        <Button android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:id="@+id/buttonBottom" android:layout_column="1" android:layout_row="2"
+                android:minWidth="2dp"
+                android:background="@drawable/totalisator_btn_bottom" android:minHeight="2dp"
+                android:gravity="center_vertical|center|center_horizontal" android:layout_gravity="center"
+                android:layout_marginTop="-12dp"/>
+
+
+        <Button android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:id="@+id/buttonTop" android:layout_column="1" android:layout_row="0"
+                android:background="@drawable/totalisator_btn_top" android:minWidth="2dp" android:minHeight="2dp"
+                android:layout_gravity="center" android:layout_marginBottom="-12dp"/>
+
+
+        <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/imageViewLeft" android:layout_column="0" android:layout_row="1"
-                android:src="@drawable/tiny_back"/>
-        <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/imageViewCenter" android:layout_column="1" android:layout_row="1"
-                android:src="@drawable/tiny_back"/>
+                android:id="@+id/buttonLeft" android:layout_column="0" android:layout_row="1"
+                android:minWidth="2dp"
+                android:background="@drawable/totalisator_btn_left" android:minHeight="2dp"
+                android:gravity="center_vertical|center|center_horizontal" android:layout_gravity="center"
+                android:layout_marginRight="-12dp"/>
+
+
+        <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+            <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/defaultImageViewTotalisator" android:layout_column="1" android:layout_row="1"
+                    android:src="@drawable/tiny_back" android:minHeight="2dp" android:minWidth="2dp"/>
+            <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/imageViewTotalisator" android:layout_column="1" android:layout_row="1"
+                    android:src="@drawable/tiny_back" android:minHeight="2dp" android:minWidth="2dp"
+                    android:layout_gravity="center"/>
+        </FrameLayout>
+
     </GridLayout>
 </LinearLayout>
