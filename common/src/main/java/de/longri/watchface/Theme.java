@@ -114,5 +114,7 @@ public abstract class Theme implements Serializable {
     public abstract void setTinyMargin(byte value);
 
     public abstract void setTinyScale(byte value);
+
+    public abstract void setTotalisatorOffset(TotalisatorOffset totalisatorOffset);
 }
 

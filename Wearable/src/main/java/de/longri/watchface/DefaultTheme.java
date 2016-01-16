@@ -171,6 +171,18 @@ public class DefaultTheme extends Theme {
         }
     }
 
+    TotalisatorOffset _totalisatorOffset;
+
+    @Override
+    public void setTotalisatorOffset(TotalisatorOffset totalisatorOffset) {
+        if (!_totalisatorOffset.equals(totalisatorOffset)) {
+            _totalisatorOffset = totalisatorOffset;
+            bottomMatrix = null;
+            Log.d("W", "getNewMatrix");
+            matrix = getMatrix();
+        }
+    }
+
     int tinyMargin = 50;
 
     @Override
@@ -216,27 +228,11 @@ public class DefaultTheme extends Theme {
         float y = x * 2 - ((tinyMargin) * invertScale);
 
         tinyMargin *= invertScale;
-        // x *= invertScale;
-        //y *= invertScale;
-
 
         bottomMatrix = new Matrix();
         topMatrix = new Matrix();
         leftMatrix = new Matrix();
         rightMatrix = new Matrix();
-
-
-//        bottomMatrix.preTranslate(x, y);
-//        topMatrix.preTranslate(x, tinyMargin);
-//        leftMatrix.preTranslate(tinyMargin, x);
-//        rightMatrix.preTranslate(y, x);
-
-
-//        bottomMatrix.preScale(scaleMultiplier, scaleMultiplier);
-//        topMatrix.preScale(scaleMultiplier, scaleMultiplier);
-//        leftMatrix.preScale(scaleMultiplier, scaleMultiplier);
-//        rightMatrix.preScale(scaleMultiplier, scaleMultiplier);
-
 
         bottomMatrix.postScale(scaleMultiplier, scaleMultiplier);
         topMatrix.postScale(scaleMultiplier, scaleMultiplier);
@@ -247,6 +243,13 @@ public class DefaultTheme extends Theme {
         topMatrix.preTranslate(x, tinyMargin);
         leftMatrix.preTranslate(tinyMargin, x);
         rightMatrix.preTranslate(y, x);
+
+        // set totalisator offset
+        bottomMatrix.preTranslate(_totalisatorOffset.getBottom().get_x(), _totalisatorOffset.getBottom().get_y());
+        topMatrix.preTranslate(_totalisatorOffset.getTop().get_x(), _totalisatorOffset.getTop().get_y());
+        leftMatrix.preTranslate(_totalisatorOffset.getLeft().get_x(), _totalisatorOffset.getLeft().get_y());
+        rightMatrix.preTranslate(_totalisatorOffset.getRight().get_x(), _totalisatorOffset.getRight().get_y());
+
 
     }
 }

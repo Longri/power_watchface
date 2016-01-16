@@ -159,4 +159,8 @@ public class RES {
     public static void setThemeScale(byte value) {
         mTheme.setTinyScale(value);
     }
+
+    public static void setThemeTotalisatorOffset(TotalisatorOffset totalisatorOffset) {
+        mTheme.setTotalisatorOffset(totalisatorOffset);
+    }
 }

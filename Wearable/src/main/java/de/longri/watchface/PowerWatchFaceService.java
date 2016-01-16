@@ -1189,6 +1189,7 @@ public class PowerWatchFaceService extends CanvasWatchFaceService {
 
                     RES.setThemeMargin(mConfig.getTotalisatorMargin());
                     RES.setThemeScale(mConfig.getTotalisatorZoom());
+                    RES.setThemeTotalisatorOffset(mConfig.getTotalisatorOffset());
 
                     Interval.setDebugDivisor(mConfig.getDebugIntervalDevisor());
 
