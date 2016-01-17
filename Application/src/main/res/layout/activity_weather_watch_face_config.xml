@@ -115,7 +115,25 @@
 
         <TextView
                 style="@style/TitleLabel"
+                android:text="@string/logo_settings"/>
+
+        <RadioGroup android:layout_width="match_parent" android:layout_height="wrap_content"
+                    android:id="@+id/radioGroupLogoView" android:layout_marginLeft="@dimen/main_margin">
+            <RadioButton android:layout_width="wrap_content" android:layout_height="wrap_content"
+                         android:text="@string/logo_only_ambient" android:id="@+id/radioButtonLogoOnlyAmbient"/>
+            <RadioButton android:layout_width="wrap_content" android:layout_height="wrap_content"
+                         android:text="@string/logo_only_normal" android:id="@+id/radioButtonLogoOnlyNormal"
+                         android:checked="true"/>
+            <RadioButton android:layout_width="wrap_content" android:layout_height="wrap_content"
+                         android:text="@string/logo_switch_style" android:id="@+id/radioButtonLogoOnlyBoth"
+                         android:checked="true"/>
+        </RadioGroup>
+        <View style="@style/HorizontalLine"/>
+
+        <TextView
+                style="@style/TitleLabel"
                 android:text="@string/clock_settings"/>
+
 
         <Switch
                 android:layout_width="match_parent"

@@ -73,5 +73,9 @@
     <string name="drawScaleValueAmbient">Draw values at ambient mode</string>
     <string name="totalizator_zoom">Totalizator zoom</string>
     <string name="totalizator_margin">Margin of totalizators</string>
+    <string name="logo_settings">Logo Settings</string>
+    <string name="logo_only_ambient">Show Logo only in ambient style</string>
+    <string name="logo_only_normal">Show Logo only in normal style</string>
+    <string name="logo_switch_style">Switch Logo style</string>
 
 </resources>
