@@ -128,6 +128,10 @@
                          android:text="@string/logo_switch_style" android:id="@+id/radioButtonLogoOnlyBoth"
                          android:checked="true"/>
         </RadioGroup>
+        <ExpandableListView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/expandableListView"/>
         <View style="@style/HorizontalLine"/>
 
         <TextView

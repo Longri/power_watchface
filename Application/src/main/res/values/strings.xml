@@ -77,5 +77,7 @@
     <string name="logo_only_ambient">Show Logo only in ambient style</string>
     <string name="logo_only_normal">Show Logo only in normal style</string>
     <string name="logo_switch_style">Switch Logo style</string>
+    <string name="ambient">Ambient</string>
+    <string name="normal">Normal</string>
 
 </resources>

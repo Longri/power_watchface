@@ -38,6 +38,14 @@
         <item name="android:layout_marginTop">@dimen/main_margin</item>
     </style>
 
+    <style name="VertikalLine">
+        <item name="android:layout_height">fill_parent</item>
+        <item name="android:layout_width">1dp</item>
+        <item name="android:background">@color/config_main</item>
+        <item name="android:layout_marginBottom">@dimen/main_margin</item>
+        <item name="android:layout_marginTop">@dimen/main_margin</item>
+    </style>
+
     <style name="SecondTitleLabel">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
