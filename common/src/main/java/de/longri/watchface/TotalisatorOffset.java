@@ -40,7 +40,7 @@ public class TotalisatorOffset implements Serializable {
     private final short INCREASE_VALUE = 1;
 
     interface IChanged {
-        void isChanged();
+        void isChanged(TotalisatorOffsetPos pos);
     }
 
     private IChanged changedListener;
@@ -55,7 +55,7 @@ public class TotalisatorOffset implements Serializable {
         @Override
         public void onClick(View v) {
             offsetTop.increase_x(INCREASE_VALUE);
-            if (changedListener != null) changedListener.isChanged();
+            if (changedListener != null) changedListener.isChanged(TotalisatorOffsetPos.Top);
         }
     };
 
@@ -63,7 +63,7 @@ public class TotalisatorOffset implements Serializable {
         @Override
         public void onClick(View v) {
             offsetTop.increase_x((short) -INCREASE_VALUE);
-            if (changedListener != null) changedListener.isChanged();
+            if (changedListener != null) changedListener.isChanged(TotalisatorOffsetPos.Top);
         }
     };
 
@@ -71,7 +71,7 @@ public class TotalisatorOffset implements Serializable {
         @Override
         public void onClick(View v) {
             offsetTop.increase_y(INCREASE_VALUE);
-            if (changedListener != null) changedListener.isChanged();
+            if (changedListener != null) changedListener.isChanged(TotalisatorOffsetPos.Top);
         }
     };
 
@@ -79,7 +79,7 @@ public class TotalisatorOffset implements Serializable {
         @Override
         public void onClick(View v) {
             offsetTop.increase_y((short) -INCREASE_VALUE);
-            if (changedListener != null) changedListener.isChanged();
+            if (changedListener != null) changedListener.isChanged(TotalisatorOffsetPos.Top);
         }
     };
 
@@ -89,7 +89,7 @@ public class TotalisatorOffset implements Serializable {
         @Override
         public void onClick(View v) {
             offsetRight.increase_x(INCREASE_VALUE);
-            if (changedListener != null) changedListener.isChanged();
+            if (changedListener != null) changedListener.isChanged(TotalisatorOffsetPos.Right);
         }
     };
 
@@ -97,7 +97,7 @@ public class TotalisatorOffset implements Serializable {
         @Override
         public void onClick(View v) {
             offsetRight.increase_x((short) -INCREASE_VALUE);
-            if (changedListener != null) changedListener.isChanged();
+            if (changedListener != null) changedListener.isChanged(TotalisatorOffsetPos.Right);
         }
     };
 
@@ -105,7 +105,7 @@ public class TotalisatorOffset implements Serializable {
         @Override
         public void onClick(View v) {
             offsetRight.increase_y(INCREASE_VALUE);
-            if (changedListener != null) changedListener.isChanged();
+            if (changedListener != null) changedListener.isChanged(TotalisatorOffsetPos.Right);
         }
     };
 
@@ -113,7 +113,7 @@ public class TotalisatorOffset implements Serializable {
         @Override
         public void onClick(View v) {
             offsetRight.increase_y((short) -INCREASE_VALUE);
-            if (changedListener != null) changedListener.isChanged();
+            if (changedListener != null) changedListener.isChanged(TotalisatorOffsetPos.Right);
         }
     };
 
@@ -122,7 +122,7 @@ public class TotalisatorOffset implements Serializable {
         @Override
         public void onClick(View v) {
             offsetBottom.increase_x(INCREASE_VALUE);
-            if (changedListener != null) changedListener.isChanged();
+            if (changedListener != null) changedListener.isChanged(TotalisatorOffsetPos.Bottom);
         }
     };
 
@@ -130,7 +130,7 @@ public class TotalisatorOffset implements Serializable {
         @Override
         public void onClick(View v) {
             offsetBottom.increase_x((short) -INCREASE_VALUE);
-            if (changedListener != null) changedListener.isChanged();
+            if (changedListener != null) changedListener.isChanged(TotalisatorOffsetPos.Bottom);
         }
     };
 
@@ -138,7 +138,7 @@ public class TotalisatorOffset implements Serializable {
         @Override
         public void onClick(View v) {
             offsetBottom.increase_y(INCREASE_VALUE);
-            if (changedListener != null) changedListener.isChanged();
+            if (changedListener != null) changedListener.isChanged(TotalisatorOffsetPos.Bottom);
         }
     };
 
@@ -146,7 +146,7 @@ public class TotalisatorOffset implements Serializable {
         @Override
         public void onClick(View v) {
             offsetBottom.increase_y((short) -INCREASE_VALUE);
-            if (changedListener != null) changedListener.isChanged();
+            if (changedListener != null) changedListener.isChanged(TotalisatorOffsetPos.Bottom);
         }
     };
 
@@ -155,7 +155,7 @@ public class TotalisatorOffset implements Serializable {
         @Override
         public void onClick(View v) {
             offsetLeft.increase_x(INCREASE_VALUE);
-            if (changedListener != null) changedListener.isChanged();
+            if (changedListener != null) changedListener.isChanged(TotalisatorOffsetPos.Bottom);
         }
     };
 
@@ -163,7 +163,7 @@ public class TotalisatorOffset implements Serializable {
         @Override
         public void onClick(View v) {
             offsetLeft.increase_x((short) -INCREASE_VALUE);
-            if (changedListener != null) changedListener.isChanged();
+            if (changedListener != null) changedListener.isChanged(TotalisatorOffsetPos.Left);
         }
     };
 
@@ -171,7 +171,7 @@ public class TotalisatorOffset implements Serializable {
         @Override
         public void onClick(View v) {
             offsetLeft.increase_y(INCREASE_VALUE);
-            if (changedListener != null) changedListener.isChanged();
+            if (changedListener != null) changedListener.isChanged(TotalisatorOffsetPos.Left);
         }
     };
 
@@ -179,7 +179,7 @@ public class TotalisatorOffset implements Serializable {
         @Override
         public void onClick(View v) {
             offsetLeft.increase_y((short) -INCREASE_VALUE);
-            if (changedListener != null) changedListener.isChanged();
+            if (changedListener != null) changedListener.isChanged(TotalisatorOffsetPos.Left);
         }
     };
 

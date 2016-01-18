@@ -15,6 +15,7 @@
  */
 package de.longri.watchface;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
@@ -25,6 +26,9 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 /**
  * Created by Longri on 14.01.2016.
  */
@@ -32,16 +36,18 @@ public class TotalisatorView extends LinearLayout {
 
 
     ImageView imageView;
+    ImageView imageClickView;
     Button btnTop;
     Button btnRight;
     Button btnBottom;
     Button btnLeft;
     TextView textView;
     TextView textView2;
+    Activity activity;
 
     public TotalisatorView(Context context, AttributeSet attrs) {
         super(context, attrs);
-
+        context = context;
         setOrientation(LinearLayout.HORIZONTAL);
         setGravity(Gravity.CENTER_VERTICAL);
 
@@ -50,6 +56,7 @@ public class TotalisatorView extends LinearLayout {
         inflater.inflate(R.layout.totalisator_view, this, true);
 
         imageView = (ImageView) findViewById(R.id.imageViewTotalisator);
+        imageClickView = (ImageView) findViewById(R.id.imageViewClickArea);
 
         btnTop = (Button) findViewById(R.id.buttonTop);
         btnRight = (Button) findViewById(R.id.buttonRight);
@@ -57,6 +64,8 @@ public class TotalisatorView extends LinearLayout {
         btnLeft = (Button) findViewById(R.id.buttonLeft);
         textView = (TextView) findViewById(R.id.totalisator_view_offset_textview);
         textView.setVisibility(INVISIBLE);
+
+        textView2 = (TextView) findViewById(R.id.totalisator_view_offset_textview2);
     }
 
     public void setImageDrawable(Drawable drawable) {
@@ -76,5 +85,51 @@ public class TotalisatorView extends LinearLayout {
         btnLeft.setOnClickListener(x_minus);
         btnTop.setOnClickListener(y_minus);
         btnBottom.setOnClickListener(y_plus);
+    }
+
+    Timer popupTimer;
+
+
+    public void setValue(ShortPoint offset, boolean showPopUp) {
+        textView2.setText(offset.toString());
+        textView.setText(offset.toString());
+
+
+        if (showPopUp) {
+            if (popupTimer != null) {
+                popupTimer.cancel();
+            }
+
+            TimerTask setTextViewInvisibleTask = new TimerTask() {
+                @Override
+                public void run() {
+                    if (textView != null && activity != null) {
+                        activity.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                textView.setVisibility(INVISIBLE);
+                            }
+                        });
+                    }
+                }
+            };
+
+
+            popupTimer = new Timer();
+            popupTimer.schedule(setTextViewInvisibleTask, 1500);
+            textView.setVisibility(VISIBLE);
+        }
+    }
+
+    public void setActivity(Activity activity) {
+        this.activity = activity;
+    }
+
+    public void setOnImageClickListener(OnClickListener onClickListener) {
+        imageClickView.setOnClickListener(onClickListener);
+    }
+
+    public void setOnImageLongClickListener(OnLongClickListener onClickListener) {
+        imageClickView.setOnLongClickListener(onClickListener);
     }
 }
