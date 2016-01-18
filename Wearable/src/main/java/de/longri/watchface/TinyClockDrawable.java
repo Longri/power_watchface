@@ -133,7 +133,7 @@ public class TinyClockDrawable extends TinyDrawable {
     }
 
     @Override
-    public View getViewType() {
-        return View.SecondTime;
+    public WatchFaceView getViewType() {
+        return WatchFaceView.SecondTime;
     }
 }

@@ -91,7 +91,7 @@ public abstract class TinyDrawable {
 
     public abstract void onTapCommand(int tapType, int x, int y, long eventTime);
 
-    public abstract View getViewType();
+    public abstract WatchFaceView getViewType();
 
     public TinyDrawable(Context context) {
         this.mContext = context;

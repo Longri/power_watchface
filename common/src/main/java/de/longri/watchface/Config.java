@@ -67,11 +67,13 @@ public class Config implements Serializable {
     private boolean showScaleAmbient = false;
     private boolean showScaleValueAmbient = false;
 
-    private View[] views = new View[]{View.Logo, View.Date, View.SecondTime, View.Weather};
+    private WatchFaceView[] watchFaceViews = new WatchFaceView[]{WatchFaceView.Logo, WatchFaceView.Date, WatchFaceView.SecondTime, WatchFaceView.Weather};
     private boolean debug;
     private byte brightness = 100; //100-0
     private byte totalisatorZoom = 50; //100-0
     private byte totalisatorMargin = 50; //100-0
+
+    private TotalisatorOffset _totalisatorOffset = new TotalisatorOffset("TotalisatorOffset");
 
     @Override
     public void serialize(StoreBase storeBase) throws NotImplementedException {
@@ -90,10 +92,10 @@ public class Config implements Serializable {
         first = setMaskValue(first, MASK_USE_CELSIUS, useCelsius);
         storeBase.write(first);
 
-        storeBase.write(views[0].ordinal());
-        storeBase.write(views[1].ordinal());
-        storeBase.write(views[2].ordinal());
-        storeBase.write(views[3].ordinal());
+        storeBase.write(watchFaceViews[0].ordinal());
+        storeBase.write(watchFaceViews[1].ordinal());
+        storeBase.write(watchFaceViews[2].ordinal());
+        storeBase.write(watchFaceViews[3].ordinal());
 
         storeBase.write(debug);
         storeBase.write(LogWEATHER);
@@ -112,6 +114,7 @@ public class Config implements Serializable {
         storeBase.write(showScaleValueAmbient);
         storeBase.write(totalisatorZoom);
         storeBase.write(totalisatorMargin);
+        _totalisatorOffset.serialize(storeBase);
     }
 
     @Override
@@ -136,17 +139,17 @@ public class Config implements Serializable {
         if (useCelsius != val) isChanged = true;
         useCelsius = val;
 
-        View[] viewValues = View.values();
+        WatchFaceView[] watchFaceViewValues = WatchFaceView.values();
 
 
-        View[] storeViews = new View[]{viewValues[storeBase.readInt()], viewValues[storeBase.readInt()],
-                viewValues[storeBase.readInt()], viewValues[storeBase.readInt()]};
+        WatchFaceView[] storeWatchFaceViews = new WatchFaceView[]{watchFaceViewValues[storeBase.readInt()], watchFaceViewValues[storeBase.readInt()],
+                watchFaceViewValues[storeBase.readInt()], watchFaceViewValues[storeBase.readInt()]};
 
         int index = 0;
-        for (View v : storeViews) {
-            if (views[index++] != v) isChanged = true;
+        for (WatchFaceView v : storeWatchFaceViews) {
+            if (watchFaceViews[index++] != v) isChanged = true;
         }
-        views = storeViews;
+        watchFaceViews = storeWatchFaceViews;
 
         debug = storeBase.readBool();
         LogWEATHER = storeBase.readBool();
@@ -210,6 +213,8 @@ public class Config implements Serializable {
         if (totalisatorMargin != v) isChanged = true;
         totalisatorMargin = v;
 
+        if (_totalisatorOffset.deserializeIsChanged(storeBase)) isChanged = true;
+
         return isChanged;
     }
 
@@ -232,10 +237,10 @@ public class Config implements Serializable {
         return (store & mask) == mask;
     }
 
-    public int getPositionOf(View view) {
+    public int getPositionOf(WatchFaceView watchFaceView) {
         int index = 0;
-        for (View v : views) {
-            if (v == view) return index;
+        for (WatchFaceView v : watchFaceViews) {
+            if (v == watchFaceView) return index;
             index++;
         }
         return -1;
@@ -253,11 +258,11 @@ public class Config implements Serializable {
         this.debugIntervalDevisor = mAndroidSetting.getInt(Consts.KEY_CONFIG_DEBUG_INTERVAL_DEVISOR, 1);
 
 
-        View[] viewValues = View.values();
-        this.views[0] = viewValues[mAndroidSetting.getInt(Consts.KEY_CONFIG_VIEW_TOP, 1)];
-        this.views[1] = viewValues[mAndroidSetting.getInt(Consts.KEY_CONFIG_VIEW_RIGHT, 2)];
-        this.views[2] = viewValues[mAndroidSetting.getInt(Consts.KEY_CONFIG_VIEW_BOTTOM, 3)];
-        this.views[3] = viewValues[mAndroidSetting.getInt(Consts.KEY_CONFIG_VIEW_LEFT, 0)];
+        WatchFaceView[] watchFaceViewValues = WatchFaceView.values();
+        this.watchFaceViews[0] = watchFaceViewValues[mAndroidSetting.getInt(Consts.KEY_CONFIG_VIEW_TOP, 1)];
+        this.watchFaceViews[1] = watchFaceViewValues[mAndroidSetting.getInt(Consts.KEY_CONFIG_VIEW_RIGHT, 2)];
+        this.watchFaceViews[2] = watchFaceViewValues[mAndroidSetting.getInt(Consts.KEY_CONFIG_VIEW_BOTTOM, 3)];
+        this.watchFaceViews[3] = watchFaceViewValues[mAndroidSetting.getInt(Consts.KEY_CONFIG_VIEW_LEFT, 0)];
         //debug
         debug = mAndroidSetting.getBoolean(Consts.KEY_DEBUG, false);
         if (debug) Log.setLoggable(Log.LogTo.Both);
@@ -295,6 +300,7 @@ public class Config implements Serializable {
         showScaleValue = mAndroidSetting.getBoolean(Consts.KEY_CONFIG_SCALE_VALUE, true);
         showScaleAmbient = mAndroidSetting.getBoolean(Consts.KEY_CONFIG_SCALE_AMBIENT, false);
         showScaleValueAmbient = mAndroidSetting.getBoolean(Consts.KEY_CONFIG_SCALE_VALUE_AMBIENT, false);
+        _totalisatorOffset.readFromAndroidPreferences(mAndroidSetting);
     }
 
     public static void chkPreferences(Context context) {
@@ -304,49 +310,58 @@ public class Config implements Serializable {
         }
     }
 
+    public void setTotalisatorOffset(Context context, TotalisatorOffset offset) {
+        _totalisatorOffset = offset;
+        chkPreferences(context);
+        _totalisatorOffset.storeToAndroidPreferences(mAndroidSettingEditor);
+    }
 
-    public void setViewPositionTop(Context context, View view) {
-        if (this.views[0] == view) return;
-        this.views[0] = view;
-        if (this.views[1] == view) this.views[1] = View.None;
-        if (this.views[2] == view) this.views[2] = View.None;
-        if (this.views[3] == view) this.views[3] = View.None;
+    public TotalisatorOffset getTotalisatorOffset() {
+        return _totalisatorOffset;
+    }
+
+    public void setViewPositionTop(Context context, WatchFaceView watchFaceView) {
+        if (this.watchFaceViews[0] == watchFaceView) return;
+        this.watchFaceViews[0] = watchFaceView;
+        if (this.watchFaceViews[1] == watchFaceView) this.watchFaceViews[1] = WatchFaceView.None;
+        if (this.watchFaceViews[2] == watchFaceView) this.watchFaceViews[2] = WatchFaceView.None;
+        if (this.watchFaceViews[3] == watchFaceView) this.watchFaceViews[3] = WatchFaceView.None;
         saveViewPositions(context);
     }
 
-    public void setViewPositionRight(Context context, View view) {
-        if (this.views[0] == view) this.views[0] = View.None;
-        if (this.views[1] == view) return;
-        this.views[1] = view;
-        if (this.views[2] == view) this.views[2] = View.None;
-        if (this.views[3] == view) this.views[3] = View.None;
+    public void setViewPositionRight(Context context, WatchFaceView watchFaceView) {
+        if (this.watchFaceViews[0] == watchFaceView) this.watchFaceViews[0] = WatchFaceView.None;
+        if (this.watchFaceViews[1] == watchFaceView) return;
+        this.watchFaceViews[1] = watchFaceView;
+        if (this.watchFaceViews[2] == watchFaceView) this.watchFaceViews[2] = WatchFaceView.None;
+        if (this.watchFaceViews[3] == watchFaceView) this.watchFaceViews[3] = WatchFaceView.None;
         saveViewPositions(context);
     }
 
-    public void setViewPositionBottom(Context context, View view) {
-        if (this.views[0] == view) this.views[0] = View.None;
-        if (this.views[1] == view) this.views[1] = View.None;
-        if (this.views[2] == view) return;
-        this.views[2] = view;
-        if (this.views[3] == view) this.views[3] = View.None;
+    public void setViewPositionBottom(Context context, WatchFaceView watchFaceView) {
+        if (this.watchFaceViews[0] == watchFaceView) this.watchFaceViews[0] = WatchFaceView.None;
+        if (this.watchFaceViews[1] == watchFaceView) this.watchFaceViews[1] = WatchFaceView.None;
+        if (this.watchFaceViews[2] == watchFaceView) return;
+        this.watchFaceViews[2] = watchFaceView;
+        if (this.watchFaceViews[3] == watchFaceView) this.watchFaceViews[3] = WatchFaceView.None;
         saveViewPositions(context);
     }
 
-    public void setViewPositionLeft(Context context, View view) {
-        if (this.views[0] == view) this.views[0] = View.None;
-        if (this.views[1] == view) this.views[1] = View.None;
-        if (this.views[2] == view) this.views[2] = View.None;
-        if (this.views[3] == view) return;
-        this.views[3] = view;
+    public void setViewPositionLeft(Context context, WatchFaceView watchFaceView) {
+        if (this.watchFaceViews[0] == watchFaceView) this.watchFaceViews[0] = WatchFaceView.None;
+        if (this.watchFaceViews[1] == watchFaceView) this.watchFaceViews[1] = WatchFaceView.None;
+        if (this.watchFaceViews[2] == watchFaceView) this.watchFaceViews[2] = WatchFaceView.None;
+        if (this.watchFaceViews[3] == watchFaceView) return;
+        this.watchFaceViews[3] = watchFaceView;
         saveViewPositions(context);
     }
 
     private void saveViewPositions(Context context) {
         chkPreferences(context);
-        mAndroidSettingEditor.putInt(Consts.KEY_CONFIG_VIEW_TOP, this.views[0].ordinal());
-        mAndroidSettingEditor.putInt(Consts.KEY_CONFIG_VIEW_RIGHT, this.views[1].ordinal());
-        mAndroidSettingEditor.putInt(Consts.KEY_CONFIG_VIEW_BOTTOM, this.views[2].ordinal());
-        mAndroidSettingEditor.putInt(Consts.KEY_CONFIG_VIEW_LEFT, this.views[3].ordinal());
+        mAndroidSettingEditor.putInt(Consts.KEY_CONFIG_VIEW_TOP, this.watchFaceViews[0].ordinal());
+        mAndroidSettingEditor.putInt(Consts.KEY_CONFIG_VIEW_RIGHT, this.watchFaceViews[1].ordinal());
+        mAndroidSettingEditor.putInt(Consts.KEY_CONFIG_VIEW_BOTTOM, this.watchFaceViews[2].ordinal());
+        mAndroidSettingEditor.putInt(Consts.KEY_CONFIG_VIEW_LEFT, this.watchFaceViews[3].ordinal());
         mAndroidSettingEditor.commit();
     }
 
@@ -480,22 +495,25 @@ public class Config implements Serializable {
         sb.append("UpdateInterval =" + getInterval());
         sb.append("\n");
 
-        sb.append("TopView =" + this.views[0]);
+        sb.append("TopView =" + this.watchFaceViews[0]);
         sb.append("\n");
 
-        sb.append("RightView =" + this.views[1]);
+        sb.append("RightView =" + this.watchFaceViews[1]);
         sb.append("\n");
 
-        sb.append("BottomView =" + this.views[2]);
+        sb.append("BottomView =" + this.watchFaceViews[2]);
         sb.append("\n");
 
-        sb.append("LeftView =" + this.views[3]);
+        sb.append("LeftView =" + this.watchFaceViews[3]);
         sb.append("\n");
 
         sb.append("TinyZoom =" + this.totalisatorZoom);
         sb.append("\n");
 
         sb.append("TinyMargin =" + this.totalisatorMargin);
+        sb.append("\n");
+
+        sb.append("TinyOFFSET =" + this._totalisatorOffset.toString());
         sb.append("\n");
 
 

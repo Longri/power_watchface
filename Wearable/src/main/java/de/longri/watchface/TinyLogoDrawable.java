@@ -20,7 +20,6 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Paint;
-import android.graphics.drawable.Drawable;
 
 
 /**
@@ -73,7 +72,7 @@ public class TinyLogoDrawable extends TinyDrawable {
     }
 
     @Override
-    public View getViewType() {
-        return View.Logo;
+    public WatchFaceView getViewType() {
+        return WatchFaceView.Logo;
     }
 }

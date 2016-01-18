@@ -67,37 +67,52 @@
                 style="@style/TitleLabel"
                 android:text="@string/layout"/>
 
+
         <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent" android:layout_marginTop="-50dp">
             <LinearLayout
                     android:orientation="horizontal"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content" android:gravity="center">
                 <GridLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" android:rowOrderPreserved="false" android:rowCount="3"
-                        android:columnCount="3">
-                    <ImageView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                               android:id="@+id/imageViewRight" android:layout_column="2" android:layout_row="1"
-                               android:src="@drawable/tiny_back"/>
-                    <ImageView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                               android:id="@+id/imageViewBottom" android:layout_column="1" android:layout_row="2"
-                               android:src="@drawable/tiny_back"/>
-                    <ImageView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                               android:id="@+id/imageViewTop" android:layout_column="1" android:layout_row="0"
-                               android:src="@drawable/tiny_back"/>
-                    <ImageView
+                        android:columnCount="3" android:layout_gravity="center">
+
+                    <de.longri.watchface.TotalisatorView android:layout_width="wrap_content"
+                                                         android:layout_height="wrap_content"
+                                                         android:id="@+id/totalisatorViewTop" android:layout_column="1"
+                                                         android:layout_row="0"
+                                                         android:src="@drawable/tiny_back"
+                                                         android:layout_marginLeft="-30dp"
+                                                         android:layout_marginBottom="-150dp"
+                    />
+
+                    <de.longri.watchface.TotalisatorView android:layout_width="wrap_content"
+                                                         android:layout_height="wrap_content"
+                                                         android:id="@+id/totalisatorViewRight"
+                                                         android:layout_column="2" android:layout_row="1"
+                                                         android:src="@drawable/tiny_back"
+                                                         android:layout_marginLeft="-30dp"/>
+
+
+                    <de.longri.watchface.TotalisatorView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:id="@+id/imageViewLeft" android:layout_column="0" android:layout_row="1"
+                            android:id="@+id/totalisatorViewLeft" android:layout_column="0" android:layout_row="1"
                             android:src="@drawable/tiny_back"/>
+
+                    <de.longri.watchface.TotalisatorView android:layout_width="wrap_content"
+                                                         android:layout_height="wrap_content"
+                                                         android:id="@+id/totalisatorViewBottom"
+                                                         android:layout_column="1" android:layout_row="2"
+                                                         android:src="@drawable/tiny_back"
+                                                         android:layout_marginLeft="-30dp"
+                                                         android:layout_marginTop="-150dp"/>
+
+
                 </GridLayout>
-                <Button android:id="@+id/selectIconButton" android:text="@string/select_icon"
-                        android:padding="12dp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" android:layout_gravity="right"
-                        android:layout_marginLeft="50dp"/>
             </LinearLayout>
         </RelativeLayout>
 

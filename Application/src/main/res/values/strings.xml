@@ -62,7 +62,7 @@
     <string name="none">none</string>
     <string name="apply">Apply</string>
     <string name="cancel">Cancel</string>
-    <string name="select_view">Select a view</string>
+    <string name="select_view">Select a watchFaceView</string>
     <string name="brightness">Brightness</string>
     <string name="home_Url">http://power-watchface.de/</string>
     <string name="can_not_open_url">can\'t open URL :</string>
@@ -73,5 +73,8 @@
     <string name="drawScaleValueAmbient">Draw values at ambient mode</string>
     <string name="totalizator_zoom">Totalizator zoom</string>
     <string name="totalizator_margin">Margin of totalizators</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="reset_totalisator_offsett">Are you shure to reset offset values?</string>
 
 </resources>

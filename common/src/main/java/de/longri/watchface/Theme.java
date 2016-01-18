@@ -41,7 +41,7 @@ public abstract class Theme implements Serializable {
     public final Bitmap BackGround24 = get24Background();
     public final Bitmap BackGround12 = get12Background();
     public final int TextColor = getTextColor();
-    public Matrix[] matrix = getMatrix();
+    public Matrix[] matrix;
     public final Bitmap tinyClock12Background = getTinyClock12Background();
     public final Bitmap tinyClock24Background = getTinyClock24Background();
     public final Bitmap tinyHandMinuteBitmap = getTinyHandMinuteBitmap();
@@ -114,5 +114,9 @@ public abstract class Theme implements Serializable {
     public abstract void setTinyMargin(byte value);
 
     public abstract void setTinyScale(byte value);
+
+    public abstract void setTotalisatorOffset(TotalisatorOffset totalisatorOffset);
+
+    public abstract void reCalcMatrix();
 }
 

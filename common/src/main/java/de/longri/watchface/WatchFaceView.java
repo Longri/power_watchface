@@ -18,7 +18,7 @@ package de.longri.watchface;
 /**
  * Created by Longri on 18.11.2015.
  */
-public enum View {
+public enum WatchFaceView {
 
     Weather, Logo, Date, SecondTime, None
 
