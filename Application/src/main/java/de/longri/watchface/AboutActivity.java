@@ -94,6 +94,8 @@ public class AboutActivity extends RoboActivity {
             }
         });
 
+
+        mHomeLink.setTextColor(mHomeLink.getLinkTextColors().getDefaultColor());
         mHomeLink.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
