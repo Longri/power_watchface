@@ -30,15 +30,22 @@ public class DefaultTheme extends Theme {
 
     public static Resources resources;
 
-    public DefaultTheme() {
-    }
-
-    Matrix bottomMatrix;
-    Matrix topMatrix;
-    Matrix leftMatrix;
-    Matrix rightMatrix;
+    final Matrix bottomMatrix;
+    final Matrix topMatrix;
+    final Matrix leftMatrix;
+    final Matrix rightMatrix;
     Matrix tinyHourHandMatrix;
     Matrix tinyMinuteHandMatrix;
+
+
+    public DefaultTheme() {
+        bottomMatrix = new Matrix();
+        topMatrix = new Matrix();
+        leftMatrix = new Matrix();
+        rightMatrix = new Matrix();
+        matrix = getMatrix();
+    }
+
 
     @Override
     protected Bitmap getBackGround() {
@@ -82,7 +89,7 @@ public class DefaultTheme extends Theme {
 
     @Override
     protected Matrix[] getMatrix() {
-        if (bottomMatrix == null) calcMatrix();
+        if (bottomMatrix.isIdentity()) calcMatrix();
         return new Matrix[]{topMatrix, rightMatrix, bottomMatrix, leftMatrix};
     }
 
@@ -154,8 +161,13 @@ public class DefaultTheme extends Theme {
     protected void setScaleIsDrawing(boolean scaleIsDrawn) {
         if (mScaleIsDrawing != scaleIsDrawn) {
             mScaleIsDrawing = scaleIsDrawn;
-            bottomMatrix = null;
-            matrix = getMatrix();
+            reCalcmatrix();
+        }
+    }
+
+    private void reCalcmatrix() {
+        synchronized (bottomMatrix) {
+            bottomMatrix.reset();
         }
     }
 
@@ -166,8 +178,7 @@ public class DefaultTheme extends Theme {
     public void setTinyScale(byte value) {
         if (tinyScale != value) {
             tinyScale = value;
-            bottomMatrix = null;
-            matrix = getMatrix();
+            reCalcmatrix();
         }
     }
 
@@ -175,11 +186,10 @@ public class DefaultTheme extends Theme {
 
     @Override
     public void setTotalisatorOffset(TotalisatorOffset totalisatorOffset) {
-        if (!_totalisatorOffset.equals(totalisatorOffset)) {
+        if (totalisatorOffset == null) return;
+        if (_totalisatorOffset == null || !_totalisatorOffset.equals(totalisatorOffset)) {
             _totalisatorOffset = totalisatorOffset;
-            bottomMatrix = null;
-            Log.d("W", "getNewMatrix");
-            matrix = getMatrix();
+            reCalcmatrix();
         }
     }
 
@@ -191,9 +201,7 @@ public class DefaultTheme extends Theme {
 
         if (tinyMargin != value) {
             tinyMargin = value;
-            bottomMatrix = null;
-            Log.d("W", "getNewMatrix");
-            matrix = getMatrix();
+            reCalcmatrix();
         }
     }
 
@@ -205,51 +213,54 @@ public class DefaultTheme extends Theme {
 
 
     private void calcMatrix() {
-        int width = (int) (bounds.width());
-        int height = (int) (bounds.height());
+        synchronized (bottomMatrix) {
+            int width = (int) (bounds.width());
+            int height = (int) (bounds.height());
 
-        float marginMultiplier = getMultiplier(tinyMargin);
-        float scaleMultiplier = getMultiplier(Utils.mapValues(0f, 100f, 30f, 60f, tinyScale));
-        Log.d("W", "Margin multi: " + marginMultiplier);
+            float marginMultiplier = getMultiplier(tinyMargin);
+            float scaleMultiplier = getMultiplier(Utils.mapValues(0f, 100f, 30f, 60f, tinyScale));
+            Log.d("W", "Margin multi: " + marginMultiplier);
 
-        float tinyMargin = (width / 16f) * marginMultiplier;
+            float tinyMargin = (width / 16f) * marginMultiplier;
 
-        //float scale = 1f;
-        float invertScale = (1 / scaleMultiplier);
+            //float scale = 1f;
+            float invertScale = (1 / scaleMultiplier);
 
-        if (mScaleIsDrawing) {
-            tinyMargin += 15 * scaleFactor;
+            if (mScaleIsDrawing) {
+                tinyMargin += 15 * scaleFactor;
+            }
+
+            int tinyWidth = (int) (getTinyBackground().getWidth() * scaleFactor);
+            float x = ((height * invertScale) / 2) - (tinyWidth / 2);
+            // float y = (height * invertScale) - ((tinyMargin * invertScale) + (tinyWidth * invertScale));
+
+            float y = x * 2 - ((tinyMargin) * invertScale);
+
+            tinyMargin *= invertScale;
+
+            bottomMatrix.reset();
+            topMatrix.reset();
+            leftMatrix.reset();
+            rightMatrix.reset();
+
+            bottomMatrix.postScale(scaleMultiplier, scaleMultiplier);
+            topMatrix.postScale(scaleMultiplier, scaleMultiplier);
+            leftMatrix.postScale(scaleMultiplier, scaleMultiplier);
+            rightMatrix.postScale(scaleMultiplier, scaleMultiplier);
+
+            bottomMatrix.preTranslate(x, y);
+            topMatrix.preTranslate(x, tinyMargin);
+            leftMatrix.preTranslate(tinyMargin, x);
+            rightMatrix.preTranslate(y, x);
+
+            // set totalisator offset
+            if (_totalisatorOffset != null) {
+                bottomMatrix.preTranslate(_totalisatorOffset.getBottom().get_x(), _totalisatorOffset.getBottom().get_y());
+                topMatrix.preTranslate(_totalisatorOffset.getTop().get_x(), _totalisatorOffset.getTop().get_y());
+                leftMatrix.preTranslate(_totalisatorOffset.getLeft().get_x(), _totalisatorOffset.getLeft().get_y());
+                rightMatrix.preTranslate(_totalisatorOffset.getRight().get_x(), _totalisatorOffset.getRight().get_y());
+            }
         }
-
-        int tinyWidth = (int) (getTinyBackground().getWidth() * scaleFactor);
-        float x = ((height * invertScale) / 2) - (tinyWidth / 2);
-        // float y = (height * invertScale) - ((tinyMargin * invertScale) + (tinyWidth * invertScale));
-
-        float y = x * 2 - ((tinyMargin) * invertScale);
-
-        tinyMargin *= invertScale;
-
-        bottomMatrix = new Matrix();
-        topMatrix = new Matrix();
-        leftMatrix = new Matrix();
-        rightMatrix = new Matrix();
-
-        bottomMatrix.postScale(scaleMultiplier, scaleMultiplier);
-        topMatrix.postScale(scaleMultiplier, scaleMultiplier);
-        leftMatrix.postScale(scaleMultiplier, scaleMultiplier);
-        rightMatrix.postScale(scaleMultiplier, scaleMultiplier);
-
-        bottomMatrix.preTranslate(x, y);
-        topMatrix.preTranslate(x, tinyMargin);
-        leftMatrix.preTranslate(tinyMargin, x);
-        rightMatrix.preTranslate(y, x);
-
-        // set totalisator offset
-        bottomMatrix.preTranslate(_totalisatorOffset.getBottom().get_x(), _totalisatorOffset.getBottom().get_y());
-        topMatrix.preTranslate(_totalisatorOffset.getTop().get_x(), _totalisatorOffset.getTop().get_y());
-        leftMatrix.preTranslate(_totalisatorOffset.getLeft().get_x(), _totalisatorOffset.getLeft().get_y());
-        rightMatrix.preTranslate(_totalisatorOffset.getRight().get_x(), _totalisatorOffset.getRight().get_y());
-
 
     }
 }
