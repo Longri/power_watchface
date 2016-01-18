@@ -17,7 +17,7 @@ package de.longri.watchface;
 
 public class Consts {
 
-    public static final boolean RELEASE = false; //TODO set RELEASE flag
+    public static final boolean RELEASE = true; //TODO set RELEASE flag
 
 
     public static final String TAG_PHONE = "PHONE";

@@ -19,6 +19,8 @@ package de.longri.watchface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.*;
 import de.longri.watchface.loging.Log;
@@ -80,6 +82,8 @@ public class AboutActivity extends RoboActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        getActionBar().setDisplayHomeAsUpEnabled(true);
 
 
         mBtnClearLogs.setOnClickListener(new View.OnClickListener() {
@@ -144,6 +148,22 @@ public class AboutActivity extends RoboActivity {
             }
         });
     }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    public boolean onCreateOptionsMenu(Menu menu) {
+        return true;
+    }
+
 
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {

@@ -24,6 +24,8 @@ import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.wearable.companion.WatchFaceCompanion;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
@@ -687,7 +689,7 @@ public class WeatherWatchFaceConfigActivity extends RoboActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        super.getActionBar().setDisplayHomeAsUpEnabled(true);
 
         //Initialize Logs
         new Log(WeatherWatchFaceConfigActivity.this, false);
@@ -744,6 +746,22 @@ public class WeatherWatchFaceConfigActivity extends RoboActivity {
             }
         });
     }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    public boolean onCreateOptionsMenu(Menu menu) {
+        return true;
+    }
+
 
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
