@@ -1,8 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
-              android:layout_height="match_parent">
+              android:layout_height="match_parent" android:orientation="vertical">
 
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="Small Text"
+            android:id="@+id/totalisator_view_offset_textview" android:layout_gravity="top|center_horizontal"
+            android:layout_marginBottom="50dp"/>
     <GridLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" android:rowOrderPreserved="false" android:rowCount="3"
@@ -57,4 +64,8 @@
         </FrameLayout>
 
     </GridLayout>
+    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+              android:textAppearance="?android:attr/textAppearanceSmall" android:text="Small Text"
+              android:id="@+id/totalisator_view_offset_textview2" android:layout_gravity="top|center_horizontal"
+              android:layout_marginBottom="50dp"/>
 </LinearLayout>

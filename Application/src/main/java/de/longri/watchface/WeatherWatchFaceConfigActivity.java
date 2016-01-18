@@ -15,7 +15,9 @@
  */
 package de.longri.watchface;
 
+import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
@@ -232,11 +234,12 @@ public class WeatherWatchFaceConfigActivity extends RoboActivity {
         setToImage(mConfig.getPositionOf(WatchFaceView.Logo), resources.getDrawable(R.drawable.logo));
 
 
-        TotalisatorOffset to = mConfig.getTotalisatorOffset();
+        final TotalisatorOffset to = mConfig.getTotalisatorOffset();
 
         to.setChangedListener(new TotalisatorOffset.IChanged() {
             @Override
             public void isChanged() {
+                mConfig.setTotalisatorOffset(WeatherWatchFaceConfigActivity.this, to);
                 sendConfigUpdateMessage();
             }
         });
@@ -249,6 +252,33 @@ public class WeatherWatchFaceConfigActivity extends RoboActivity {
                 showTinyPositionSelectDialog(getPositionIndex(0), 0);
             }
         });
+        totalisatorViewTop.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        switch (which) {
+                            case DialogInterface.BUTTON_POSITIVE:
+                                //Yes button clicked
+                                to.getTop().Reset();
+                                mConfig.setTotalisatorOffset(WeatherWatchFaceConfigActivity.this, to);
+                                sendConfigUpdateMessage();
+                                break;
+
+                            case DialogInterface.BUTTON_NEGATIVE:
+                                //No button clicked
+                                break;
+                        }
+                    }
+                };
+                AlertDialog.Builder builder = new AlertDialog.Builder(WeatherWatchFaceConfigActivity.this);
+                builder.setMessage(WeatherWatchFaceConfigActivity.this.getString(R.string.reset_totalisator_offsett))
+                        .setPositiveButton(WeatherWatchFaceConfigActivity.this.getString(R.string.yes), dialogClickListener)
+                        .setNegativeButton(WeatherWatchFaceConfigActivity.this.getString(R.string.no), dialogClickListener).show();
+                return true;
+            }
+        });
 
         totalisatorViewRight.setOnButtonClickListener(to.Right_x_plus, to.Right_x_minus, to.Right_y_plus, to.Right_y_minus);
         totalisatorViewRight.setOnClickListener(new View.OnClickListener() {
@@ -258,6 +288,34 @@ public class WeatherWatchFaceConfigActivity extends RoboActivity {
                 showTinyPositionSelectDialog(getPositionIndex(1), 1);
             }
         });
+        totalisatorViewRight.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        switch (which) {
+                            case DialogInterface.BUTTON_POSITIVE:
+                                //Yes button clicked
+                                to.getRight().Reset();
+                                mConfig.setTotalisatorOffset(WeatherWatchFaceConfigActivity.this, to);
+                                sendConfigUpdateMessage();
+                                break;
+
+                            case DialogInterface.BUTTON_NEGATIVE:
+                                //No button clicked
+                                break;
+                        }
+                    }
+                };
+                AlertDialog.Builder builder = new AlertDialog.Builder(WeatherWatchFaceConfigActivity.this);
+                builder.setMessage(WeatherWatchFaceConfigActivity.this.getString(R.string.reset_totalisator_offsett))
+                        .setPositiveButton(WeatherWatchFaceConfigActivity.this.getString(R.string.yes), dialogClickListener)
+                        .setNegativeButton(WeatherWatchFaceConfigActivity.this.getString(R.string.no), dialogClickListener).show();
+                return true;
+            }
+        });
+
 
         totalisatorViewBottom.setOnButtonClickListener(to.Bottom_x_plus, to.Bottom_x_minus, to.Bottom_y_plus, to.Bottom_y_minus);
         totalisatorViewBottom.setOnClickListener(new View.OnClickListener() {
@@ -267,6 +325,33 @@ public class WeatherWatchFaceConfigActivity extends RoboActivity {
                 showTinyPositionSelectDialog(getPositionIndex(2), 2);
             }
         });
+        totalisatorViewBottom.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        switch (which) {
+                            case DialogInterface.BUTTON_POSITIVE:
+                                //Yes button clicked
+                                to.getBottom().Reset();
+                                mConfig.setTotalisatorOffset(WeatherWatchFaceConfigActivity.this, to);
+                                sendConfigUpdateMessage();
+                                break;
+
+                            case DialogInterface.BUTTON_NEGATIVE:
+                                //No button clicked
+                                break;
+                        }
+                    }
+                };
+                AlertDialog.Builder builder = new AlertDialog.Builder(WeatherWatchFaceConfigActivity.this);
+                builder.setMessage(WeatherWatchFaceConfigActivity.this.getString(R.string.reset_totalisator_offsett))
+                        .setPositiveButton(WeatherWatchFaceConfigActivity.this.getString(R.string.yes), dialogClickListener)
+                        .setNegativeButton(WeatherWatchFaceConfigActivity.this.getString(R.string.no), dialogClickListener).show();
+                return true;
+            }
+        });
 
         totalisatorViewLeft.setOnButtonClickListener(to.Left_x_plus, to.Left_x_minus, to.Left_y_plus, to.Left_y_minus);
         totalisatorViewLeft.setOnClickListener(new View.OnClickListener() {
@@ -274,6 +359,33 @@ public class WeatherWatchFaceConfigActivity extends RoboActivity {
             public void onClick(View v) {
                 //show selection dialog
                 showTinyPositionSelectDialog(getPositionIndex(3), 3);
+            }
+        });
+        totalisatorViewLeft.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        switch (which) {
+                            case DialogInterface.BUTTON_POSITIVE:
+                                //Yes button clicked
+                                to.getLeft().Reset();
+                                mConfig.setTotalisatorOffset(WeatherWatchFaceConfigActivity.this, to);
+                                sendConfigUpdateMessage();
+                                break;
+
+                            case DialogInterface.BUTTON_NEGATIVE:
+                                //No button clicked
+                                break;
+                        }
+                    }
+                };
+                AlertDialog.Builder builder = new AlertDialog.Builder(WeatherWatchFaceConfigActivity.this);
+                builder.setMessage(WeatherWatchFaceConfigActivity.this.getString(R.string.reset_totalisator_offsett))
+                        .setPositiveButton(WeatherWatchFaceConfigActivity.this.getString(R.string.yes), dialogClickListener)
+                        .setNegativeButton(WeatherWatchFaceConfigActivity.this.getString(R.string.no), dialogClickListener).show();
+                return true;
             }
         });
 

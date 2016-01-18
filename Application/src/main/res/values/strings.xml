@@ -73,5 +73,8 @@
     <string name="drawScaleValueAmbient">Draw values at ambient mode</string>
     <string name="totalizator_zoom">Totalizator zoom</string>
     <string name="totalizator_margin">Margin of totalizators</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="reset_totalisator_offsett">Are you shure to reset offset values?</string>
 
 </resources>

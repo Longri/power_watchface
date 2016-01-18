@@ -15,7 +15,6 @@
  */
 package de.longri.watchface;
 
-import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.view.View;
 import de.longri.serializable.NotImplementedException;
@@ -63,7 +62,7 @@ public class TotalisatorOffset implements Serializable {
     public final View.OnClickListener Top_x_minus = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            offsetTop.increase_x(INCREASE_VALUE);
+            offsetTop.increase_x((short) -INCREASE_VALUE);
             if (changedListener != null) changedListener.isChanged();
         }
     };
@@ -79,7 +78,7 @@ public class TotalisatorOffset implements Serializable {
     public final View.OnClickListener Top_y_minus = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            offsetTop.increase_y(INCREASE_VALUE);
+            offsetTop.increase_y((short) -INCREASE_VALUE);
             if (changedListener != null) changedListener.isChanged();
         }
     };
@@ -97,7 +96,7 @@ public class TotalisatorOffset implements Serializable {
     public final View.OnClickListener Right_x_minus = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            offsetRight.increase_x(INCREASE_VALUE);
+            offsetRight.increase_x((short) -INCREASE_VALUE);
             if (changedListener != null) changedListener.isChanged();
         }
     };
@@ -113,7 +112,7 @@ public class TotalisatorOffset implements Serializable {
     public final View.OnClickListener Right_y_minus = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            offsetRight.increase_y(INCREASE_VALUE);
+            offsetRight.increase_y((short) -INCREASE_VALUE);
             if (changedListener != null) changedListener.isChanged();
         }
     };
@@ -130,7 +129,7 @@ public class TotalisatorOffset implements Serializable {
     public final View.OnClickListener Bottom_x_minus = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            offsetBottom.increase_x(INCREASE_VALUE);
+            offsetBottom.increase_x((short) -INCREASE_VALUE);
             if (changedListener != null) changedListener.isChanged();
         }
     };
@@ -146,7 +145,7 @@ public class TotalisatorOffset implements Serializable {
     public final View.OnClickListener Bottom_y_minus = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            offsetBottom.increase_y(INCREASE_VALUE);
+            offsetBottom.increase_y((short) -INCREASE_VALUE);
             if (changedListener != null) changedListener.isChanged();
         }
     };
@@ -163,7 +162,7 @@ public class TotalisatorOffset implements Serializable {
     public final View.OnClickListener Left_x_minus = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            offsetLeft.increase_x(INCREASE_VALUE);
+            offsetLeft.increase_x((short) -INCREASE_VALUE);
             if (changedListener != null) changedListener.isChanged();
         }
     };
@@ -179,7 +178,7 @@ public class TotalisatorOffset implements Serializable {
     public final View.OnClickListener Left_y_minus = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            offsetLeft.increase_y(INCREASE_VALUE);
+            offsetLeft.increase_y((short) -INCREASE_VALUE);
             if (changedListener != null) changedListener.isChanged();
         }
     };
@@ -196,6 +195,19 @@ public class TotalisatorOffset implements Serializable {
         } catch (NotImplementedException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o instanceof TotalisatorOffset) {
+            TotalisatorOffset to = (TotalisatorOffset) o;
+            if (this.offsetTop.equals(to.offsetTop)
+                    && this.offsetRight.equals(to.offsetRight)
+                    && this.offsetBottom.equals(to.offsetBottom)
+                    && this.offsetLeft.equals(to.offsetLeft)) return true;
+
+        }
+        return false;
     }
 
     @Override

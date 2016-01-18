@@ -161,14 +161,15 @@ public class DefaultTheme extends Theme {
     protected void setScaleIsDrawing(boolean scaleIsDrawn) {
         if (mScaleIsDrawing != scaleIsDrawn) {
             mScaleIsDrawing = scaleIsDrawn;
-            reCalcmatrix();
+            reCalcMatrix();
         }
     }
 
-    private void reCalcmatrix() {
+    public void reCalcMatrix() {
         synchronized (bottomMatrix) {
             bottomMatrix.reset();
         }
+        calcMatrix();
     }
 
 
@@ -176,10 +177,7 @@ public class DefaultTheme extends Theme {
 
     @Override
     public void setTinyScale(byte value) {
-        if (tinyScale != value) {
-            tinyScale = value;
-            reCalcmatrix();
-        }
+        tinyScale = value;
     }
 
     TotalisatorOffset _totalisatorOffset;
@@ -187,22 +185,14 @@ public class DefaultTheme extends Theme {
     @Override
     public void setTotalisatorOffset(TotalisatorOffset totalisatorOffset) {
         if (totalisatorOffset == null) return;
-        if (_totalisatorOffset == null || !_totalisatorOffset.equals(totalisatorOffset)) {
-            _totalisatorOffset = totalisatorOffset;
-            reCalcmatrix();
-        }
+        _totalisatorOffset = totalisatorOffset;
     }
 
     int tinyMargin = 50;
 
     @Override
     public void setTinyMargin(byte value) {
-        Log.d("W", "setTinyMargin " + value);
-
-        if (tinyMargin != value) {
-            tinyMargin = value;
-            reCalcmatrix();
-        }
+        tinyMargin = value;
     }
 
     private float getMultiplier(float value) {
@@ -255,10 +245,13 @@ public class DefaultTheme extends Theme {
 
             // set totalisator offset
             if (_totalisatorOffset != null) {
+                Log.d("W", "Set TotalisatorOffset RIGHT:" + _totalisatorOffset.getRight().toString());
                 bottomMatrix.preTranslate(_totalisatorOffset.getBottom().get_x(), _totalisatorOffset.getBottom().get_y());
                 topMatrix.preTranslate(_totalisatorOffset.getTop().get_x(), _totalisatorOffset.getTop().get_y());
                 leftMatrix.preTranslate(_totalisatorOffset.getLeft().get_x(), _totalisatorOffset.getLeft().get_y());
                 rightMatrix.preTranslate(_totalisatorOffset.getRight().get_x(), _totalisatorOffset.getRight().get_y());
+            } else {
+                Log.d("W", "TotalisatorOffset == NULL");
             }
         }
 

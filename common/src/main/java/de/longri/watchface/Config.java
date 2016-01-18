@@ -513,6 +513,9 @@ public class Config implements Serializable {
         sb.append("TinyMargin =" + this.totalisatorMargin);
         sb.append("\n");
 
+        sb.append("TinyOFFSET =" + this._totalisatorOffset.toString());
+        sb.append("\n");
+
 
         return sb.toString();
     }

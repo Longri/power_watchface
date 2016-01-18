@@ -23,6 +23,7 @@ import android.view.LayoutInflater;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 /**
  * Created by Longri on 14.01.2016.
@@ -35,6 +36,8 @@ public class TotalisatorView extends LinearLayout {
     Button btnRight;
     Button btnBottom;
     Button btnLeft;
+    TextView textView;
+    TextView textView2;
 
     public TotalisatorView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -52,6 +55,8 @@ public class TotalisatorView extends LinearLayout {
         btnRight = (Button) findViewById(R.id.buttonRight);
         btnBottom = (Button) findViewById(R.id.buttonBottom);
         btnLeft = (Button) findViewById(R.id.buttonLeft);
+        textView = (TextView) findViewById(R.id.totalisator_view_offset_textview);
+        textView.setVisibility(INVISIBLE);
     }
 
     public void setImageDrawable(Drawable drawable) {

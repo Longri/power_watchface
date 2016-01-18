@@ -48,6 +48,18 @@ public class ShortPoint implements Serializable {
 
 
     @Override
+    public boolean equals(Object o) {
+
+        if (o instanceof ShortPoint) {
+            ShortPoint sp = (ShortPoint) o;
+            if (this._x == sp._x && this._y == sp._y) return true;
+        }
+
+        return false;
+    }
+
+
+    @Override
     public void serialize(StoreBase storeBase) throws NotImplementedException {
         storeBase.write(_x);
         storeBase.write(_y);
@@ -117,5 +129,10 @@ public class ShortPoint implements Serializable {
         sb.append(_y);
 
         return sb.toString();
+    }
+
+    public void Reset() {
+        _x = 0;
+        _y = 0;
     }
 }

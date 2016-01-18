@@ -163,4 +163,8 @@ public class RES {
     public static void setThemeTotalisatorOffset(TotalisatorOffset totalisatorOffset) {
         mTheme.setTotalisatorOffset(totalisatorOffset);
     }
+
+    public static void ThemeRecalcMatrix() {
+        mTheme.reCalcMatrix();
+    }
 }
