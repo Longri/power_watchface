@@ -65,6 +65,41 @@
 
         <TextView
                 style="@style/TitleLabel"
+                android:text="@string/clock_settings"/>
+
+        <Switch
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/time_mode"
+                android:id="@+id/switch_time_unit"
+                android:layout_marginTop="@dimen/main_margin"
+                android:layout_marginBottom="@dimen/main_margin"
+                android:checked="true"/>
+
+        <Switch android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:text="@string/show_digital" android:id="@+id/switch_digital"
+                android:layout_marginBottom="@dimen/main_margin"
+                android:checked="true"/>
+        <TextView style="@style/SecondTitleLabel" android:text="@string/timzone_secondTime"
+                  android:layout_marginTop="@dimen/main_margin"
+                  android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/textView"/>
+        <Spinner
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/TimeZoneEntry"/>
+        <TextView style="@style/SecondTitleLabel" android:text="@string/brightness"
+                  android:layout_marginTop="@dimen/main_margin" android:layout_width="wrap_content"
+                  android:layout_height="wrap_content" android:id="@+id/brightnessTextView"/>
+        <SeekBar
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/brightnessSeekBar"/>
+        <View style="@style/HorizontalLine"/>
+
+
+
+        <TextView
+                style="@style/TitleLabel"
                 android:text="@string/layout"/>
 
 
@@ -128,38 +163,7 @@
                  android:id="@+id/seekBarTotalizatorMargin"/>
         <View style="@style/HorizontalLine"/>
 
-        <TextView
-                style="@style/TitleLabel"
-                android:text="@string/clock_settings"/>
 
-        <Switch
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/time_mode"
-                android:id="@+id/switch_time_unit"
-                android:layout_marginTop="@dimen/main_margin"
-                android:layout_marginBottom="@dimen/main_margin"
-                android:checked="true"/>
-
-        <Switch android:layout_width="match_parent" android:layout_height="wrap_content"
-                android:text="@string/show_digital" android:id="@+id/switch_digital"
-                android:layout_marginBottom="@dimen/main_margin"
-                android:checked="true"/>
-        <TextView style="@style/SecondTitleLabel" android:text="@string/timzone_secondTime"
-                  android:layout_marginTop="@dimen/main_margin"
-                  android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/textView"/>
-        <Spinner
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/TimeZoneEntry"/>
-        <TextView style="@style/SecondTitleLabel" android:text="@string/brightness"
-                  android:layout_marginTop="@dimen/main_margin" android:layout_width="wrap_content"
-                  android:layout_height="wrap_content" android:id="@+id/brightnessTextView"/>
-        <SeekBar
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/brightnessSeekBar"/>
-        <View style="@style/HorizontalLine"/>
 
 
         <TextView
