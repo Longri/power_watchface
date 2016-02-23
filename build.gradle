@@ -11,8 +11,8 @@ allprojects {
 
     ext {
         appName = 'power watch face'
-        allVersionCode = 145
-        allVersionName = '0.9.145'
+        allVersionCode = 147
+        allVersionName = '0.9.147'
         allApplicationId = "de.longri.watchface"
     }
 
