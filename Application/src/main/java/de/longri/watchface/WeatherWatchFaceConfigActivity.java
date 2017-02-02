@@ -691,6 +691,9 @@ public class WeatherWatchFaceConfigActivity extends RoboActivity {
         super.onCreate(savedInstanceState);
         super.getActionBar().setDisplayHomeAsUpEnabled(true);
 
+        startService(new Intent(this, MyService.class)); //start service which is MyService.java
+
+
         //Initialize Logs
         new Log(WeatherWatchFaceConfigActivity.this, false);
         THAT = this;
