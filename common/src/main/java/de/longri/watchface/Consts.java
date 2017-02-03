@@ -73,4 +73,5 @@ public class Consts {
     public static final String LAST_WEATHER_UPDATE_TIME = "Last weather update time";
 
     public static final String LAST_WEATHER_UPDATE_DAY = "Last weather update day";
+    public static final String LAST_POWER_LEVEL = "Last Power level";
 }

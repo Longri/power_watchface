@@ -2,7 +2,9 @@ package de.longri.watchface;
 
 import android.app.Service;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.os.BatteryManager;
 import android.os.Handler;
 import android.os.IBinder;
 import android.support.wearable.companion.WatchFaceCompanion;
@@ -97,6 +99,26 @@ public class UpdateService extends Service {
                         editor.commit();
 
                     }
+
+
+                    // check power changes
+                    IntentFilter ifilter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
+                    Intent batteryStatus = UpdateService.this.registerReceiver(null, ifilter);
+                    int level = batteryStatus.getIntExtra(BatteryManager.EXTRA_LEVEL, -1);
+
+                    int lastLevel = settings.getInt(Consts.LAST_POWER_LEVEL, -1);
+
+                    if (lastLevel - 5 > level || lastLevel + 5 < level) {
+                        editor.putInt(Consts.LAST_POWER_LEVEL, level);
+                        editor.commit();
+
+                        Intent intent = new Intent(UpdateService.this, WeatherService.class);
+                        intent.setAction(UpdateService.class.getSimpleName());
+                        intent.putExtra("PeerId", peerId);
+                        intent.putExtra("Power", 1);
+                        startService(intent);
+                    }
+
                 }
             });
         }

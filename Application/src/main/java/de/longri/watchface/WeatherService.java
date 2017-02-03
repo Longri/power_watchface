@@ -102,6 +102,10 @@ public class WeatherService extends WearableListenerService implements GoogleApi
                     startWeatherTask(WeatherInfoType.FORECAST);
                 }
 
+                if (intent.getIntExtra("Power", 0) == 1) {
+                    startPhonePowerTask();
+                }
+
             }
         } else {
             if (Log.isLoggable(LogType.COMMUNICATION)) {
