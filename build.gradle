@@ -1,9 +1,12 @@
 buildscript {
     repositories {
+        mavenLocal()
         mavenCentral()
+        jcenter()
+        maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:1.2.3'
+        classpath 'com.android.tools.build:gradle:2.2.0'
     }
 }
 
@@ -11,13 +14,17 @@ allprojects {
 
     ext {
         appName = 'power watch face'
-        allVersionCode = 147
-        allVersionName = '0.9.147'
+        allVersionCode = 148
+        allVersionName = '0.9.148'
         allApplicationId = "de.longri.watchface"
     }
 
     repositories {
+        mavenLocal()
         mavenCentral()
+        maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
+        maven { url "https://oss.sonatype.org/content/repositories/releases/" }
+        maven { url "https://jitpack.io" }
     }
 }
 

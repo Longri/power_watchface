@@ -15,10 +15,13 @@
  */
 package de.longri.watchface;
 
+import android.app.ActivityManager;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
@@ -42,6 +45,8 @@ import roboguice.inject.ContentView;
 import roboguice.inject.InjectView;
 
 import java.util.ArrayList;
+
+import static de.longri.watchface.Consts.PREFS_NAME;
 
 @ContentView(R.layout.activity_weather_watch_face_config)
 public class WeatherWatchFaceConfigActivity extends RoboActivity {
@@ -177,6 +182,10 @@ public class WeatherWatchFaceConfigActivity extends RoboActivity {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
                 mConfig.setInterval(WeatherWatchFaceConfigActivity.this, (byte) position);
+                SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
+                SharedPreferences.Editor editor = settings.edit();
+                editor.putInt(Consts.KEY_WEATHER_UPDATE_TIME, position);
+                editor.commit();
                 sendConfigUpdateMessage();
             }
 
@@ -691,7 +700,13 @@ public class WeatherWatchFaceConfigActivity extends RoboActivity {
         super.onCreate(savedInstanceState);
         super.getActionBar().setDisplayHomeAsUpEnabled(true);
 
-        startService(new Intent(this, MyService.class)); //start service which is MyService.java
+
+        //check if update Service running
+        if (!isMyServiceRunning(UpdateService.class)) {
+            //start service which is UpdateService.java
+            Intent pushIntent = new Intent(this, UpdateService.class);
+            this.startService(pushIntent);
+        }
 
 
         //Initialize Logs
@@ -712,6 +727,7 @@ public class WeatherWatchFaceConfigActivity extends RoboActivity {
 
 
         mPeerId = getIntent().getStringExtra(WatchFaceCompanion.EXTRA_PEER_ID);
+
         mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .addApi(Wearable.API)
                 .build();
@@ -720,12 +736,7 @@ public class WeatherWatchFaceConfigActivity extends RoboActivity {
         mManualUpdateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(WeatherWatchFaceConfigActivity.this, WeatherService.class);
-                intent.setAction(WeatherWatchFaceConfigActivity.class.getSimpleName());
-                intent.putExtra("PeerId", mPeerId);
-                intent.putExtra("Force", 1);
-                startService(intent);
-                Toast.makeText(WeatherWatchFaceConfigActivity.this, "Refresh Succeeded!", Toast.LENGTH_SHORT).show();
+                forceWeatherUpdate();
             }
         });
 
@@ -748,6 +759,27 @@ public class WeatherWatchFaceConfigActivity extends RoboActivity {
                 startActivityForResult(i, 1);
             }
         });
+    }
+
+    private boolean isMyServiceRunning(Class<?> serviceClass) {
+        ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
+        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
+            if (serviceClass.getName().equals(service.service.getClassName())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+
+    public void forceWeatherUpdate() {
+        Log.d(Consts.TAG_PHONE, "Force Weather Update");
+        Intent intent = new Intent(WeatherWatchFaceConfigActivity.this, WeatherService.class);
+        intent.setAction(WeatherWatchFaceConfigActivity.class.getSimpleName());
+        intent.putExtra("PeerId", mPeerId);
+        intent.putExtra("Force", 1);
+        startService(intent);
+        Toast.makeText(WeatherWatchFaceConfigActivity.this, "Refresh Succeeded!", Toast.LENGTH_SHORT).show();
     }
 
     @Override
